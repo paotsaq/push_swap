@@ -2,20 +2,21 @@
 
 int	main(int argc, char **argv)
 {
-	int *numbers;
-	int *beg_numbers;
+	array *stack_a;
+	array *stack_b;
 
 	if (argc == 1)
 		return (1);
 	else
 	{
-		numbers = calloc(argc - 1, sizeof(int));
-		if (!numbers)
+		stack_a = calloc(argc - 1, sizeof(array));
+		stack_b = calloc(argc - 1, sizeof(array));
+		if (!(stack_a && stack_b))
 			return (-1);
-		beg_numbers = numbers;
 		while (*++argv)
 			if (ft_content_is_int(*argv))
-				*numbers++ = atoi(*argv);
+				*(stack_a->stack)++ = atoi(*argv);
+
 		printf("size of array is %lu\n", sizeof(beg_numbers));
 	}
 }

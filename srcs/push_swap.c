@@ -15,8 +15,8 @@ int	main(int argc, char **argv)
 			return (-1);
 		while (*++argv)
 			if (ft_content_is_int(*argv))
-				*(stack_a->stack)++ = atoi(*argv);
-
-		printf("size of array is %lu\n", sizeof(beg_numbers));
+				*(stack_a->stack++ = atoi(*argv);
+		stack_a->count = argc - 1;
+		stack_a->size = argc - 1;
 	}
 }

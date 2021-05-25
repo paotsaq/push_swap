@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:11:52 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/25 06:55:47 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/25 09:45:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static	void down_top(array *stack, int *last, int *changed)
 
 	if (stack->count > 0)
 	{
-		i = 0;
+		i = stack->count - 1;
 		if (stack->count + 1 > stack->size)
 		{
-			*last = stack->stack[stack->count - 1];
+			*last = stack->stack[i];
 			*changed = 1;
 		}
-		while (++i < stack->count - 1)
+		while (i-- != 0)
 			stack->stack[i + 1] = stack->stack[i];
 		stack->stack[0] = 0;
 	}
@@ -93,6 +93,18 @@ void	reverse_rotate(array *stack)
 	}
 }
 
+void	reverse_rotate_both(array *stack_a, array *stack_b)
+{
+	reverse_rotate(stack_a);
+	reverse_rotate(stack_b);
+}
+
+void	reverse_both(array *stack_a, array *stack_b)
+{
+	reverse(stack_a);
+	reverse(stack_b);
+}
+
 /* swap the first two elements at the top of a stack */
 void	swap(array *stack)
 {
@@ -104,6 +116,12 @@ void	swap(array *stack)
 		stack->stack[0] = stack->stack[1];
 		stack->stack[1] = tmp;
 	}
+}
+
+void	swap_both(array *stack_a, array *stack_b)
+{
+	swap(stack_a);
+	swap(stack_b);
 }
 
 /* takes the first element of gives

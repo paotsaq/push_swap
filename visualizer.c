@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/26 07:58:38 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/26 08:00:34 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ void	visualizer(array *stack_a, array *stack_b)
 			printf(STACKS, stack_a->stack[stack_a->count - 1 - i], stack_b->stack[stack_b->count - 1 - i]);
 		printf("------\n");
 	}
+}
+
+void	do_operations(array *stack_a, array *stack_b)
+{
+	char buffer[4];
+
+	buffer[0] = '\0';
+	while(1)
+	{
+		read(
+
+	}
+
 }

@@ -8,6 +8,8 @@ typedef struct array {
 	int *stack;
 	int	count;
 	int	size;
+	int	max;
+	int	min;
 } array;
 
 int		main(int argc, char **argv);

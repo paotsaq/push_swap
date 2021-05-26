@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:11:52 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/25 09:45:25 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/26 10:23:19 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ static	void down_top(array *stack, int *last, int *changed)
  * the last element is now 0 */
 static 	int remove_and_up_top(array *stack)
 {
-	int top;
+	
 	int i;
+	int top;
 
 	if (stack->count > 0)
 	{
@@ -76,6 +77,11 @@ void	rotate(array *stack)
 		place_at_bottom(stack, remove_and_up_top(stack));
 }
 
+void	rotate_both(array *stack_a, array *stack_b)
+{
+	rotate(stack_a);
+	rotate(stack_b);
+}
 /* shift all elements down;
  * fills first spot with previous last element */
 void	reverse_rotate(array *stack)
@@ -101,8 +107,8 @@ void	reverse_rotate_both(array *stack_a, array *stack_b)
 
 void	reverse_both(array *stack_a, array *stack_b)
 {
-	reverse(stack_a);
-	reverse(stack_b);
+	rotate(stack_a);
+	rotate(stack_b);
 }
 
 /* swap the first two elements at the top of a stack */
@@ -135,11 +141,4 @@ void	push(array *gives, array *receives)
 		gives->count--;
 		receives->count++;
 	}
-}
-
-void operations(array *stack_a, array *stack_b)
-{
-	rotate(stack_b);
-	rotate(stack_a);
-	reverse_rotate(stack_a);
 }

@@ -13,6 +13,12 @@ typedef struct array {
 } array;
 
 int		main(int argc, char **argv);
-void	operations(array *stack_a, array *stack_b);
+void	rotate(array *stack);
+void	rotate_both(array *stack_a, array *stack_b);
+void	reverse_rotate(array *stack);
+void	reverse_rotate_both(array *stack_a, array *stack_b);
+void	reverse_both(array *stack_a, array *stack_b);
 void	swap(array *stack);
+void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
+void	do_operations(array *stack_a, array *stack_b);

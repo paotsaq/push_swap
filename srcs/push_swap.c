@@ -1,6 +1,6 @@
 #include "../includes/push_swap.h"
 
-int	max_and_min_values(array *stack)
+void	max_and_min_values(array *stack)
 {
 	int max;
 	int min;
@@ -10,11 +10,11 @@ int	max_and_min_values(array *stack)
 		max = min = *(stack->stack)++;
 		while (stack->stack)
 		{
-			if (max < *(stack_a->stack))
-				max = *(stack_a->stack);
-			else if (min > *(stack_a->stack));
-				min = *(stack_a->stack);
-			*(stack_a->stack)++;
+			if (max < *(stack->stack))
+				max = *(stack->stack);
+			else if (min > *(stack->stack))
+				min = *(stack->stack);
+			stack->stack++;
 		}
 		stack->min = min;
 		stack->max = max;
@@ -47,6 +47,6 @@ int	main(int argc, char **argv)
 		stack_a->count = argc - 1;
 		stack_a->size = argc - 1;
 
-		operations(stack_a, stack_b);
+		do_operations(stack_a, stack_b);
 	}
 }

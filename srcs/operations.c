@@ -1,6 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
+
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
@@ -30,20 +28,20 @@ static	void place_at_bottom(array *stack, int elem)
 /* shifs down all elements of a stack by one
  must ALWAYS precede another action to fill stack->stack[0]
  if last elem is out of stack bounds, fill pointer with elem*/
-static	void down_top(array *stack, int *last, int *changed)
+static	void down_top(array *stack, int rotate, int *last, int *changed)
 {
 	int i;
 
 	if (stack->count > 0)
 	{
-		i = stack->count - 1;
-		if (stack->count + 1 > stack->size)
+		i = stack->count + 1;
+		if (stack->count + 1 > stack->size || rotate)
 		{
-			*last = stack->stack[i];
+			*last = stack->stack[stack->count - 1];
 			*changed = 1;
 		}
-		while (i-- != 0)
-			stack->stack[i + 1] = stack->stack[i];
+		while (--i != 0)
+			stack->stack[i] = stack->stack[i - 1];
 		stack->stack[0] = 0;
 	}
 }
@@ -53,7 +51,6 @@ static	void down_top(array *stack, int *last, int *changed)
  * the last element is now 0 */
 static 	int remove_and_up_top(array *stack)
 {
-	
 	int i;
 	int top;
 
@@ -93,7 +90,7 @@ void	reverse_rotate(array *stack)
 	changed = 0;
 	if (stack->count > 1)
 	{
-		down_top(stack, &tmp, &changed);
+		down_top(stack, 1, &tmp, &changed);
 		if (changed)
 			place_at_top(stack, tmp);
 	}
@@ -136,7 +133,7 @@ void	push(array *gives, array *receives)
 {
 	if (gives->count > 0)
 	{
-		down_top(receives, NULL, NULL);
+		down_top(receives, 0, NULL, NULL);
 		place_at_top(receives, remove_and_up_top(gives));
 		gives->count--;
 		receives->count++;

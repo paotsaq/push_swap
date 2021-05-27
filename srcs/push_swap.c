@@ -45,7 +45,9 @@ int	main(int argc, char **argv)
 				*(stack_a->stack)++ = atoi(*argv);
 		stack_a->stack = begg_stack_a;
 		stack_a->count = argc - 1;
+		stack_b->count = 0;
 		stack_a->size = argc - 1;
+		stack_b->size = argc - 1;
 
 		do_operations(stack_a, stack_b);
 	}

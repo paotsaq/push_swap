@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/27 10:34:28 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/27 10:55:02 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	visualizer(array *stack_a, array *stack_b)
 	int i;
 	int max_stack;
 	int min_stack;
+	static int count;
 
 	if (stack_a->size > 30)
 		printf("gurl you craycray\n");
@@ -38,7 +39,7 @@ void	visualizer(array *stack_a, array *stack_b)
 		}
 		while (i-- >= 1)
 			printf(STACKS, stack_a->stack[stack_a->count - 1 - i], stack_b->stack[stack_b->count - 1 - i]);
-		printf("------\n");
+		printf("------\ncount = %d\n", count++);
 	}
 }
 

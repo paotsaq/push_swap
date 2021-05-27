@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
+/*   Updated: 2021/05/27 12:55:32 by apinto           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/push_swap.h"
 
 void	max_and_min_values(array *stack)
@@ -48,7 +60,7 @@ int	main(int argc, char **argv)
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;
-
-		do_operations(stack_a, stack_b);
+		algo(stack_a, NULL);
+		// do_operations(stack_a, stack_b);
 	}
 }

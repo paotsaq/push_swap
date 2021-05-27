@@ -22,3 +22,4 @@ void	swap(array *stack);
 void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
 void	do_operations(array *stack_a, array *stack_b);
+void	algo(array *stack_a, array *stack_b);

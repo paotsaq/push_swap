@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/27 12:55:32 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/27 14:28:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int	main(int argc, char **argv)
 {
 	array *stack_a;
 	array *stack_b;
+	int choice;
 	int *begg_stack_a;
 
+	choice = 0;
 	if (argc == 1)
 		return (1);
 	else
@@ -52,6 +54,11 @@ int	main(int argc, char **argv)
 		if (!(stack_a->stack && stack_b->stack))
 			return (-1);
 		begg_stack_a = stack_a->stack;
+		if (ft_strcmp(argv[1], "manual") == 0)
+		{
+			choice = 1;
+			argv++;
+		}
 		while (*++argv)
 			if (ft_content_is_int(*argv))
 				*(stack_a->stack)++ = atoi(*argv);
@@ -60,7 +67,6 @@ int	main(int argc, char **argv)
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;
-		algo(stack_a, NULL);
-		// do_operations(stack_a, stack_b);
+		algo(stack_a, stack_b, choice);
 	}
 }

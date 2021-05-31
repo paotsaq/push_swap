@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/28 11:00:17 by apinto           ###   ########.fr       */
+/*   Updated: 2021/05/31 10:22:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,46 +41,4 @@ void	visualizer(array *stack_a, array *stack_b)
 			printf(STACKS, stack_a->stack[stack_a->count - 1 - i], stack_b->stack[stack_b->count - 1 - i]);
 		printf("------\ncount = %d\n", count++);
 	}
-}
-
-void	do_operations(array *stack_a, array *stack_b, char *choice)
-{
-	char manual_input[4];
-	char *buffer;
-	int i;
-
-	if (ft_strcmp(choice, "manual") == 0)
-	{
-		ft_bzero(manual_input, 4);
-		read(0, &manual_input, 4);
-		i = 0;
-		while (manual_input[i]  && manual_input[i] != '\n')
-			i++;
-		manual_input[i] = '\0';
-		buffer = manual_input;
-	}
-	else
-		buffer = choice;
-	if (ft_strcmp(buffer, "sa") == 0)
-		swap(stack_a);
-	else if (ft_strcmp(buffer, "sb") == 0)
-		swap(stack_b);
-	else if (ft_strcmp(buffer, "ss") == 0)
-		swap_both(stack_a, stack_b);
-	else if (ft_strcmp(buffer, "pa") == 0)
-		push(stack_a, stack_b);
-	else if (ft_strcmp(buffer, "pb") == 0)
-		push(stack_b, stack_a);
-	else if (ft_strcmp(buffer, "ra") == 0)
-		rotate(stack_a);
-	else if (ft_strcmp(buffer, "rb") == 0)
-		rotate(stack_b);
-	else if (ft_strcmp(buffer, "rr") == 0)
-		rotate_both(stack_a, stack_b);
-	else if (ft_strcmp(buffer, "rra") == 0)
-		reverse_rotate(stack_a);
-	else if (ft_strcmp(buffer, "rrb") == 0)
-		reverse_rotate(stack_b);
-	else if (ft_strcmp(buffer, "rrr") == 0)
-		reverse_rotate_both(stack_a, stack_b);
 }

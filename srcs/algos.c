@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:35 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/31 11:28:53 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/01 08:52:38 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ static 	void real_simple_sort(int *array, int size)
 			i = -1;
 		}
 	}
-}
-
-static	int stack_head(array *stack)
-{
-	if (stack->count > 0)
-		return (stack->stack[0]);
-	return (0);
 }
 
 static	int	find_median(array *array)
@@ -74,28 +67,30 @@ static void	swap_both_interface(array *stack, array *other_stack)
 
 /* determines whether to fetch top or bottom of stack
  * (rra or ra) for reducing of instructions
+ * ra: shift up all elements
+ * rra: shift down all elements
  * 1 is ra; 0 is rra */
 static int determines_rotation(array *stack, int median)
 {
 	int first_above_top;	
 	int i;	
 
-	first_above_top = 0;
+	first_above_top = -1;
 	i = -1;
-	while (i <= (int)(stack->size / 2))
+	while (++i <= (int)(stack->size / 2))
 		if (stack->stack[i] < median)
 		{
 			first_above_top = i;
 			break;
 		}
 	i = 0;
-	while (i <= (int)(stack->size / 2) && i < first_above_top)
-		if (stack->stack[stack->size - 1 - i++] < median)
+	while (i <= first_above_top)
+		if (stack->stack[stack->count - 1 - i++] < median)
 			break;
-	if (i >= first_above_top);
-		return
-		}
-
+	if (first_above_top == -1 || i < first_above_top)
+		return (0);
+	else
+		return (1);
 }
 
 /* sorts a three-element stack 
@@ -118,38 +113,44 @@ void	sort_three(array *stack, array *other_stack)
 		if (stack->stack[0] < stack->stack[2])
 			swap_both_interface(stack, other_stack);
 		else if (stack->stack[1] < stack->stack[2])
-			do_operations(stack, other_stack, "rra");
+			do_operations(stack, other_stack, "ra");
 		else
 		{
 			swap_both_interface(stack, other_stack);
-			do_operations(stack, other_stack, "ra");
+			do_operations(stack, other_stack, "rra");
 		}
 	}
 }
 
-void	algo(array *stack_a, array *stack_b)
+/* this workflow sorts five elems in a given stack
+ * reducing it to a case of 3 - 2 */
+void	sorts_five(array *stack_a, array *stack_b)
 {
 	int median;
-	int count;
 	int numbers_to_pass;
 
 	numbers_to_pass = 0;
-	count = 0;
 	median = find_median(stack_a);
-	printf("median: %d\n", median);
 	visualizer(stack_a, stack_b);
-	//TODO make it run while stack_a is unsorted
-	/* pushes smaller than median numbers to the other stack */
-	while (numbers_to_pass < (int)stack_a->size / 2 && count++ < 10)
-		if (stack_head(stack_a) < median)
-		{
-			do_operations(stack_a, stack_b, "pa");
-			numbers_to_pass++;
-		}
-	/* needs to figure out which direction to go */ 
-		else
-			do_operations(stack_a, stack_b, "rr");
-	sort_three(stack_a, stack_b);
-	while (stack_b->count != 0)
-		do_operations(stack_a, stack_b, "pb");
+	printf("sorting until numbers_to_pass is < %d\n", stack_a->size / 2);
+	if (!is_sorted(stack_a) && stack_a->count > 0)
+	{
+		while (numbers_to_pass < (int)stack_a->size / 2)
+			if (stack_a->stack[0] < median)
+			{
+				do_operations(stack_a, stack_b, "pa");
+				numbers_to_pass++;
+			}
+			else
+			{
+				if (determines_rotation(stack_a, median) == 1)
+					do_operations(stack_a, stack_b, "ra");
+				else
+					do_operations(stack_a, stack_b, "rra");
+			}
+		if (!is_sorted(stack_a))
+			sort_three(stack_a, stack_b);
+		while (stack_b->count != 0)
+			do_operations(stack_a, stack_b, "pb");
+	}
 }

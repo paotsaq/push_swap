@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/31 10:17:34 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/02 18:15:51 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	max_and_min_values(array *stack)
 	}
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	array *stack_a;
 	array *stack_b;
@@ -67,6 +67,6 @@ int	main(int argc, char **argv)
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;
-		algo(stack_a, stack_b);
+		check_chain(stack_a);
 	}
 }

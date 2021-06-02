@@ -6,44 +6,11 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:35 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/01 08:52:38 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/02 18:16:13 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-/* this goes away after implementing a median algorithm */ 
-static 	void real_simple_sort(int *array, int size)
-{
-	int i;
-	int tmp;
-
-	i = -1;	
-	while (++i < size - 1)
-	{
-		if (array[i] > array[i + 1])
-		{
-			tmp = array[i];
-			array[i] = array[i + 1];
-			array[i + 1] = tmp;
-			i = -1;
-		}
-	}
-}
-
-static	int	find_median(array *array)
-{
-	int copy[array->size];
-	int i;
-
-	i = -1;
-	while(++i < array->size)
-		copy[i] = array->stack[i];
-
-	real_simple_sort(copy, array->size);
-
-	return copy[(int)array->size / 2];
-}
 
 int		is_sorted(array *stack)
 {

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pre_sort.c                                         :+:      :+:    :+:   */
@@ -6,9 +6,11 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/01 11:42:45 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/02 18:28:38 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/push_swap.h"
 
 /* this goes away after implementing a median algorithm */ 
 void real_simple_sort(int *array, int size)
@@ -37,9 +39,7 @@ int	find_median(array *array)
 	i = -1;
 	while(++i < array->size)
 		copy[i] = array->stack[i];
-
 	real_simple_sort(copy, array->size);
-
 	return copy[(int)array->size / 2];
 }
 
@@ -57,24 +57,22 @@ int	check_chain(array *array)
 	i = max_starting = max_chain = 0;
 	while (i < array->count)
 	{
-		current_chain = 1
+		current_chain = 1;
 		iter = i + 1;
 		starting = array->stack[i];
 		while (starting < array->stack[iter++])
+		{
 			current_chain += 1;
+			if (iter > array->count)
+				iter = 0;
+		}
 		if (current_chain > max_chain)
 		{
 			max_chain = current_chain;
 			max_starting = starting;
 		}
+		i++;
 	}
-}
-
-/* matches the sorted with the unsorted array
- * and returns the number of elements at their right place.
- * this is useful for very-close-to-sorted arrays! */
-int	match_sorted(array *array)
-{
-
-
+	printf("max chain is %d\nmax value is %d\n", max_chain, max_starting);
+	return max_chain;
 }

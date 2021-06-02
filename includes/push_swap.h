@@ -26,3 +26,4 @@ void	algo(array *stack_a, array *stack_b);
 void	visualizer(array *stack_a, array *stack_b);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
+int		check_chain(array *array);

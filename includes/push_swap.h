@@ -24,3 +24,5 @@ void	push(array *gives, array *receives);
 void	do_operations(array *stack_a, array *stack_b, char *buffer);
 void	algo(array *stack_a, array *stack_b);
 void	visualizer(array *stack_a, array *stack_b);
+int		find_median(array *array);
+void 	real_simple_sort(int *array, int size);

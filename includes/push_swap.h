@@ -5,11 +5,13 @@
 #include "../libft/libft.h"
 
 typedef struct array {
-	int *stack;
-	int	count;
-	int	size;
-	int	max;
-	int	min;
+	int		*stack;
+	int		count;
+	int		size;
+	int		max;
+	int		min;
+	char	*pot_seq_buf;
+	char	*largest_seq_buf;
 } array;
 
 int		main(int argc, char **argv);

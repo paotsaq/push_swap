@@ -12,6 +12,8 @@ typedef struct array {
 	int		min;
 	char	*pot_seq_buf;
 	char	*largest_seq_buf;
+	int		start_of_largest_chain;
+	int		largest_chain_size;
 } array;
 
 int		main(int argc, char **argv);
@@ -28,4 +30,4 @@ void	algo(array *stack_a, array *stack_b);
 void	visualizer(array *stack_a, array *stack_b);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
-int		check_chain(array *array);
+void	check_chain(array *array);

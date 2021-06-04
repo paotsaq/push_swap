@@ -6,35 +6,40 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/04 08:17:50 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/04 13:31:54 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static	void merge_sequences(array *array, int start, int end)
+static	void merge_sequences(array *array, int *start, int *end)
 {
 	int i;
+	int j;
 
-	/* how to efficiently count (and update) the number of ones,
-	 * ie. the largest chain, without traversing the buffers
-	 * too often? */
-	// count_ones(array,
-	i = start;
-	while (i <= end)
-		largest_seq_buf[i] = pot_seq_buff[i];
+	if (start)
+		i = *start - 1;
+	else
+		i = -1;
+	if (end)
+		j = *end;
+	else
+		j = 0;
 
+	while (++i <= j)
+		array->largest_seq_buf[i] = array->pot_seq_buf[i];
+	ft_bzero(array->pot_seq_buf, array->size);
 }
 
-static	int	count_ones(array *array, int index)
+static	int	count_ones(array *array, int *sequence, int start, int end)
 {
 	int count;
 	int iter;
 
 	count = 0;
-	iter = -1;
-	while (++iter < array->count)
-		if (array->largest_seq_buf[iter] == 1)
+	iter = start;
+	while (++iter < end)
+		if (sequence[iter] == 1)
 			count++;
 	return (count);
 }
@@ -44,7 +49,7 @@ static	int	count_ones(array *array, int index)
  * The algorithm should jump over the unsorted numbers to uncover
  * potentially more rewarding sequences.
  * A buffer might be useful to jump over some specific sequences.
- * A good example is 4 1 5 6 2 3 (longest chain is 4 5 6 2 3) */
+ * A good example is 4 1 5 6 2 3 (longest chain is 4 5 6 2 3) 
 void	check_chain_iter(array *array)
 {
 	int i;
@@ -52,12 +57,10 @@ void	check_chain_iter(array *array)
 	int current;
 	int chain_size;
 
-	/* fixes position of the first chain element */
+	 fixes position of the first chain element
 	i = -1;
 	while (++i < array->count)
 	{
-		/* might add different values for each chain */
-		/* use prime numbers to decide for overlaps */
 		array->pot_seq_buf[i] = 1;
 		chain_size = 0;
 		starting = current = array->stack[i];
@@ -78,20 +81,45 @@ void	check_chain_iter(array *array)
 		}
 	}
 }
+*/
 
-void	check_chain_rec(array *array, int start, int pos)
+/* first call is check_chain_rec(array, 0, 0, 0) */
+void	check_chain_rec(array *array, int start, int last, int pos)
 {
 	int i;
 	int iter;
-	int current;
 
-	if (start < array->count)
-		if (array->stack[pos] > start)
+	/* if you get to the end of the array,
+	 * there were no conflicting chains and thus
+	 * the longest chain shall be saved */ 
+	if (start >= array->count)
+	{
+	   	ones = count_ones(array, array->pot_seq_buf, 0, array->count - 1);
+   		if (ones > array->largest_chain_size)
 		{
-			array->pot_seq_buf[i] = 1;
-			if (array->largest_seq_buf[iter] == 1)
-			check_chain_rec(pos, pos + 1);
+			/* is that so? */
+			merge_sequences(array, NULL, NULL);
+			array->largest_chain_size = ones;
 		}
+	}
+	else if (array->stack[pos] >= array->stack[last])
+	{
+		array->pot_seq_buf[i] = 1;
+		if (array->largest_seq_buf[pos] == 1)
+			merge_sequences(array, start, pos);
 		else
-			check_chain_rec(start, pos + 1);
+			check_chain_rec(array, start, pos, pos + 1);
+	}
+	check_chain_rec(start, last, pos + 1);
+}
 
+void	run_checks(array *array)
+{
+	int i;
+
+	i = 0;
+	while (i < array->count)
+	{
+		check_chain_rec(array, i, i, i);
+	}
+}

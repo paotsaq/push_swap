@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/03 06:10:34 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/04 13:29:10 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		main(int argc, char **argv)
 		/* this would be great with bits! */
 		stack_a->pot_seq_buf = malloc(stack_a->size);
 		stack_a->largest_seq_buf = malloc(stack_a->size);
-		check_chain(stack_a);
+		run_checks(stack_a);
 		free(stack_a->pot_seq_buf);
 		free(stack_a->largest_seq_buf);
 	}

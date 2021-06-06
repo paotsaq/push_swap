@@ -30,5 +30,7 @@ void	algo(array *stack_a, array *stack_b);
 void	visualizer(array *stack_a, array *stack_b);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
-void	check_chain_rec(array *array);
-void	run_checks(array);
+
+/* chains */
+void	run_checks(array *array);
+void	check_chain_rec(array *array, int start, int last, int pos);

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/07 06:09:01 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/07 11:32:36 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static	void merge_sequences(array *array, int *start, int *end)
 	else
 		j = array->size;
 
-	// printer(array, 0);
+	printer(array, 0);
 	ones = count_ones(array->pot_seq_buf, 0, array->count);
-	// printf("pot ones: %d\nlargest ones: %d\n", ones, array->largest_chain_size);
+	printf("pot ones: %d\nlargest ones: %d\n", ones, array->largest_chain_size);
 	if (ones > array->largest_chain_size)
 	{
 		while (++i <= j)

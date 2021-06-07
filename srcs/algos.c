@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:35 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/07 06:34:43 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/07 11:11:55 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,120 +24,72 @@ int		is_sorted(array *stack)
 	return (1);
 }
 
-static void	swap_both_interface(array *stack, array *other_stack)
-{
-	if (!is_sorted(other_stack))
-		do_operations(stack, other_stack, "sa");
-	else
-		do_operations(stack, other_stack, "ss");
-}
-
 /* determines whether to fetch top or bottom of stack
  * (rra or ra) for reducing of instructions
  * ra: shift up all elements
  * rra: shift down all elements
  * 1 is ra; 0 is rra */
-static int determines_rotation(array *stack, int median)
+static int determines_rotation(array *stack, int target)
 {
-	int first_above_top;
-	int i;
-
-	first_above_top = -1;
-	i = -1;
-	while (++i <= (int)(stack->size / 2))
-		if (stack->stack[i] < median)
-		{
-			first_above_top = i;
-			break;
-		}
-	i = 0;
-	while (i <= first_above_top)
-		if (stack->stack[stack->count - 1 - i++] < median)
-			break;
-	if (first_above_top == -1 || i < first_above_top)
-		return (0);
-	else
+	/* upper half */
+	if (target < (stack->count / 2))
 		return (1);
-}
-
-/* sorts a three-element stack
- * while looking for opportunities to swap both
- TODO how to keep track of which stack is which? */
-void	sort_three(array *stack, array *other_stack)
-{
-	if (stack->stack[0] < stack->stack[1])
-	{
-		if (stack->stack[0] < stack->stack[2])
-		{
-			swap_both_interface(stack, other_stack);
-			do_operations(stack, other_stack, "ra");
-		}
-		else
-			do_operations(stack, other_stack, "rra");
-	}
+	/* lower half */
 	else
-	{
-		if (stack->stack[0] < stack->stack[2])
-			swap_both_interface(stack, other_stack);
-		else if (stack->stack[1] < stack->stack[2])
-			do_operations(stack, other_stack, "ra");
-		else
-		{
-			swap_both_interface(stack, other_stack);
-			do_operations(stack, other_stack, "rra");
-		}
-	}
+		return (0);
 }
 
-/* this workflow sorts five elems in a given stack
- * reducing it to a case of 3 - 2 */
-void	sorts_five(array *stack_a, array *stack_b)
+/* util function that determines whether it is best 
+ * to swap two elements in order to find a sort, 
+ * or to just push to the other stack.
+ * e.g: 2 1 3 is solved if swapped.
+ * 1 says push
+ * 0 says swap */
+static	int	swap_or_push(array *stack_a, array *stack_b)
 {
-	int median;
-	int numbers_to_pass;
+	int prev_checker;
+	int new_checker;
 
-	numbers_to_pass = 0;
-	median = find_median(stack_a);
-	visualizer(stack_a, stack_b);
-	printf("sorting until numbers_to_pass is < %d\n", stack_a->size / 2);
-	if (!is_sorted(stack_a) && stack_a->count > 0)
+	prev_checker = run_checks(stack_a);
+	do_operations(stack_a, stack_b, "sa");
+	new_checker = run_checks(stack_a);
+	do_operations(stack_a, stack_b, "sa");
+	if (prev_checker <= new_checker)
+		return (1);
+	else
+		return (0);	
+}
+
+static	int get_target(array *stack)
+{
+	int iter;
+
+	iter = 0;
+	while (stack->largest_seq_buf[iter] != 0)
 	{
-		while (numbers_to_pass < (int)stack_a->size / 2)
-			if (stack_a->stack[0] < median)
-			{
-				do_operations(stack_a, stack_b, "pa");
-				numbers_to_pass++;
-			}
-			else
-			{
-				if (determines_rotation(stack_a, median) == 1)
-					do_operations(stack_a, stack_b, "ra");
-				else
-					do_operations(stack_a, stack_b, "rra");
-			}
-		if (!is_sorted(stack_a))
-			sort_three(stack_a, stack_b);
-		while (stack_b->count != 0)
-			do_operations(stack_a, stack_b, "pb");
+		printf("seq: %d\n", stack->largest_seq_buf[iter]);
+		iter++;
 	}
+	printf("target is %d\n", stack->stack[iter]);
+	return iter;
 }
 
 /* this assumes run_checker has been launched prior,
  * because of reliance in largest_seq_buf */
 void	sort_by_rotation(array *stack_a, array *stack_b)
 {
-	int iter;
+	int target;
 
-	iter = -1;
-	while (++iter < stack_a->count)
-	{
-		if (stack_a->largest_seq_buf[iter] == 0)
-			//TODO check if swapping is more beneficial than pushing!
-			do_operations(stack_a, stack_b, "pa");
-		else
+	target = get_target(stack_a);
+	while (stack_a->stack[0] != target && target == -1)
+		if (determines_rotation(stack_a, target) == 1)
 			do_operations(stack_a, stack_b, "ra");
-		visualizer(stack_a, stack_b);
-	}
+		else
+			do_operations(stack_a, stack_b, "rra");
+	if (swap_or_push(stack_a, stack_b) == 0)
+		do_operations(stack_a, stack_b, "sa");
+	else
+		do_operations(stack_a, stack_b, "pa");
 }
 
 void	algo(array *stack_a, array *stack_b)
@@ -145,6 +97,8 @@ void	algo(array *stack_a, array *stack_b)
 	int checker;
 
 	checker = run_checks(stack_a);
+	visualizer(stack_a, stack_b);
 	printf("checker result is %d\n", checker);
-	sort_by_rotation(stack_a, stack_b);
+	if (!is_sorted(stack_a))
+		sort_by_rotation(stack_a, stack_b);
 }

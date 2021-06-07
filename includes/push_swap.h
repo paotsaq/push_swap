@@ -37,4 +37,5 @@ int		run_checks(array *array);
 /* algorithm */
 void	algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
+int		is_sorted(array *stack);
 

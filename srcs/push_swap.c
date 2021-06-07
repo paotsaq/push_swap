@@ -6,11 +6,24 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/04 13:29:10 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/07 06:30:11 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+int	is_duplicate(int *stack, int len, char *string)
+{
+	int number;
+	int iter;
+
+	number = ft_atoi(string);
+	iter = -1;
+	while (++iter < len)
+		if (stack[iter] == number)
+			return (1);
+	return (0);
+}
 
 void	max_and_min_values(array *stack)
 {
@@ -59,18 +72,25 @@ int		main(int argc, char **argv)
 			choice = 1;
 			argv++;
 		}
+		stack_a->count = 0;
 		while (*++argv)
-			if (ft_content_is_int(*argv))
+			if (ft_content_is_int(*argv) && !is_duplicate(begg_stack_a, stack_a->count, *argv))
+			{
 				*(stack_a->stack)++ = atoi(*argv);
+				stack_a->count++;
+			}
+			else
+			{
+				printf("erro muito chato\nnão te esqueças de implementar frees!");
+				return (0);
+			}
 		stack_a->stack = begg_stack_a;
-		stack_a->count = argc - 1;
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;
-		/* this would be great with bits! */
 		stack_a->pot_seq_buf = malloc(stack_a->size);
 		stack_a->largest_seq_buf = malloc(stack_a->size);
-		run_checks(stack_a);
+		algo(stack_a, stack_b);
 		free(stack_a->pot_seq_buf);
 		free(stack_a->largest_seq_buf);
 	}

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/06 09:48:32 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/07 06:09:01 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static	void merge_sequences(array *array, int *start, int *end)
 	else
 		j = array->size;
 
-	printer(array, 0);
-	ones = count_ones(array->pot_seq_buf, 0, array->count - 1);
-	printf("pot ones: %d\nlargest ones: %d\n", ones, array->largest_chain_size);
+	// printer(array, 0);
+	ones = count_ones(array->pot_seq_buf, 0, array->count);
+	// printf("pot ones: %d\nlargest ones: %d\n", ones, array->largest_chain_size);
 	if (ones > array->largest_chain_size)
 	{
 		while (++i <= j)
@@ -86,7 +86,7 @@ static	void merge_sequences(array *array, int *start, int *end)
  * A good example is 4 1 5 6 2 3 (longest chain is 4 5 6 2 3) */
 
 /* first call is check_chain_rec(array, 0, 0, 0) */
-void	check_chain_rec(array *array, int start, int last, int pos)
+static void	check_chain_rec(array *array, int start, int last, int pos)
 {
 	array->pot_seq_buf[start] = 1;
 	/* if you get to the end of the array,
@@ -109,7 +109,7 @@ void	check_chain_rec(array *array, int start, int last, int pos)
 		check_chain_rec(array, start, last, pos + 1);
 }
 
-void	run_checks(array *array)
+int	run_checks(array *array)
 {
 	int i;
 	int j;
@@ -120,7 +120,12 @@ void	run_checks(array *array)
 	{
 		j = i - 1;
 		while (++j < array->count)
+		{
 			check_chain_rec(array, i, i, j);
+			if (array->largest_chain_size > array->count - 1)
+				return array->largest_chain_size;
+		}
 	}
 	printer(array, 1);
+	return array->largest_chain_size;
 }

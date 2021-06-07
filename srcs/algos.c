@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:35 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/02 18:16:13 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/07 06:34:43 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	swap_both_interface(array *stack, array *other_stack)
  * 1 is ra; 0 is rra */
 static int determines_rotation(array *stack, int median)
 {
-	int first_above_top;	
-	int i;	
+	int first_above_top;
+	int i;
 
 	first_above_top = -1;
 	i = -1;
@@ -60,8 +60,8 @@ static int determines_rotation(array *stack, int median)
 		return (1);
 }
 
-/* sorts a three-element stack 
- * while looking for opportunities to swap both 
+/* sorts a three-element stack
+ * while looking for opportunities to swap both
  TODO how to keep track of which stack is which? */
 void	sort_three(array *stack, array *other_stack)
 {
@@ -120,4 +120,31 @@ void	sorts_five(array *stack_a, array *stack_b)
 		while (stack_b->count != 0)
 			do_operations(stack_a, stack_b, "pb");
 	}
+}
+
+/* this assumes run_checker has been launched prior,
+ * because of reliance in largest_seq_buf */
+void	sort_by_rotation(array *stack_a, array *stack_b)
+{
+	int iter;
+
+	iter = -1;
+	while (++iter < stack_a->count)
+	{
+		if (stack_a->largest_seq_buf[iter] == 0)
+			//TODO check if swapping is more beneficial than pushing!
+			do_operations(stack_a, stack_b, "pa");
+		else
+			do_operations(stack_a, stack_b, "ra");
+		visualizer(stack_a, stack_b);
+	}
+}
+
+void	algo(array *stack_a, array *stack_b)
+{
+	int checker;
+
+	checker = run_checks(stack_a);
+	printf("checker result is %d\n", checker);
+	sort_by_rotation(stack_a, stack_b);
 }

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   chains.c                                           :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/08 13:51:24 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/08 14:44:06 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static	int	get_first_zero_index(array *array, int start)
 	int iter;
 
 	iter = start;
-	while (iter < array->count - 1 && array->stack[iter] != 0)
+	while (iter < array->count - 1 && array->largest_seq_buf[iter] != 0)
 		iter++;
 	return (iter);
 }

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/08 07:48:09 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/08 13:51:24 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,24 @@ static	void merge_sequences(array *array, int *start, int *end)
  * A good example is 4 1 5 6 2 3 (longest chain is 4 5 6 2 3) */
 
 /* first call is check_chain_rec(array, 0, 0, 0) */
+
+static	int	get_first_zero_index(array *array, int start)
+{
+	int iter;
+
+	iter = start;
+	while (iter < array->count - 1 && array->stack[iter] != 0)
+		iter++;
+	return (iter);
+}
+
 static void	check_chain_rec(array *array, int start, int last, int pos)
 {
 	int advance;
-	int sum;
+	int first_zero;
 
-	advance = 0;
-	/* this feels unnecessary ⤵️ */
-	array->pot_seq_buf[start] = 1;
+	advance = -1;
+	first_zero = 0;
 	/* if you get to the end of the array,
 	 * there were no conflicting chains and thus
 	 * the longest chain shall be saved */
@@ -115,20 +125,22 @@ static void	check_chain_rec(array *array, int start, int last, int pos)
 	 * otherwise, keep looking forward */
 	else if (array->stack[pos] > array->stack[last])
 	{
-		/* in this case, advance the index until
-		 * the first zero is found */
 		array->pot_seq_buf[pos] = 1;
-		if (array->largest_seq_buf[pos + advance] == 1 && start == array->start_of_largest_chain)
-			return;
-		while ((pos + advance < array->count) && array->largest_seq_buf[pos + advance] == 1)
+		/* this will lead to a repeating sequence; 
+		 * hence, kill this iteration (but merge the sequence, 
+		 * to determine whether the found sequence so far 
+		 * is better than the largest) and move on
+		 * is merge sequence still useful? */ 
+		if (start == array->start_of_largest_chain && array->largest_seq_buf[pos] == 1)
 		{
-			array->pot_seq_buf[pos + advance] = array->largest_seq_buf[pos + advance];
-			advance++;
-		}
-		sum = pos + advance;
-		if (advance > 0)
 			merge_sequences(array, &start, &pos);
-		check_chain_rec(array, start, pos + advance, pos + advance + 1);
+			first_zero = get_first_zero_index(array, pos);
+			/* and then send ALL 1 positions to the first zero next */ 
+			while (pos + ++advance != first_zero)
+				check_chain_rec(array, start, pos, pos + advance);
+		}
+		else
+			check_chain_rec(array, start, pos, pos + 1);
 	}
 	else
 		check_chain_rec(array, start, last, pos + 1);
@@ -141,17 +153,21 @@ int	run_checks(array *array)
 
 	printer(array, 1);
 	i = -1;
+	array->start_of_largest_chain = -1;
 	while (++i < array->count)
 	{
 		j = i - 1;
 		while (++j < array->count)
 		{
+			array->pot_seq_buf[i] = 1;
 			check_chain_rec(array, i, i, j);
-			printer(array, 0);
+			// printer(array, 0);
+			ft_bzero(array->pot_seq_buf, array->size);
 			if (array->largest_chain_size > array->count - 1)
 				return array->largest_chain_size;
 		}
 	}
 	printer(array, 1);
+	printer(array, 0);
 	return array->largest_chain_size;
 }

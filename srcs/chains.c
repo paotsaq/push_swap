@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 05:58:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/08 14:44:06 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/09 06:45:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,22 +120,20 @@ static void	check_chain_rec(array *array, int start, int last, int pos)
 	 * the longest chain shall be saved */
 	if (start >= array->count || pos >= array->count)
 		merge_sequences(array, NULL, NULL);
-	/* a candidate for continuation of the sequence;
-	 * checks if the candidate was already in a larger sequence.
-	 * otherwise, keep looking forward */
+	/* finds a candidate for continuation of the sequence */
 	else if (array->stack[pos] > array->stack[last])
 	{
 		array->pot_seq_buf[pos] = 1;
-		/* this will lead to a repeating sequence; 
-		 * hence, kill this iteration (but merge the sequence, 
-		 * to determine whether the found sequence so far 
+		/* this will lead to a repeating sequence;
+		 * hence, kill this iteration (but merge the sequence,
+		 * to determine whether the found sequence so far
 		 * is better than the largest) and move on
-		 * is merge sequence still useful? */ 
+		 * is merge sequence still useful? */
 		if (start == array->start_of_largest_chain && array->largest_seq_buf[pos] == 1)
 		{
 			merge_sequences(array, &start, &pos);
 			first_zero = get_first_zero_index(array, pos);
-			/* and then send ALL 1 positions to the first zero next */ 
+			/* and then send ALL 1 positions to the first zero next */
 			while (pos + ++advance != first_zero)
 				check_chain_rec(array, start, pos, pos + advance);
 		}

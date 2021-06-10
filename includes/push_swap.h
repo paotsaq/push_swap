@@ -4,17 +4,6 @@
 #include <unistd.h>
 #include "../libft/libft.h"
 
-typedef struct s_list {
-	void			*content;
-	struct s_list	*next;
-}				t_list;
-
-typedef struct chain_arrays
-{
-	t_list *heads[50];
-	t_list *tails[50];
-}
-
 typedef struct array {
 	int		*stack;
 	int		count;
@@ -26,6 +15,14 @@ typedef struct array {
 	int		start_of_largest_chain;
 	int		largest_chain_size;
 }				array;
+
+typedef struct chains {
+	t_list	**heads;
+	t_list	**tails;
+	int		count;
+	int		*sizes;
+	t_list	**largest_active;
+}				chains;
 
 int		main(int argc, char **argv);
 void	rotate(array *stack);

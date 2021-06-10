@@ -19,8 +19,8 @@ typedef struct array {
 typedef struct chains {
 	t_list	**heads;
 	t_list	**tails;
-	t_list	**sizes;
-	t_list	**largest_active;
+	t_list	*sizes;
+	t_list	*largest_active;
 	int		count;
 }				chains;
 

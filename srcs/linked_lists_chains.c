@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/10 17:57:12 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/10 18:28:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	adds_size(chains *chain, int size, int front)
 		return;
 	if (chain->count++ == 0)
 	{
-		chain->sizes = &new_size_node;
+		chain->sizes = new_size_node;
 		return;
 	}
 	if (front)
-		ft_lstadd_front(chain->sizes, new_size_node);
+		ft_lstadd_front(&chain->sizes, new_size_node);
 	else
-		ft_lstadd_back(chain->sizes, new_size_node);
+		ft_lstadd_back(&chain->sizes, new_size_node);
 }
 
 /* creates a list of just one element 
@@ -82,8 +82,17 @@ void	creates_list_of_one(chains *chain, t_list *elem)
 {
 	if (chain->count == 0)
 	{
-		chain->heads = &elem;
-		chain->tails = &elem;
+		chain->heads = malloc(sizeof(t_list **));
+		if (!chain->heads)
+			return;
+		chain->tails = malloc(sizeof(t_list **));
+		if (!chain->tails)
+		{
+			free(chain->heads);
+			return;
+		}
+		*chain->heads = elem;
+		*chain->tails = elem;
 	}
 	else
 	{
@@ -91,7 +100,7 @@ void	creates_list_of_one(chains *chain, t_list *elem)
 		ft_lstadd_front(chain->tails, elem);
 	}
 	if (chain->sizes++ == 0)
-		chain->largest_active = chain->heads;
+		chain->largest_active = *chain->heads;
 	adds_size(chain, 1, 1);
 }
 
@@ -105,11 +114,11 @@ void	adds_extended_list(chains *chain, t_list *elem, int index)
 	t_list *size_node;
 
 	if (index == chain->count -1)
-		list = chain->largest_active;
+		list = &chain->largest_active;
 	else
 	{
 		list = chain->heads;
-		size_node = *(chain)->sizes;
+		size_node = (chain)->sizes;
 		while (index-- != 0)
 		{
 			size_node = size_node->next; 
@@ -124,7 +133,7 @@ void	adds_extended_list(chains *chain, t_list *elem, int index)
 	ft_lstadd_back(chain->tails, elem);
 	adds_size(chain, (int)size_node->content + 1, 0);
 	if (index == -1)
-		chain->largest_active = new_list;
+		chain->largest_active = *new_list;
 	chain->count++;
 }
 
@@ -146,7 +155,7 @@ void chain_manager(array *stack)
 		{
 			ft_lstclear(chain->heads, &free_list_node);
 			ft_lstclear(chain->tails, &free_list_node);
-			ft_lstclear(chain->sizes, &free_list_node);
+			ft_lstclear(&chain->sizes, &free_list_node);
 		}
 		index = finds_localisation_of_node(chain, elem);
 		if (index == -1)

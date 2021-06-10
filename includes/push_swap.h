@@ -19,9 +19,9 @@ typedef struct array {
 typedef struct chains {
 	t_list	**heads;
 	t_list	**tails;
-	int		count;
-	int		*sizes;
+	t_list	**sizes;
 	t_list	**largest_active;
+	int		count;
 }				chains;
 
 int		main(int argc, char **argv);
@@ -46,4 +46,7 @@ int		run_checks(array *array);
 void	algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
+
+void 			chain_manager(array *stack);
+void			free_list_node(void *list_node);
 

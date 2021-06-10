@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/07 06:30:11 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/10 08:59:57 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ int		main(int argc, char **argv)
 {
 	array *stack_a;
 	array *stack_b;
-	int choice;
 	int *begg_stack_a;
 
-	choice = 0;
 	if (argc == 1)
 		return (1);
 	else
@@ -67,11 +65,6 @@ int		main(int argc, char **argv)
 		if (!(stack_a->stack && stack_b->stack))
 			return (-1);
 		begg_stack_a = stack_a->stack;
-		if (ft_strcmp(argv[1], "manual") == 0)
-		{
-			choice = 1;
-			argv++;
-		}
 		stack_a->count = 0;
 		while (*++argv)
 			if (ft_content_is_int(*argv) && !is_duplicate(begg_stack_a, stack_a->count, *argv))
@@ -88,10 +81,6 @@ int		main(int argc, char **argv)
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;
-		stack_a->pot_seq_buf = malloc(stack_a->size);
-		stack_a->largest_seq_buf = malloc(stack_a->size);
-		algo(stack_a, stack_b);
-		free(stack_a->pot_seq_buf);
-		free(stack_a->largest_seq_buf);
+		chain_manager(stack_a);
 	}
 }

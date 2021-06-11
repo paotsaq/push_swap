@@ -17,11 +17,12 @@ typedef struct array {
 }				array;
 
 typedef struct chains {
-	t_list	*heads;
-	t_list	*tails;
-	t_list	*sizes;
-	t_list	*largest_active;
-	int		count;
+	int	*heads;
+	int	*tails;
+	int	*sizes;
+	int	*largest_active;
+	int	largest_size;
+	int	count;
 }				chains;
 
 int		main(int argc, char **argv);
@@ -47,6 +48,3 @@ void 	chain_manager(array *stack);
 void	algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
-
-
-

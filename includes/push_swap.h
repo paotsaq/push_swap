@@ -17,8 +17,8 @@ typedef struct array {
 }				array;
 
 typedef struct chains {
-	t_list	**heads;
-	t_list	**tails;
+	t_list	*heads;
+	t_list	*tails;
 	t_list	*sizes;
 	t_list	*largest_active;
 	int		count;
@@ -41,12 +41,12 @@ void 	real_simple_sort(int *array, int size);
 
 /* chains */
 int		run_checks(array *array);
+void 	chain_manager(array *stack);
 
 /* algorithm */
 void	algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
 
-void 			chain_manager(array *stack);
-void			free_list_node(void *list_node);
+
 

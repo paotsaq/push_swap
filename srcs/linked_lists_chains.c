@@ -41,8 +41,6 @@ void	size_and_largest_sequence(chains *chain, int index, int size)
 	}
 }
 
-/* creates a list of just one element and
- * adds the size to the chain.*/
 void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
 {
 	int i;
@@ -50,6 +48,16 @@ void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
 	if (new_list != NULL)
 		while (++i < size)
 			deprc_list[i] = new_list[i];
+}
+
+int	find_index_by_size(chains *chain, int size)
+{
+	int res;
+
+	res = -1;
+	while (chain->sizes[res] != size)
+		res++;
+	return res;
 }
 
 /*
@@ -69,20 +77,21 @@ void	extends_list(chains *chain, int elem, int index)
 		list = chain->largest_active;
 		size = chain->largest_size;
 		new_list = chain->heads[chain->count];
-		copies_new_largest_list(new_list, list, chain->sizes[size - 1]);
-		new_list[size] = elem;
 		chain->count += 1;
-		size += 1;
+		if (size != 0)
+			size += 1;
+		new_list[size] = elem;
 	}
-	/* there was an index; take the corresponding list
+	/* there was an index; overwrite the same-sized list
 	 * and substitute last value */
 	else
 	{
-		// index = index - 1;
 		list = chain->heads[index];
 		size = chain->sizes[index];
-		list[size - 1] = elem;
+		new_list = chain->heads[find_index_by_size(chain, size)];
+		new_list[size] = elem;
 	}
+	copies_new_largest_list(new_list, list, chain->sizes[size - 1]);
 	chain->tails[index] = elem;
 	size_and_largest_sequence(chain, index, size);
 }

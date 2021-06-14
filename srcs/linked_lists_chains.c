@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/14 06:08:51 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/14 06:48:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,18 @@ void	size_and_largest_sequence(chains *chain, int size, int *list)
 }
 
 /* creates a list of just one element and
- * adds the size to the chain.*/
+ * adds the size to the chain.
+ * ⚠️  possibly unnecessary function ⚠️  */
 void	creates_list_of_one(chains *chain, int elem)
 {
 	chain->heads[chain->count][0] = elem;
 	chain->tails[chain->count] = elem;
 	size_and_largest_sequence(chain, 1, chain->heads[chain->count]);
+	chain->count += 1;
 }
 
+/* creates a list of just one element and
+ * adds the size to the chain.*/
 void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
 {
 	int i;
@@ -60,50 +64,14 @@ void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
 		deprc_list[i] = new_list[i];
 }
 
-void	deletes_redundant_list(int *deprc_list, int size)
-{
-	int i;
-	i = -1;
-	while (++i < size)
-		deprc_list[i] = 0;
-}
-
-void	removes_deprecated_sequences(chains *chain, int size)
-{
-	int iter;
-	int copied;
-	int last_list_size;
-	int *deprc_list;
-	int *last_list;
-
-	iter = -1;
-	copied = 0;
-	while (++iter < chain->count)
-	{
-		if (chain->sizes[iter] == size)
-		{
-			deprc_list = chain->heads[iter];
-			last_list = chain->heads[chain->count];
-			last_list_size = chain->sizes[chain->count];
-			if (copied == 0)
-				copies_new_largest_list(deprc_list, last_list, last_list_size);
-			else
-				deletes_redundant_list(deprc_list
-			chain->sizes[iter] = last_list_size;
-			chain->tails[iter] = last_list[last_list_size - 1];
-			iter--;
-			chain->count--;
-			copied = 1;
-		}
-	}
-}
-
-/* creates a clone of a list, and appends the new elem to it.
- * adds the size to the chain, and triggers deprecated sequences */
+/*
+ * adds the size to the chain, and triggers deprecated sequences
+ * new_list should be statically allocated outside of the chain
+ * and then added; this avoids redundant copies of the same list in the chain */
 void	extends_list(chains *chain, int elem, int index)
 {
-	int *list;
 	int *new_list;
+	int *list;
 	int size;
 
 	/* the element is bigger than all tails;
@@ -112,6 +80,10 @@ void	extends_list(chains *chain, int elem, int index)
 	{
 		list = chain->largest_active;
 		size = chain->largest_size;
+		new_list = chain->heads[chain->count];
+		copies_new_largest_list(new_list, list, chain->sizes[size - 1]);
+		new_list[size] = elem;
+		chain->count += 1;
 	}
 	/* there was an index; take the corresponding list
 	 * and substitute last value */
@@ -119,13 +91,11 @@ void	extends_list(chains *chain, int elem, int index)
 	{
 		list = chain->heads[index];
 		size = chain->sizes[index] - 1;
+		list[size] = elem;
+		chain->tails[index] = elem;
+		if (size == chain->largest_size)
+			chain->largest_active = list;
 	}
-	new_list = chain->heads[chain->count];
-	ft_memcpy(new_list, list, chain->sizes[size - 1]);
-	new_list[size] = elem;
-	chain->tails[chain->count] = elem;
-	size_and_largest_sequence(chain, size + 1, new_list);
-	removes_deprecated_sequences(chain, size + 1);
 }
 
 void chain_manager(array *stack)
@@ -146,6 +116,5 @@ void chain_manager(array *stack)
 			creates_list_of_one(&chain, elem);
 		else
 			extends_list(&chain, elem, index);
-		chain.count += 1;
 	}
 }

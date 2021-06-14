@@ -6,28 +6,11 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/11 09:23:35 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/14 06:08:51 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-/* the chains will have addresses of heads and tails */
-chains	*initializes_chain()
-{
-	chains *chain;
-
-	chain = malloc(sizeof(chains));
-	if (!chain)
-		return NULL;
-	chain->count = 0;
-	chain->heads = NULL;
-	chain->tails = NULL;
-	chain->sizes = NULL;
-	chain->largest_active = NULL;
-	chain->largest_size = 0;
-	return chain;
-}
 
 /* returns an index that signifies the list
  * in which to insert the new node;
@@ -36,119 +19,133 @@ chains	*initializes_chain()
  *		chains->count - 1 means it is largest among all candidates,
  *			thus clone the largest list and append it;
  *		any other number signifies the index of the list to append to. */
-int		finds_localisation_of_node(chains *chain, t_list *elem)
+int		finds_localisation_of_node(chains *chain, int elem)
 {
 	int iter;
 
 	if (chain->count == 0)
 		return (-1);
-	iter = -1;
-	while (elem > chain->tails[iter])
+	iter = 0;
+	while (iter < chain->count && elem > chain->tails[iter])
 		iter++;
 	return (iter);
 }
 
-/* manages adding of the size information to the chain */
-void	adds_size(chains *chain, int size, int front)
+/* updates the size array and handles
+ * determining which is the largest sequence */
+void	size_and_largest_sequence(chains *chain, int size, int *list)
 {
-	t_list *new_size_node;
-
-	new_size_node = ft_lstnew(&size);
-	if (!(new_size_node))
-		return;
-	if (chain->count == 0)
+	chain->sizes[chain->count] = size;
+	if (size >= chain->largest_size)
 	{
-		chain->sizes = new_size_node;
-		return;
+		chain->largest_active = list;
+		chain->largest_size = size;
 	}
-	chain->count++;
-	if (front)
-		ft_lstadd_front(&chain->sizes, new_size_node);
-	else
-		ft_lstadd_back(&chain->sizes, new_size_node);
 }
 
-/* creates a list of just one element
- * it initializes both heads and tails chain
- * creates the element, and appends it to the chains */
-void	creates_list_of_one(chains *chain, t_list *elem)
+/* creates a list of just one element and
+ * adds the size to the chain.*/
+void	creates_list_of_one(chains *chain, int elem)
 {
-	t_list *list_address;
+	chain->heads[chain->count][0] = elem;
+	chain->tails[chain->count] = elem;
+	size_and_largest_sequence(chain, 1, chain->heads[chain->count]);
+}
 
-	list_address = ft_lstnew(elem);
-	if (!(list_address))
-		return;
-	ft_lstadd_front(&chain->heads, list_address);
-	ft_lstadd_front(&chain->tails, elem);
-	adds_size(chain, 1, 1);
-	if (chain->sizes++ == 1)
+void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
+{
+	int i;
+	i = -1;
+	while (++i < size)
+		deprc_list[i] = new_list[i];
+}
+
+void	deletes_redundant_list(int *deprc_list, int size)
+{
+	int i;
+	i = -1;
+	while (++i < size)
+		deprc_list[i] = 0;
+}
+
+void	removes_deprecated_sequences(chains *chain, int size)
+{
+	int iter;
+	int copied;
+	int last_list_size;
+	int *deprc_list;
+	int *last_list;
+
+	iter = -1;
+	copied = 0;
+	while (++iter < chain->count)
 	{
-		chain->largest_active = elem;
-		chain->largest_size = (chain->sizes);
+		if (chain->sizes[iter] == size)
+		{
+			deprc_list = chain->heads[iter];
+			last_list = chain->heads[chain->count];
+			last_list_size = chain->sizes[chain->count];
+			if (copied == 0)
+				copies_new_largest_list(deprc_list, last_list, last_list_size);
+			else
+				deletes_redundant_list(deprc_list
+			chain->sizes[iter] = last_list_size;
+			chain->tails[iter] = last_list[last_list_size - 1];
+			iter--;
+			chain->count--;
+			copied = 1;
+		}
 	}
 }
 
 /* creates a clone of a list, and appends the new elem to it.
- * it will then append its address (allocated on a new node)
- * to the heads chain, as well as its last node to the tails; */
-void	adds_extended_list(chains *chain, t_list *elem, int index)
+ * adds the size to the chain, and triggers deprecated sequences */
+void	extends_list(chains *chain, int elem, int index)
 {
-	t_list *list;
-	t_list *list_address;
-	t_list *new_list;
-	t_list *size_node;
+	int *list;
+	int *new_list;
+	int size;
 
-	if (index == chain->count -1)
+	/* the element is bigger than all tails;
+	 * thus, append to clone of largest active list */
+	if (index == chain->count)
 	{
 		list = chain->largest_active;
-		size_node = chain->largest_size;
+		size = chain->largest_size;
 	}
+	/* there was an index; take the corresponding list
+	 * and substitute last value */
 	else
 	{
-		list = chain->heads;
-		size_node = (chain)->sizes;
-		while (index-- != 0)
-		{
-			size_node = size_node->next;
-			list = list->next;
-		}
+		list = chain->heads[index];
+		size = chain->sizes[index] - 1;
 	}
-	new_list = ft_lstclone(list);
-	if (!(new_list))
-		return;
-	list_address = ft_lstnew(&new_list);
-	if (!(list_address))
-		return;
-	ft_lstadd_back(&new_list, elem);
-	ft_lstadd_back(&chain->heads, list_address);
-	ft_lstadd_back(&chain->tails, elem);
-	adds_size(chain, (int)size_node->content + 1, 0);
-	if (index == -1)
-	{
-		chain->largest_active = new_list;
-		chain->largest_size = chain->sizes;	
-	}
-	chain->count++;
+	new_list = chain->heads[chain->count];
+	ft_memcpy(new_list, list, chain->sizes[size - 1]);
+	new_list[size] = elem;
+	chain->tails[chain->count] = elem;
+	size_and_largest_sequence(chain, size + 1, new_list);
+	removes_deprecated_sequences(chain, size + 1);
 }
 
 void chain_manager(array *stack)
 {
-	t_list *elem;
-	chains *chain;
+	chains chain;
 	int index;
 	int iter;
+	int elem;
 
-	chain = initializes_chain();
-	if (!chain)
-		return;
+	chain.count = 0;
+	chain.largest_size = 0;
 	iter = -1;
 	while (++iter < stack->count)
 	{
 		elem = stack->stack[iter];
-		index = finds_localisation_of_node(chain, elem);
+		index = finds_localisation_of_node(&chain, elem);
 		if (index == -1)
-			creates_list_of_one(chain, elem);
+			creates_list_of_one(&chain, elem);
 		else
-			adds_extended_list(chain, elem, index);
+			extends_list(&chain, elem, index);
+		chain.count += 1;
 	}
 }

@@ -17,9 +17,9 @@ typedef struct array {
 }				array;
 
 typedef struct chains {
-	int	*heads;
-	int	*tails;
-	int	*sizes;
+	int	heads[500][500];
+	int	tails[500];
+	int	sizes[500];
 	int	*largest_active;
 	int	largest_size;
 	int	count;

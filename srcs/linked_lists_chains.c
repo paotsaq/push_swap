@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/14 06:48:26 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/14 09:55:59 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int		finds_localisation_of_node(chains *chain, int elem)
 {
 	int iter;
 
-	if (chain->count == 0)
-		return (-1);
 	iter = 0;
 	while (iter < chain->count && elem > chain->tails[iter])
 		iter++;
@@ -33,25 +31,14 @@ int		finds_localisation_of_node(chains *chain, int elem)
 
 /* updates the size array and handles
  * determining which is the largest sequence */
-void	size_and_largest_sequence(chains *chain, int size, int *list)
+void	size_and_largest_sequence(chains *chain, int index, int size)
 {
-	chain->sizes[chain->count] = size;
+	chain->sizes[index] = size;
 	if (size >= chain->largest_size)
 	{
-		chain->largest_active = list;
+		chain->largest_active = chain->heads[index];
 		chain->largest_size = size;
 	}
-}
-
-/* creates a list of just one element and
- * adds the size to the chain.
- * ⚠️  possibly unnecessary function ⚠️  */
-void	creates_list_of_one(chains *chain, int elem)
-{
-	chain->heads[chain->count][0] = elem;
-	chain->tails[chain->count] = elem;
-	size_and_largest_sequence(chain, 1, chain->heads[chain->count]);
-	chain->count += 1;
 }
 
 /* creates a list of just one element and
@@ -60,8 +47,9 @@ void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
 {
 	int i;
 	i = -1;
-	while (++i < size)
-		deprc_list[i] = new_list[i];
+	if (new_list != NULL)
+		while (++i < size)
+			deprc_list[i] = new_list[i];
 }
 
 /*
@@ -84,18 +72,19 @@ void	extends_list(chains *chain, int elem, int index)
 		copies_new_largest_list(new_list, list, chain->sizes[size - 1]);
 		new_list[size] = elem;
 		chain->count += 1;
+		size += 1;
 	}
 	/* there was an index; take the corresponding list
 	 * and substitute last value */
 	else
 	{
+		// index = index - 1;
 		list = chain->heads[index];
-		size = chain->sizes[index] - 1;
-		list[size] = elem;
-		chain->tails[index] = elem;
-		if (size == chain->largest_size)
-			chain->largest_active = list;
+		size = chain->sizes[index];
+		list[size - 1] = elem;
 	}
+	chain->tails[index] = elem;
+	size_and_largest_sequence(chain, index, size);
 }
 
 void chain_manager(array *stack)
@@ -107,14 +96,17 @@ void chain_manager(array *stack)
 
 	chain.count = 0;
 	chain.largest_size = 0;
+	chain.largest_active = NULL;
 	iter = -1;
 	while (++iter < stack->count)
 	{
 		elem = stack->stack[iter];
 		index = finds_localisation_of_node(&chain, elem);
-		if (index == -1)
-			creates_list_of_one(&chain, elem);
-		else
-			extends_list(&chain, elem, index);
+		extends_list(&chain, elem, index);
 	}
+	printf("longest sequence is: \n");
+	iter = -1;
+	while (++iter < chain.largest_size)
+		printf("%d ", chain.largest_active[iter]);
+	printf("\n");
 }

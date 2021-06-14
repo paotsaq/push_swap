@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/14 09:55:59 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/14 18:45:55 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,20 @@ void	size_and_largest_sequence(chains *chain, int index, int size)
 	}
 }
 
-void	copies_new_largest_list(int *deprc_list, int *new_list, int size)
+void	copies_new_largest_list(int *old_list, int *new_list, int size)
 {
 	int i;
 	i = -1;
-	if (new_list != NULL)
+	if (old_list != NULL && old_list != new_list)
 		while (++i < size)
-			deprc_list[i] = new_list[i];
+			new_list[i] = old_list[i];
 }
 
 int	find_index_by_size(chains *chain, int size)
 {
 	int res;
 
-	res = -1;
+	res = 0;
 	while (chain->sizes[res] != size)
 		res++;
 	return res;
@@ -69,29 +69,31 @@ void	extends_list(chains *chain, int elem, int index)
 	int *new_list;
 	int *list;
 	int size;
+	int copy_from;
 
 	/* the element is bigger than all tails;
 	 * thus, append to clone of largest active list */
 	if (index == chain->count)
 	{
 		list = chain->largest_active;
-		size = chain->largest_size;
+		size = chain->largest_size + 1;
 		new_list = chain->heads[chain->count];
 		chain->count += 1;
-		if (size != 0)
-			size += 1;
-		new_list[size] = elem;
 	}
-	/* there was an index; overwrite the same-sized list
-	 * and substitute last value */
+	/* this will not be a maximum list so find index of list (deprc list)
+	 * whose end element is bigger than current elem;
+	 * then, clone and extend the list whose size is
+	 * one unit less than the deprc list with elem,
+	 * and overwrite deprc list */
 	else
 	{
-		list = chain->heads[index];
+		new_list = chain->heads[index];
 		size = chain->sizes[index];
-		new_list = chain->heads[find_index_by_size(chain, size)];
-		new_list[size] = elem;
+		copy_from = find_index_by_size(chain, size - 1);
+		list = chain->heads[copy_from];
 	}
-	copies_new_largest_list(new_list, list, chain->sizes[size - 1]);
+	new_list[size - 1] = elem;
+	copies_new_largest_list(list, new_list, size - 1);
 	chain->tails[index] = elem;
 	size_and_largest_sequence(chain, index, size);
 }

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/14 18:45:55 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/14 19:19:24 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,25 @@ void	extends_list(chains *chain, int elem, int index)
 void chain_manager(array *stack)
 {
 	chains chain;
+	int	rotation;
 	int index;
 	int iter;
 	int elem;
 
+	rotation = -1;
 	chain.count = 0;
 	chain.largest_size = 0;
 	chain.largest_active = NULL;
-	iter = -1;
-	while (++iter < stack->count)
+	while (++rotation < stack->count)
 	{
-		elem = stack->stack[iter];
-		index = finds_localisation_of_node(&chain, elem);
-		extends_list(&chain, elem, index);
+		iter = -1;
+		while (++iter < stack->count)
+		{
+			elem = stack->stack[iter];
+			index = finds_localisation_of_node(&chain, elem);
+			extends_list(&chain, elem, index);
+		}
+		rotate(stack);
 	}
 	printf("longest sequence is: \n");
 	iter = -1;

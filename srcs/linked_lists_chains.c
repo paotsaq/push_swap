@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/14 19:19:24 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/15 17:31:06 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,13 @@ void chain_manager(array *stack)
 	int elem;
 
 	rotation = -1;
-	chain.count = 0;
-	chain.largest_size = 0;
-	chain.largest_active = NULL;
+	chain.really_largest_active = NULL;
+	chain.really_largest_size = 0;
 	while (++rotation < stack->count)
 	{
+		chain.largest_size = 0;
+		chain.largest_active = NULL;
+		chain.count = 0;
 		iter = -1;
 		while (++iter < stack->count)
 		{
@@ -119,11 +121,16 @@ void chain_manager(array *stack)
 			index = finds_localisation_of_node(&chain, elem);
 			extends_list(&chain, elem, index);
 		}
+		if (chain.largest_size > chain.really_largest_size)
+		{
+			chain.really_largest_size = chain.largest_size;
+			chain.really_largest_active = chain.largest_active;
+		}
 		rotate(stack);
 	}
 	printf("longest sequence is: \n");
 	iter = -1;
-	while (++iter < chain.largest_size)
-		printf("%d ", chain.largest_active[iter]);
-	printf("\n");
+	while (++iter < chain.really_largest_size)
+		printf("%d ", chain.really_largest_active[iter]);
+	printf("\n%d elements long\n", chain.really_largest_size);
 }

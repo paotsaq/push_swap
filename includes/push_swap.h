@@ -22,6 +22,8 @@ typedef struct chains {
 	int	sizes[500];
 	int	*largest_active;
 	int	largest_size;
+	int	*really_largest_active;
+	int	really_largest_size;
 	int	count;
 }				chains;
 

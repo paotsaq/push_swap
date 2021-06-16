@@ -12,22 +12,19 @@
 
 #include "../includes/push_swap.h"
 
-int		element_is_in_lis(array *stack, int elem, int top, int bottom)
+int	element_is_in_lis(array *stack, int elem, int first, int last)
 {
 	int half;
 
-	half = (bottom - top) / 2;
-	if (top == bottom)
-	{
-		if (stack->lis_array[top] == elem)
-			return 1;
-		else
-			return 0;
-	}
-	else if (stack->lis_array[half] > elem)
-		return element_is_in_lis(stack, elem, top, half);
+	half = (last - first) / 2;
+	if (first > last)
+		return (0);
+	else if (stack->lis_array[half] < elem)
+		return element_is_in_lis(stack, elem, half + 1, last);
+	else if (stack->lis_array[half] == elem)
+		return (1);
 	else
-		return element_is_in_lis(stack, elem, half, bottom);
+		return element_is_in_lis(stack, elem, first, half - 1);
 }
 
 

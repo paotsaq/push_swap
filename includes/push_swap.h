@@ -5,6 +5,7 @@
 #include "../libft/libft.h"
 
 typedef struct array {
+	char	identity;
 	int		*stack;
 	int		count;
 	int		size;
@@ -13,6 +14,8 @@ typedef struct array {
 	int		lis_size;
 	int		lis_rotations;
 	int		*lis_array;
+	int		start_of_lis_range;
+	int		end_of_lis_range;
 }				array;
 
 typedef struct chains {

@@ -6,16 +6,20 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/05/31 10:58:32 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/16 19:41:09 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	do_operations(array *stack_a, array *stack_b, char *buffer)
+void	do_operations(array *stack, char *buffer)
 {
-	if (ft_strcmp(buffer, "sa") == 0)
-		swap(stack_a);
+	if (ft_strcmp(buffer, "s") == 0)
+	{
+		if (stack_a->identity == 'a')
+			swap(stack_a);
+		else
+
 	else if (ft_strcmp(buffer, "sb") == 0)
 		swap(stack_b);
 	else if (ft_strcmp(buffer, "ss") == 0)

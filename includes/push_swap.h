@@ -10,10 +10,9 @@ typedef struct array {
 	int		size;
 	int		max;
 	int		min;
-	char	*pot_seq_buf;
-	char	*largest_seq_buf;
-	int		start_of_largest_chain;
-	int		largest_chain_size;
+	int		lis_size;
+	int		lis_rotations;
+	int		*lis_array;
 }				array;
 
 typedef struct chains {
@@ -47,6 +46,6 @@ int		run_checks(array *array);
 void 	chain_manager(array *stack);
 
 /* algorithm */
-void	algo(array *stack_a, array *stack_b);
+void	new_algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);

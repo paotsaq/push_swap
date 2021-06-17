@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/16 06:47:01 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/17 07:21:10 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void chain_manager(array *stack)
 		}
 		if (chain.largest_size > stack->lis_size)
 		{
-			stack->lis_array = chain.largest_active;
+			stack->lis = chain.largest_active;
 			stack->lis_size = chain.largest_size;
 			stack->lis_rotations = rotation;
 		}
@@ -132,6 +132,6 @@ void chain_manager(array *stack)
 	printf("longest sequence is: \n");
 	iter = -1;
 	while (++iter < stack->lis_size)
-		printf("%d ", stack->lis_array[iter]);
+		printf("%d ", stack->lis[iter]);
 	printf("\n%d elements long\n", stack->lis_size);
 }

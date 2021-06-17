@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/16 19:39:13 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/17 08:01:00 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ int		main(int argc, char **argv)
 		stack_a->stack = begg_stack_a;
 		stack_b->count = 0;
 		stack_a->identity = 'a';
-		stack_a->identity = 'b';
+		stack_a->sorted = 0;
+		stack_b->sorted = 0;
+		stack_b->identity = 'b';
 		stack_b->count = 0;
 		stack_a->size = argc - 1;
 		stack_b->size = argc - 1;

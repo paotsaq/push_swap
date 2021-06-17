@@ -11,11 +11,13 @@ typedef struct array {
 	int		size;
 	int		max;
 	int		min;
+	int		*lis;
 	int		lis_size;
 	int		lis_rotations;
-	int		*lis_array;
+	int		current_range;
 	int		start_of_lis_range;
 	int		end_of_lis_range;
+	int		sorted;
 }				array;
 
 typedef struct chains {

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 02:55:24 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 08:14:31 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	extends_list(chains *chain, int elem, int index)
 	size_and_largest_sequence(chain, index, size);
 }
 
-void	find_lis(array *stack)
+void	find_lis(array *stack, int candidates)
 {
 	chains chain;
 	int	rotation;
@@ -99,7 +99,12 @@ void	find_lis(array *stack)
 	int iter;
 	int elem;
 	int lis_index;
+	int	*source;
 
+	if (candidates)
+		source = stack->lis_candidates;
+	else
+		source = stack->stack;
 	lis_index = stack->sequences.count;
 	rotation = -1;
 	chain.really_largest_active = NULL;
@@ -112,7 +117,7 @@ void	find_lis(array *stack)
 		iter = -1;
 		while (++iter < stack->count)
 		{
-			elem = stack->stack[iter];
+			elem = source[iter];
 			index = finds_localisation_of_node(&chain, elem);
 			extends_list(&chain, elem, index);
 		}
@@ -121,12 +126,15 @@ void	find_lis(array *stack)
 			stack->sequences.lis[stack->sequences.count] = chain.largest_active;
 			stack->sequences.sizes[stack->sequences.count] = chain.largest_size;
 			stack->sequences.rotations[stack->sequences.count] = rotation;
+			stack->sequences.count++;
 		}
 		rotate(stack);
 	}
 }
 
-/* this function is disgustingly bad. please rework it, future alexandre */
+/* it should get all the candidates that are not present in the previous made LIS
+ * TODO this function is disgustingly bad. it's inefficient. maybe some hash tables?
+ * please rework it, future alexandre */
 void	get_lis_candidates(array *stack)
 {
 	int lis_iter;
@@ -138,7 +146,7 @@ void	get_lis_candidates(array *stack)
 	candidates_index = -1;
 	array_iter = -1;
 	found = 0;
-	lis_index = stack->sequences.count;
+	lis_index = stack->sequences.count - 1;
 	while (++array_iter < stack->count)
 	{
 		lis_iter = -1;

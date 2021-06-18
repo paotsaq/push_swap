@@ -53,12 +53,6 @@ void	visualizer(array *stack_a, array *stack_b);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
 
-/* chains */
-int		run_checks(array *array);
-void	find_lis(array *stack);
-int		element_is_in_lis(array *stack, int elem);
-void	get_lis_candidates(array *stack);
-
 /* algorithm */
 void	new_algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
@@ -66,9 +60,12 @@ int		is_sorted(array *stack);
 void	push_garbage_to_opp_stack(array *stack, array *other_stack);
 
 /* lis */
+void	find_lis(array *stack, int candidates);
+void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	update_lis_interval(array *stack);
 void	print_lis(array *stack);
+int     element_is_in_lis(array *stack, int elem, int next);
 
 /* visualization */
 void	prints_array(int *array, int size);

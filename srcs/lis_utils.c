@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 02:54:55 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 08:40:17 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ static int	element_is_in_lis_binary(array *stack, int elem, int first, int last)
 		return element_is_in_lis(stack, elem, first, half - 1);
 } */
 
-int		element_is_in_lis(array *stack, int elem)
+/* next signifies a trigger to consider the LIS built after
+ * the current one */
+int		element_is_in_lis(array *stack, int elem, int next)
 {
 	int	iter;
 	int lis_index;
 
-	lis_index = stack->sequences.count;
+	lis_index = stack->sequences.count - 1;
+	if (!next)
+		lis_index -= 1;
 	iter = -1;
 	while (++iter < stack->count)
 		if (stack->sequences.lis[lis_index][iter] == elem)
@@ -82,7 +86,7 @@ void	print_lis(array *stack)
 
 	printf("longest sequence is: \n");
 	iter = -1;
-	while (++iter < stack->sequences.sizes[stack->sequences.count])
-		printf("%d ", stack->sequences.lis[stack->sequences.count][iter]);
-	printf("\n%d elements long\n", stack->sequences.sizes[stack->sequences.count]);
+	while (++iter < stack->sequences.sizes[stack->sequences.count - 1])
+		printf("%d ", stack->sequences.lis[stack->sequences.count - 1][iter]);
+	printf("\n%d elements long\n", stack->sequences.sizes[stack->sequences.count - 1]);
 }

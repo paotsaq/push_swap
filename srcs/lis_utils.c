@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 02:51:12 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 02:54:55 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,3 @@ void	print_lis(array *stack)
 		printf("%d ", stack->sequences.lis[stack->sequences.count][iter]);
 	printf("\n%d elements long\n", stack->sequences.sizes[stack->sequences.count]);
 }
-

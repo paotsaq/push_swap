@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 02:43:03 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 02:55:24 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	find_lis(array *stack)
 			stack->sequences.lis[stack->sequences.count] = chain.largest_active;
 			stack->sequences.sizes[stack->sequences.count] = chain.largest_size;
 			stack->sequences.rotations[stack->sequences.count] = rotation;
-			stack->sequences.count++;
 		}
 		rotate(stack);
 	}

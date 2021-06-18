@@ -64,7 +64,7 @@ void	find_lis(array *stack, int candidates);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	update_lis_interval(array *stack);
-void	print_lis(array *stack);
+void	print_lis(array *stack, int which);
 int     element_is_in_lis(array *stack, int elem, int next);
 
 /* visualization */

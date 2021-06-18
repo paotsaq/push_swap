@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 08:14:31 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 10:26:52 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,29 @@ void	find_lis(array *stack, int candidates)
 	int elem;
 	int lis_index;
 	int	*source;
+	int	number_of_elems;
 
 	if (candidates)
+	{
 		source = stack->lis_candidates;
+		number_of_elems = stack->lis_candidates_size;
+	}
 	else
+	{
 		source = stack->stack;
+		number_of_elems = stack->count;
+	}
 	lis_index = stack->sequences.count;
 	rotation = -1;
 	chain.really_largest_active = NULL;
 	chain.really_largest_size = 0;
-	while (++rotation < stack->count)
+	while (++rotation < number_of_elems)
 	{
 		chain.largest_size = 0;
 		chain.largest_active = NULL;
 		chain.count = 0;
 		iter = -1;
-		while (++iter < stack->count)
+		while (++iter < number_of_elems)
 		{
 			elem = source[iter];
 			index = finds_localisation_of_node(&chain, elem);
@@ -159,6 +166,5 @@ void	get_lis_candidates(array *stack)
 			stack->lis_candidates[++candidates_index] = stack->stack[array_iter];
 		found = 0;
 	}
-	stack->lis_candidates_size = candidates_index;
-	prints_array(stack->lis_candidates, candidates_index);
+	stack->lis_candidates_size = candidates_index + 1;
 }

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 08:40:17 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 10:03:28 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,14 @@ void	update_lis_interval(array *stack)
 	}
 }
 
-void	print_lis(array *stack)
+/* which is an index */
+void	print_lis(array *stack, int which)
 {
 	int iter;
 
 	printf("longest sequence is: \n");
 	iter = -1;
-	while (++iter < stack->sequences.sizes[stack->sequences.count - 1])
-		printf("%d ", stack->sequences.lis[stack->sequences.count - 1][iter]);
-	printf("\n%d elements long\n", stack->sequences.sizes[stack->sequences.count - 1]);
+	while (++iter < stack->sequences.sizes[which])
+		printf("%d ", stack->sequences.lis[which][iter]);
+	printf("\n%d elements long\n", stack->sequences.sizes[which]);
 }

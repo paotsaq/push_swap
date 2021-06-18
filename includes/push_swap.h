@@ -4,16 +4,23 @@
 #include <unistd.h>
 #include "../libft/libft.h"
 
+typedef struct lis {
+	int		*lis[500];
+	int		sizes[500];
+	int		rotations[500];
+	int		count;
+}				lis;
+
 typedef struct array {
 	char	identity;
 	int		*stack;
+	lis		sequences;
+	int		lis_candidates[500];
+	int		lis_candidates_size;
 	int		count;
 	int		size;
 	int		max;
 	int		min;
-	int		*lis;
-	int		lis_size;
-	int		lis_rotations;
 	int		current_range;
 	int		start_of_lis_range;
 	int		end_of_lis_range;
@@ -48,9 +55,20 @@ void 	real_simple_sort(int *array, int size);
 
 /* chains */
 int		run_checks(array *array);
-void 	chain_manager(array *stack);
+void	find_lis(array *stack);
+int		element_is_in_lis(array *stack, int elem);
+void	get_lis_candidates(array *stack);
 
 /* algorithm */
 void	new_algo(array *stack_a, array *stack_b);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
+void	push_garbage_to_opp_stack(array *stack, array *other_stack);
+
+/* lis */
+void	update_lis_with_elem(array *stack, int elem);
+void	update_lis_interval(array *stack);
+void	print_lis(array *stack);
+
+/* visualization */
+void	prints_array(int *array, int size);

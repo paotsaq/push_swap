@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/16 18:08:46 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/17 20:46:35 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #define A_STACK "%2d    \n"
 #define B_STACK "    %2d\n"
 #define STACKS  "%2d   %2d\n"
+
+void	prints_array(int *array, int size)
+{
+	int i;
+
+	printf("content of the array is: \n");
+	i = -1;
+	while (++i < size)
+		printf("%d ", array[i]);
+}
 
 void	visualizer(array *stack_a, array *stack_b)
 {

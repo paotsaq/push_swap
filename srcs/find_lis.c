@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_lists_chains.c                              :+:      :+:    :+:   */
+/*   find_lis.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/17 07:21:10 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/18 02:43:03 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	copies_new_largest_list(int *old_list, int *new_list, int size)
 			new_list[i] = old_list[i];
 }
 
-int	find_index_by_size(chains *chain, int size)
+int		find_index_by_size(chains *chain, int size)
 {
 	int res;
 
@@ -71,8 +71,6 @@ void	extends_list(chains *chain, int elem, int index)
 	int size;
 	int copy_from;
 
-	/* the element is bigger than all tails;
-	 * thus, append to clone of largest active list */
 	if (index == chain->count)
 	{
 		list = chain->largest_active;
@@ -80,11 +78,6 @@ void	extends_list(chains *chain, int elem, int index)
 		new_list = chain->heads[chain->count];
 		chain->count += 1;
 	}
-	/* this will not be a maximum list so find index of list (deprc list)
-	 * whose end element is bigger than current elem;
-	 * then, clone and extend the list whose size is
-	 * one unit less than the deprc list with elem,
-	 * and overwrite deprc list */
 	else
 	{
 		new_list = chain->heads[index];
@@ -98,14 +91,16 @@ void	extends_list(chains *chain, int elem, int index)
 	size_and_largest_sequence(chain, index, size);
 }
 
-void chain_manager(array *stack)
+void	find_lis(array *stack)
 {
 	chains chain;
 	int	rotation;
 	int index;
 	int iter;
 	int elem;
+	int lis_index;
 
+	lis_index = stack->sequences.count;
 	rotation = -1;
 	chain.really_largest_active = NULL;
 	chain.really_largest_size = 0;
@@ -121,17 +116,42 @@ void chain_manager(array *stack)
 			index = finds_localisation_of_node(&chain, elem);
 			extends_list(&chain, elem, index);
 		}
-		if (chain.largest_size > stack->lis_size)
+		if (chain.largest_size > stack->sequences.sizes[lis_index])
 		{
-			stack->lis = chain.largest_active;
-			stack->lis_size = chain.largest_size;
-			stack->lis_rotations = rotation;
+			stack->sequences.lis[stack->sequences.count] = chain.largest_active;
+			stack->sequences.sizes[stack->sequences.count] = chain.largest_size;
+			stack->sequences.rotations[stack->sequences.count] = rotation;
+			stack->sequences.count++;
 		}
 		rotate(stack);
 	}
-	printf("longest sequence is: \n");
-	iter = -1;
-	while (++iter < stack->lis_size)
-		printf("%d ", stack->lis[iter]);
-	printf("\n%d elements long\n", stack->lis_size);
+}
+
+/* this function is disgustingly bad. please rework it, future alexandre */
+void	get_lis_candidates(array *stack)
+{
+	int lis_iter;
+	int array_iter;
+	int candidates_index;
+	int found;
+	int	lis_index;
+
+	candidates_index = -1;
+	array_iter = -1;
+	found = 0;
+	lis_index = stack->sequences.count;
+	while (++array_iter < stack->count)
+	{
+		lis_iter = -1;
+		while (!found && ++lis_iter < stack->sequences.sizes[lis_index])
+		{
+			if (stack->sequences.lis[lis_index][lis_iter] == stack->stack[array_iter])
+				found = 1;
+		}
+		if (!found)
+			stack->lis_candidates[++candidates_index] = stack->stack[array_iter];
+		found = 0;
+	}
+	stack->lis_candidates_size = candidates_index;
+	prints_array(stack->lis_candidates, candidates_index);
 }

@@ -8,6 +8,7 @@ typedef struct lis {
 	int		*lis[500];
 	int		sizes[500];
 	int		rotations[500];
+	int		passed[500];
 	int		count;
 }				lis;
 
@@ -63,9 +64,9 @@ void	push_garbage_to_opp_stack(array *stack, array *other_stack);
 void	find_lis(array *stack, int candidates);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
-void	update_lis_interval(array *stack);
 void	print_lis(array *stack, int which);
 int     element_is_in_lis(array *stack, int elem, int next);
+void	update_lis_interval(array *stack, int initialize);
 
 /* visualization */
 void	prints_array(int *array, int size);

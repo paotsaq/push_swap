@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 10:03:28 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/19 15:01:09 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ int		element_is_in_lis(array *stack, int elem, int next)
 	int	iter;
 	int lis_index;
 
+	next += 1;
 	lis_index = stack->sequences.count - 1;
-	if (!next)
-		lis_index -= 1;
 	iter = -1;
-	while (++iter < stack->count)
+	while (++iter < stack->sequences.sizes[lis_index])
 		if (stack->sequences.lis[lis_index][iter] == elem)
 			return (1);
 	return (0);
@@ -51,9 +50,9 @@ void	update_lis_with_elem(array *stack, int elem)
 	int iter;
 	int lis_index;
 
-	lis_index = stack->sequences.count;
+	lis_index = stack->sequences.count - 1;
 	stop = stack->current_range;
-	iter = stack->sequences.sizes[lis_index] + 1;
+	iter = stack->sequences.sizes[lis_index] + 2;
 	while (--iter != stop)
 		stack->sequences.lis[lis_index][iter] = stack->sequences.lis[lis_index][iter - 1];
 	stack->sequences.lis[lis_index][stop] = elem;
@@ -68,11 +67,24 @@ void	update_lis_with_elem(array *stack, int elem)
  *
  * eg: 1 6 3 10 has LIS of 1 3 10; but 6 can be swapped with 3,
  * thus increasing the sequence*/
-void	update_lis_interval(array *stack)
+void	update_lis_interval(array *stack, int initialize)
 {
 	int lis_index;
+	int iter;
+	int size;
 
-	lis_index = stack->sequences.count;
+	lis_index = stack->sequences.count - 1;
+	if (initialize)
+	{
+		iter = 0;
+		while (!element_is_in_lis(stack, stack->stack[iter], 0))
+			iter++;
+		stack->current_range = 0;
+		while (stack->sequences.lis[lis_index][stack->current_range]
+			   	!= stack->stack[iter])
+			stack->current_range++;
+	}
+	size = stack->sequences.sizes[lis_index];
 	if (stack->sequences.sizes[lis_index] > 1)
 	{
 		stack->start_of_lis_range = stack->sequences.lis[lis_index][stack->current_range];

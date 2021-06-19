@@ -6,31 +6,35 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 10:29:29 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/19 18:37:40 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+/*
+	get_lis_candidates(stack);
+	prints_array(stack->lis_candidates, stack->lis_candidates_size);
+	find_lis(stack, 1);
+	print_lis(stack, 1);
+*/
 
 void	push_garbage_to_opp_stack(array *stack, array *other_stack)
 {
 	int iter_stack;
 	int elem;
 
-	get_lis_candidates(stack);
-	prints_array(stack->lis_candidates, stack->lis_candidates_size);
-	find_lis(stack, 1);
-	print_lis(stack, 1);
-	stack->current_range = 0;
-	update_lis_interval(stack);
+	find_lis(stack, 0);
+	print_lis(stack, 0);
+	stack->current_range = -1;
+	update_lis_interval(stack, 1);
 	iter_stack = -1;
-	while (!stack->sorted && iter_stack++ < stack->count)
+	while (!stack->sorted && stack->count != stack->sequences.sizes[stack->sequences.count -1])
 	{
 		elem = stack->stack[0];
 		if (element_is_in_lis(stack, elem, 0))
 		{
 			do_operations(stack, other_stack, "r");
-			update_lis_interval(stack);
+			update_lis_interval(stack, 0);
 		}
 		else
 		{
@@ -58,18 +62,17 @@ void	push_garbage_to_opp_stack(array *stack, array *other_stack)
 		}
 		iter_stack = -1;
 	}
-	/* this should be the recursion base step
-	 * if not the main stack, keep pushing to the other one */
-	if (stack->sorted)
-		while(stack->sequences.lis[stack->sequences.count][0] != stack->stack[0])
+	if (stack->count == stack->sequences.sizes[stack->sequences.count - 1])
+	{
+		while(stack->sequences.lis[stack->sequences.count - 1][0] != stack->stack[0])
 			do_operations(stack, other_stack, "r");
+		printf("ENDGAME 🍄");
+	}
 	else
 		push_garbage_to_opp_stack(other_stack, stack);
 }
 
 void	new_algo(array *stack_a, array *stack_b)
 {
-	find_lis(stack_a, 0);
-	print_lis(stack_a, 0);
 	push_garbage_to_opp_stack(stack_a, stack_b);
 }

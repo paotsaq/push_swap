@@ -12,11 +12,11 @@
 
 #include "../includes/push_swap.h"
 
-void	do_operations(array *stack_a, array *stack_b, char *buffer)
+void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 {
 	if (ft_strcmp(buffer, "s") == 0)
 	{
-		if (stack_a->identity % 2 == 0)
+		if (parity % 2 == 0)
 			swap(stack_a);
 		else
 			swap(stack_b);
@@ -25,14 +25,14 @@ void	do_operations(array *stack_a, array *stack_b, char *buffer)
 		swap_both(stack_a, stack_b);
 	else if (ft_strcmp(buffer, "p") == 0)
 	{
-		if (stack_a->identity % 2 == 0)
+		if (parity % 2 == 0)
 			push(stack_a, stack_b);
 		else
 			push(stack_b, stack_a);
 	}
 	else if (ft_strcmp(buffer, "r") == 0)
 	{
-		if (stack_a->identity % 2 == 0)
+		if (parity % 2 == 0)
 			rotate(stack_a);
 		else
 			rotate(stack_b);
@@ -41,7 +41,7 @@ void	do_operations(array *stack_a, array *stack_b, char *buffer)
 		rotate_both(stack_a, stack_b);
 	else if (ft_strcmp(buffer, "revr") == 0)
 	{
-		if (stack_a->identity % 2 == 0)
+		if (parity % 2 == 0)
 			reverse_rotate(stack_a);
 		else
 			reverse_rotate(stack_b);

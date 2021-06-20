@@ -46,6 +46,7 @@ typedef struct chains {
 }				chains;
 
 int		main(int argc, char **argv);
+/* stack operations */
 void	rotate(array *stack);
 void	rotate_both(array *stack_a, array *stack_b);
 void	reverse_rotate(array *stack);
@@ -55,16 +56,17 @@ void	swap(array *stack);
 void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
 void	do_operations(array *stack_a, array *stack_b, char *buffer);
-void	algo(array *stack_a, array *stack_b);
-void	visualizer(array *stack_a, array *stack_b);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
 
 /* algorithm */
-void	algorithm(list_of_arrays *arrays);
+void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
 void	push_garbage_to_opp_stack(array *stack);
+
+/* array of arrays */
+void	initializes_array(list_of_arrays *arrays, int size);
 
 /* lis */
 void	find_lis(array *stack, int use_candidates);
@@ -76,3 +78,4 @@ void	update_lis_interval(array *stack, int initialize);
 
 /* visualization */
 void	prints_array(int *array, int size);
+void	visualizer(array *stack_a, array *stack_b);

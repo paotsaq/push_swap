@@ -88,7 +88,7 @@ int		main(int argc, char **argv)
 		return (0);
 	initializes_array(&arrays, 500);
 	if (parsing_of_input(argv, &arrays) != -1)
-		algorithm(&arrays);
+		break_into_lis_algorithm(&arrays);
 	else
 		printf("I should free some stuff\n");
 	return (0);

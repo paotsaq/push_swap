@@ -12,7 +12,7 @@
 
 #include "../includes/push_swap.h"
 
-void	operate_the_stack_strategically(array *stack, array *other_stack)
+void	operate_the_stack_strategically(array *stack, array *other_stack, int elem)
 {
 	/* LIS can be extended with a swap, in place.
 	 * Needs further implementation (there are more conditions that
@@ -43,17 +43,18 @@ void	operate_the_stack_strategically(array *stack, array *other_stack)
 
 static void	end_of_stack_conditions(list_of_arrays arrays, array *stack)
 {
-	if (stack->count == stack->sequences.sizes[stack->sequences.count - 1])
+	if (stack->count == stack->lis_size)
 	{
-		while(stack->sequences.lis[stack->sequences.count - 1][0] != stack->stack[0])
+		/* rotate until the head of the lis is on top */
+		while(stack->lis[0] != stack->stack[0])
 			do_operations(stack, other_stack, "r");
 		printf("ENDGAME 🍄");
 	}
 	else
-		push_garbage_to_opp_stack(arrays, stack);
+		break_into_lis_algorithm(&arrays);
 }
 
-void	algorithm(list_of_arrays arrays)
+void		break_into_lis_algorithm(list_of_arrays *arrays)
 {
 	int iter_stack;
 	int elem;
@@ -61,22 +62,22 @@ void	algorithm(list_of_arrays arrays)
 	array *other_stack;
 
 	iter_stack = -1;
-			find_lis(stack, 0);
-			print_lis(stack, 0);
+	this_stack = &arrays->arrays[arrays->count - 2];
+	other_stack = &arrays->arrays[arrays->count - 1];
 	initializes_array(arrays, 500);
-	this_stack = arrays->arrays[arrays->count - 2];
-	other_stack = arrays->arrays[arrays->count - 1];
-	while (!this_stack->sorted && this_stack->count != this_stack->lis_size_stack->sequences.count - 1)
+	find_lis(this_stack, 0);
+	print_lis(this_stack, 0);
+	while (!this_stack->sorted && this_stack->count != this_stack->lis_size)
 	{
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
-			/* how to handle this other stack? */
+			/* should this be reverse rotate? */
 			do_operations(arrays, "r");
-			update_lis_interval(stack, 0);
+			update_lis_interval(this_stack, 0);
 		}
 		else
-			operate_the_stack_strategically(stack, other_stack);
+			operate_the_stack_strategically(this_stack, other_stack, elem);
 		/* this can be worked upon? */
 		iter_stack = -1;
 	}

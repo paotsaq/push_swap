@@ -30,7 +30,7 @@ static int	element_is_in_lis_binary(array *stack, int elem, int first, int last)
 
 /* next signifies a trigger to consider the LIS built after
  * the current one */
-int		element_is_in_lis(array *stack, int elem, int next)
+int	element_is_in_lis(array *stack, int elem, int next)
 {
 	int	iter;
 

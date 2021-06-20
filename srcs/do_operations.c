@@ -14,39 +14,26 @@
 
 void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 {
+	array *main_stack;
+	array *other_stack;
+
+	parity += 1;
+	main_stack = &arrays->arrays[(arrays->count - 1) % parity];
+	other_stack = &arrays->arrays[(arrays->count - 2) % parity];
+
 	if (ft_strcmp(buffer, "s") == 0)
-	{
-		if (parity % 2 == 0)
-			swap(stack_a);
-		else
-			swap(stack_b);
-	}
+		swap(main_stack);
 	else if (ft_strcmp(buffer, "ss") == 0)
-		swap_both(stack_a, stack_b);
+		swap_both(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "p") == 0)
-	{
-		if (parity % 2 == 0)
-			push(stack_a, stack_b);
-		else
-			push(stack_b, stack_a);
-	}
+			push(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "r") == 0)
-	{
-		if (parity % 2 == 0)
-			rotate(stack_a);
-		else
-			rotate(stack_b);
-	}
+			rotate(main_stack);
 	else if (ft_strcmp(buffer, "rr") == 0)
-		rotate_both(stack_a, stack_b);
+		rotate_both(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "revr") == 0)
-	{
-		if (parity % 2 == 0)
-			reverse_rotate(stack_a);
-		else
-			reverse_rotate(stack_b);
-	}
+			reverse_rotate(main_stack);
 	else if (ft_strcmp(buffer, "rrr") == 0)
-		reverse_rotate_both(stack_a, stack_b);
-	visualizer(stack_a, stack_b);
+		reverse_rotate_both(main_stack, other_stack);
+	visualizer(main_stack, other_stack);
 }

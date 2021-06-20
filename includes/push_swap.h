@@ -13,7 +13,7 @@ typedef struct lis {
 
 typedef struct array {
 	int		identity;
-	int		*stack;
+	int		stack[500];
 	int		lis[500];
 	int		lis_size;
 	int		rotations;
@@ -55,7 +55,7 @@ void	reverse_both(array *stack_a, array *stack_b);
 void	swap(array *stack);
 void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
-void	do_operations(array *stack_a, array *stack_b, char *buffer);
+void	do_operations(list_of_arrays *arrays, char *buffer, int parity);
 int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
 
@@ -64,6 +64,7 @@ void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
 void	push_garbage_to_opp_stack(array *stack);
+void	operate_the_stack_strategically(list_of_arrays *arrays, int elem);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);

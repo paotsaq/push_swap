@@ -131,7 +131,7 @@ void	find_lis(array *stack, int use_candidates)
 		if (chain.largest_size > stack->lis_size)
 		{
 			/* duplicate on memory */
-			stack->lis = chain.largest_active;
+			ft_memcpy(stack->lis, chain.largest_active, 4 * chain.largest_size);
 			stack->lis_size = chain.largest_size;
 			stack->rotations = rotation;
 		}

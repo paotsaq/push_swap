@@ -38,45 +38,22 @@ static int	is_duplicate(int *stack, int len, char *string)
 	return (0);
 }
 
-/* is this still useful? */
-void	max_and_min_values(array *stack)
-{
-	int max;
-	int min;
-
-	if (stack->stack)
-	{
-		max = min = *(stack->stack)++;
-		while (stack->stack)
-		{
-			if (max < *(stack->stack))
-				max = *(stack->stack);
-			else if (min > *(stack->stack))
-				min = *(stack->stack);
-			stack->stack++;
-		}
-		stack->min = min;
-		stack->max = max;
-	}
-}
-
 static int	parsing_of_input(char **argv, list_of_arrays *arrays)
 {
-	int *begg_stack;
+	int i;
 	array *stack;
 
 	stack = &arrays->arrays[0];
-	begg_stack = stack->stack;
 	stack->count = -1;
+	i = -1;
 	while (*++argv)
-		if (ft_content_is_int(*argv) && !is_duplicate(begg_stack, stack->count++, *argv))
-			*(stack->stack)++ = atoi(*argv);
+		if (ft_content_is_int(*argv) && !is_duplicate(stack->stack, stack->count++, *argv))
+			stack->stack[++i] = atoi(*argv);
 		else
 		{
 			printf("erro muito chato\nnão te esqueças de implementar frees!");
 			return (-1);
 		}
-	stack->stack = begg_stack;
 	return (1);
 }
 
@@ -86,6 +63,7 @@ int		main(int argc, char **argv)
 
 	if (argc == 1)
 		return (0);
+	arrays.count = 0;
 	initializes_array(&arrays, 500);
 	if (parsing_of_input(argv, &arrays) != -1)
 		break_into_lis_algorithm(&arrays);

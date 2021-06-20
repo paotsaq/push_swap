@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/19 15:01:09 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/20 16:38:06 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	print_lis(array *stack, int which)
 
 	printf("longest sequence is: \n");
 	iter = -1;
-	while (++iter < stack->sequences.sizes[which])
-		printf("%d ", stack->sequences.lis[which][iter]);
-	printf("\n%d elements long\n", stack->sequences.sizes[which]);
+	while (++iter < stack->lis_size)
+		printf("%d ", stack->lis[iter]);
+	printf("\n%d elements long\n", stack->lis_size);
 }

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/17 07:22:49 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/20 07:18:19 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	do_operations(array *stack_a, array *stack_b, char *buffer)
 {
 	if (ft_strcmp(buffer, "s") == 0)
 	{
-		if (stack_a->identity == 'a')
+		if (stack_a->identity % 2 == 0)
 			swap(stack_a);
 		else
 			swap(stack_b);
@@ -25,14 +25,14 @@ void	do_operations(array *stack_a, array *stack_b, char *buffer)
 		swap_both(stack_a, stack_b);
 	else if (ft_strcmp(buffer, "p") == 0)
 	{
-		if (stack_a->identity == 'a')
+		if (stack_a->identity % 2 == 0)
 			push(stack_a, stack_b);
 		else
 			push(stack_b, stack_a);
 	}
 	else if (ft_strcmp(buffer, "r") == 0)
 	{
-		if (stack_a->identity == 'a')
+		if (stack_a->identity % 2 == 0)
 			rotate(stack_a);
 		else
 			rotate(stack_b);
@@ -41,7 +41,7 @@ void	do_operations(array *stack_a, array *stack_b, char *buffer)
 		rotate_both(stack_a, stack_b);
 	else if (ft_strcmp(buffer, "revr") == 0)
 	{
-		if (stack_a->identity == 'a')
+		if (stack_a->identity % 2 == 0)
 			reverse_rotate(stack_a);
 		else
 			reverse_rotate(stack_b);

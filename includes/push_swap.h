@@ -8,14 +8,15 @@ typedef struct lis {
 	int		*lis[500];
 	int		sizes[500];
 	int		rotations[500];
-	int		passed[500];
 	int		count;
 }				lis;
 
 typedef struct array {
-	char	identity;
+	int		identity;
 	int		*stack;
-	lis		sequences;
+	int		lis[500];
+	int		lis_size;
+	int		rotations;
 	int		lis_candidates[500];
 	int		lis_candidates_size;
 	int		count;
@@ -27,6 +28,11 @@ typedef struct array {
 	int		end_of_lis_range;
 	int		sorted;
 }				array;
+
+typedef struct list_of_arrays {
+	struct array arrays[10];
+	int	count;
+}				list_of_arrays;
 
 typedef struct chains {
 	int	heads[500][500];
@@ -55,13 +61,13 @@ int		find_median(array *array);
 void 	real_simple_sort(int *array, int size);
 
 /* algorithm */
-void	new_algo(array *stack_a, array *stack_b);
+void	algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
-void	push_garbage_to_opp_stack(array *stack, array *other_stack);
+void	push_garbage_to_opp_stack(array *stack);
 
 /* lis */
-void	find_lis(array *stack, int candidates);
+void	find_lis(array *stack, int use_candidates);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	print_lis(array *stack, int which);

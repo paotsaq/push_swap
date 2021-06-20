@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 10:26:52 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/20 16:27:16 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,19 @@ void	extends_list(chains *chain, int elem, int index)
 	size_and_largest_sequence(chain, index, size);
 }
 
-void	find_lis(array *stack, int candidates)
+/* this can be taken care of using one big aux function to initialize
+ * values */
+void	find_lis(array *stack, int use_candidates)
 {
 	chains chain;
 	int	rotation;
 	int index;
 	int iter;
 	int elem;
-	int lis_index;
 	int	*source;
 	int	number_of_elems;
 
-	if (candidates)
+	if (use_candidates)
 	{
 		source = stack->lis_candidates;
 		number_of_elems = stack->lis_candidates_size;
@@ -112,7 +113,6 @@ void	find_lis(array *stack, int candidates)
 		source = stack->stack;
 		number_of_elems = stack->count;
 	}
-	lis_index = stack->sequences.count;
 	rotation = -1;
 	chain.really_largest_active = NULL;
 	chain.really_largest_size = 0;
@@ -128,15 +128,15 @@ void	find_lis(array *stack, int candidates)
 			index = finds_localisation_of_node(&chain, elem);
 			extends_list(&chain, elem, index);
 		}
-		if (chain.largest_size > stack->sequences.sizes[lis_index])
+		if (chain.largest_size > stack->lis_size)
 		{
-			stack->sequences.lis[stack->sequences.count] = chain.largest_active;
-			stack->sequences.sizes[stack->sequences.count] = chain.largest_size;
-			stack->sequences.rotations[stack->sequences.count] = rotation;
-			stack->sequences.count++;
+			stack->lis = chain.largest_active;
+			stack->lis_size = chain.largest_size;
+			stack->rotations = rotation;
 		}
 		rotate(stack);
 	}
+	update_lis_interval(stack, 1);
 }
 
 /* it should get all the candidates that are not present in the previous made LIS

@@ -33,13 +33,11 @@ static int	element_is_in_lis_binary(array *stack, int elem, int first, int last)
 int		element_is_in_lis(array *stack, int elem, int next)
 {
 	int	iter;
-	int lis_index;
 
 	next += 1;
-	lis_index = stack->sequences.count - 1;
 	iter = -1;
-	while (++iter < stack->sequences.sizes[lis_index])
-		if (stack->sequences.lis[lis_index][iter] == elem)
+	while (++iter < stack->lis_size)
+		if (stack->lis[iter] == elem)
 			return (1);
 	return (0);
 }
@@ -48,16 +46,14 @@ void	update_lis_with_elem(array *stack, int elem)
 {
 	int stop;
 	int iter;
-	int lis_index;
 
-	lis_index = stack->sequences.count - 1;
 	stop = stack->current_range;
-	iter = stack->sequences.sizes[lis_index] + 2;
+	iter = stack->lis_size + 2;
 	while (--iter != stop)
-		stack->sequences.lis[lis_index][iter] = stack->sequences.lis[lis_index][iter - 1];
-	stack->sequences.lis[lis_index][stop] = elem;
-	stack->sequences.sizes[lis_index]++;
-	if (stack->sequences.sizes[lis_index] == stack->count)
+		stack->lis[iter] = stack->lis[iter - 1];
+	stack->lis[stop] = elem;
+	stack->lis_size++;
+	if (stack->lis_size == stack->count)
 		stack->sorted = 1;
 }
 
@@ -69,31 +65,28 @@ void	update_lis_with_elem(array *stack, int elem)
  * thus increasing the sequence*/
 void	update_lis_interval(array *stack, int initialize)
 {
-	int lis_index;
 	int iter;
 	int size;
 
-	lis_index = stack->sequences.count - 1;
 	if (initialize)
 	{
 		iter = 0;
 		while (!element_is_in_lis(stack, stack->stack[iter], 0))
 			iter++;
 		stack->current_range = 0;
-		while (stack->sequences.lis[lis_index][stack->current_range]
-			   	!= stack->stack[iter])
+		while (stack->lis[stack->current_range] != stack->stack[iter])
 			stack->current_range++;
 	}
-	size = stack->sequences.sizes[lis_index];
-	if (stack->sequences.sizes[lis_index] > 1)
+	size = stack->lis_size;
+	if (stack->lis_size > 1)
 	{
-		stack->start_of_lis_range = stack->sequences.lis[lis_index][stack->current_range];
-		stack->end_of_lis_range = stack->sequences.lis[lis_index][++stack->current_range];
+		stack->start_of_lis_range = stack->lis[stack->current_range];
+		stack->end_of_lis_range = stack->lis[++stack->current_range];
 	}
 }
 
 /* which is an index */
-void	print_lis(array *stack, int which)
+void	print_lis(array *stack)
 {
 	int iter;
 

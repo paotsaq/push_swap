@@ -50,7 +50,7 @@ void	copies_new_largest_list(int *old_list, int *new_list, int size)
 			new_list[i] = old_list[i];
 }
 
-int		find_index_by_size(chains *chain, int size)
+int	find_index_by_size(chains *chain, int size)
 {
 	int res;
 
@@ -130,6 +130,7 @@ void	find_lis(array *stack, int use_candidates)
 		}
 		if (chain.largest_size > stack->lis_size)
 		{
+			/* duplicate on memory */
 			stack->lis = chain.largest_active;
 			stack->lis_size = chain.largest_size;
 			stack->rotations = rotation;
@@ -148,18 +149,16 @@ void	get_lis_candidates(array *stack)
 	int array_iter;
 	int candidates_index;
 	int found;
-	int	lis_index;
 
 	candidates_index = -1;
 	array_iter = -1;
 	found = 0;
-	lis_index = stack->sequences.count - 1;
 	while (++array_iter < stack->count)
 	{
 		lis_iter = -1;
-		while (!found && ++lis_iter < stack->sequences.sizes[lis_index])
+		while (!found && ++lis_iter < stack->lis_size)
 		{
-			if (stack->sequences.lis[lis_index][lis_iter] == stack->stack[array_iter])
+			if (stack->lis[lis_iter] == stack->stack[array_iter])
 				found = 1;
 		}
 		if (!found)

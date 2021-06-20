@@ -70,7 +70,7 @@ void	push_garbage_to_opp_stack(array *stack);
 void	find_lis(array *stack, int use_candidates);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
-void	print_lis(array *stack, int which);
+void	print_lis(array *stack);
 int     element_is_in_lis(array *stack, int elem, int next);
 void	update_lis_interval(array *stack, int initialize);
 

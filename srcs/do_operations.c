@@ -17,9 +17,8 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 	array *main_stack;
 	array *other_stack;
 
-	parity += 1;
-	main_stack = &arrays->arrays[(arrays->count - 1) % parity];
-	other_stack = &arrays->arrays[(arrays->count - 2) % parity];
+	main_stack = &arrays->arrays[arrays->count - 2 + parity];
+	other_stack = &arrays->arrays[arrays->count - 1 + parity];
 
 	if (ft_strcmp(buffer, "s") == 0)
 		swap(main_stack);

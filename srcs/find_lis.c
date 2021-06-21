@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/20 16:27:16 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/21 08:16:57 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void	find_lis(array *stack, int use_candidates)
 		}
 		if (chain.largest_size > stack->lis_size)
 		{
-			/* duplicate on memory */
 			ft_memcpy(stack->lis, chain.largest_active, 4 * chain.largest_size);
 			stack->lis_size = chain.largest_size;
 			stack->rotations = rotation;

@@ -6,20 +6,32 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/20 07:18:19 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/21 07:30:40 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+static	void initialize_stacks(list_of_arrays *arrays, array **main, array **other, int parity)
+{
+	if (!parity)
+	{
+		*main = &arrays->arrays[arrays->count - 2];
+		*other = &arrays->arrays[arrays->count - 1];
+	}
+	else
+	{
+		*other = &arrays->arrays[arrays->count - 2];
+		*main = &arrays->arrays[arrays->count - 1];
+	}
+}
 
 void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 {
 	array *main_stack;
 	array *other_stack;
 
-	main_stack = &arrays->arrays[arrays->count - 2 + parity];
-	other_stack = &arrays->arrays[arrays->count - 1 + parity];
-
+	initialize_stacks(arrays, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		swap(main_stack);
 	else if (ft_strcmp(buffer, "ss") == 0)

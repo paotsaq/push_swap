@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/20 16:35:33 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/21 08:20:42 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	parsing_of_input(char **argv, list_of_arrays *arrays)
 	array *stack;
 
 	stack = &arrays->arrays[0];
-	stack->count = -1;
+	stack->count = 0;
 	i = -1;
 	while (*++argv)
 		if (ft_content_is_int(*argv) && !is_duplicate(stack->stack, stack->count++, *argv))

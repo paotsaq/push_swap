@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/20 16:38:06 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/22 07:43:38 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	update_lis_with_elem(array *stack, int elem)
 	int stop;
 	int iter;
 
-	stop = stack->current_range;
+	iter = 0;
+	while (stack->lis[iter] < elem && iter < stack->lis_size)
+		iter++;
+	stop = iter;
 	iter = stack->lis_size + 2;
 	while (--iter != stop)
 		stack->lis[iter] = stack->lis[iter - 1];

@@ -30,7 +30,7 @@ typedef struct array {
 }				array;
 
 typedef struct list_of_arrays {
-	struct array arrays[10];
+	struct array arrays[50];
 	int	count;
 }				list_of_arrays;
 

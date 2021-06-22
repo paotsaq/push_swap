@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/21 07:41:29 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/22 09:20:07 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@ void	operate_the_stack_strategically(list_of_arrays *arrays, int elem)
 	array *stack;
 	array *other_stack;
 
-	stack = &arrays->arrays[arrays->count - 1];
-	other_stack = &arrays->arrays[arrays->count - 2];
+	/* change stack index back to 1 and 2 */
+	stack = &arrays->arrays[arrays->count - 2];
+	other_stack = &arrays->arrays[arrays->count - 3];
 	/* LIS can be extended with a swap, in place.
 	 * Needs further implementation (there are more conditions that
 	 * benefit from swapping) */
-	if (stack->stack[1] == stack->start_of_lis_range
+	if ((stack->stack[1] == stack->start_of_lis_range
 		&& stack->stack[0] > stack->start_of_lis_range
-		&& stack->stack[0] < stack->end_of_lis_range)
+		&& stack->stack[0] < stack->end_of_lis_range) ||
+		(stack->size >= 2 && stack->stack[1] == stack->lis[stack->lis_size - 1]
+		&& stack->stack[0] > stack->stack[1]))
 	{
 		do_operations(arrays, "s", 0);
 		update_lis_with_elem(stack, elem);
@@ -58,10 +61,16 @@ static void	merge_with_previous_lis(list_of_arrays *arrays)
 	other_stack = &arrays->arrays[arrays->count - 2];
 	while (stack->count != 0)
 	{
-		while (stack->stack[0] > other_stack->stack[0])
+		/* probably decide whether to rotate or reverse rotate!! */
+		if ((stack->stack[0] > other_stack->stack[other_stack->count - 1]
+			&& stack->stack[0] < other_stack->stack[0]) ||
+			(other_stack->stack[0] == other_stack->lis[0]
+			&& stack->stack[0] < other_stack->stack[0]) ||
+			(other_stack->stack[other_stack->count - 1] == other_stack->lis[other_stack->lis_size - 1]
+			&& stack->stack[0] > other_stack->stack[other_stack-> count - 1]))
+				do_operations(arrays, "p", 1);
+		else
 			do_operations(arrays, "r", 0);
-		do_operations(arrays, "p", 1);
-		do_operations(arrays, "r", 0);
 	}
 }
 
@@ -72,14 +81,14 @@ static void	end_of_stack_conditions(list_of_arrays *arrays)
 
 	stack = &arrays->arrays[arrays->count - 2];
 	other_stack = &arrays->arrays[arrays->count - 1];
-	if (stack->count == stack->lis_size)
+	/*if (stack->count == stack->lis_size)
 	{
-		/* rotate until the head of the lis is on top
-		 * but this is highly inefficient */
+		 rotate until the head of the lis is on top
+		 * but this is highly inefficient
 		while(stack->lis[0] != stack->stack[0])
 			do_operations(arrays, "r", 0);
 		printf("stack->stack[0] = %d; stack->lis[0] = %d\n", stack->stack[0], stack->lis[0]);
-	}
+	}*/
 	if (other_stack->count != 0)
 		break_into_lis_algorithm(arrays);
 	if (stack->identity != 0)
@@ -113,8 +122,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		}
 		else
 			operate_the_stack_strategically(arrays, elem);
-		/* this can be worked upon? */
-		iter_stack = -1;
 	}
 	end_of_stack_conditions(arrays);
 }

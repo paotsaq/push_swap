@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/18 10:05:55 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/23 04:37:43 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	visualizer(array *stack_a, array *stack_b)
 	int min_stack;
 	static int count;
 
-	system("clear");
+	/*system("clear"); */
 	max_stack = ft_max(2, stack_a->count, stack_b->count);
 	min_stack = ft_min(2, stack_a->count, stack_b->count);
 	i = max_stack + 1;

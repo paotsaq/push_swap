@@ -11,11 +11,10 @@ libft.a:
 	mv ./libft/libft.a ./libft.a
 
 $(NAME): libft.a
-	gcc $(CFLAGS) -I $(HDRS) -L. -l ft $(SRCS)
+	gcc $(CFLAGS) -I $(HDRS) -L. -l ft $(SRCS) -o push_swap
 
 clean:
-	make clean -C ./libft
-	rm -rf ft_*.o
+	rm ./push_swap
 
 fclean: clean
 	make fclean -C ./libft
@@ -24,4 +23,5 @@ fclean: clean
 	rm -f $(NAME)
 	rm -rf ./__.SYMDEF\ SORTED
 
-re: fclean all
+re: clean all
+

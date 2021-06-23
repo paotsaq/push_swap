@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/21 08:16:57 by apinto           ###   ########.fr       */
+/*   Updated: 2021/06/23 08:19:41 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	copies_new_largest_list(int *old_list, int *new_list, int size)
 			new_list[i] = old_list[i];
 }
 
-int	find_index_by_size(chains *chain, int size)
+int		find_index_by_size(chains *chain, int size)
 {
 	int res;
 
@@ -91,9 +91,19 @@ void	extends_list(chains *chain, int elem, int index)
 	size_and_largest_sequence(chain, index, size);
 }
 
-/* this can be taken care of using one big aux function to initialize
- * values */
-void	find_lis(array *stack, int use_candidates)
+void	initializes_lis_variables(array *stack, int first)
+{
+	chain.largest_size = 0;
+	chain.largest_active = NULL;
+	chain.count = 0;
+	if (first)
+	{
+		chain.really_largest_active = NULL;
+		chain.really_largest_size = 0;
+	}
+}
+
+void	find_lis(array *stack)
 {
 	chains chain;
 	int	rotation;
@@ -103,24 +113,12 @@ void	find_lis(array *stack, int use_candidates)
 	int	*source;
 	int	number_of_elems;
 
-	if (use_candidates)
-	{
-		source = stack->lis_candidates;
-		number_of_elems = stack->lis_candidates_size;
-	}
-	else
-	{
-		source = stack->stack;
-		number_of_elems = stack->count;
-	}
+	source = stack->stack;
+	number_of_elems = stack->count;
 	rotation = -1;
-	chain.really_largest_active = NULL;
-	chain.really_largest_size = 0;
+	initializes_lis_variables(stack, 1);
 	while (++rotation < number_of_elems)
 	{
-		chain.largest_size = 0;
-		chain.largest_active = NULL;
-		chain.count = 0;
 		iter = -1;
 		while (++iter < number_of_elems)
 		{
@@ -135,34 +133,7 @@ void	find_lis(array *stack, int use_candidates)
 			stack->rotations = rotation;
 		}
 		rotate(stack);
+		initializes_lis_variables(stack, 0);
 	}
 	update_lis_interval(stack, 1);
-}
-
-/* it should get all the candidates that are not present in the previous made LIS
- * TODO this function is disgustingly bad. it's inefficient. maybe some hash tables?
- * please rework it, future alexandre */
-void	get_lis_candidates(array *stack)
-{
-	int lis_iter;
-	int array_iter;
-	int candidates_index;
-	int found;
-
-	candidates_index = -1;
-	array_iter = -1;
-	found = 0;
-	while (++array_iter < stack->count)
-	{
-		lis_iter = -1;
-		while (!found && ++lis_iter < stack->lis_size)
-		{
-			if (stack->lis[lis_iter] == stack->stack[array_iter])
-				found = 1;
-		}
-		if (!found)
-			stack->lis_candidates[++candidates_index] = stack->stack[array_iter];
-		found = 0;
-	}
-	stack->lis_candidates_size = candidates_index + 1;
 }

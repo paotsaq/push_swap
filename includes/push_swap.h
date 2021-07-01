@@ -64,13 +64,12 @@ void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		is_sorted(array *stack);
 void	push_garbage_to_opp_stack(array *stack);
-void	operate_the_stack_strategically(list_of_arrays *arrays, int elem);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);
 
 /* lis */
-void	find_lis(array *stack, int use_candidates);
+void	find_lis(array *stack);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	print_lis(array *stack);

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/23 08:19:41 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/01 15:25:36 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,15 @@ void	extends_list(chains *chain, int elem, int index)
 	size_and_largest_sequence(chain, index, size);
 }
 
-void	initializes_lis_variables(array *stack, int first)
+static void	initializes_chain(chains *chain, int first)
 {
-	chain.largest_size = 0;
-	chain.largest_active = NULL;
-	chain.count = 0;
+	chain->largest_size = 0;
+	chain->largest_active = NULL;
+	chain->count = 0;
 	if (first)
 	{
-		chain.really_largest_active = NULL;
-		chain.really_largest_size = 0;
+		chain->really_largest_active = NULL;
+		chain->really_largest_size = 0;
 	}
 }
 
@@ -116,7 +116,7 @@ void	find_lis(array *stack)
 	source = stack->stack;
 	number_of_elems = stack->count;
 	rotation = -1;
-	initializes_lis_variables(stack, 1);
+	initializes_chain(&chain, 1);
 	while (++rotation < number_of_elems)
 	{
 		iter = -1;
@@ -133,7 +133,7 @@ void	find_lis(array *stack)
 			stack->rotations = rotation;
 		}
 		rotate(stack);
-		initializes_lis_variables(stack, 0);
+		initializes_chain(&chain, 0);
 	}
 	update_lis_interval(stack, 1);
 }

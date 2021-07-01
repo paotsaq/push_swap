@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/22 07:43:38 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/01 18:21:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,15 @@ void	print_lis(array *stack)
 	while (++iter < stack->lis_size)
 		printf("%d ", stack->lis[iter]);
 	printf("\n%d elements long\n", stack->lis_size);
+}
+
+int		is_sorted(array *stack)
+{
+	int iter;
+
+	iter = -1;
+	while(++iter < stack->count - 2)
+		if (stack->stack[iter] > stack->stack[iter + 1])
+			return (0);
+	return (1);
 }

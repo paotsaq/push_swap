@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/02 05:13:50 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/02 08:35:46 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 	circled = stack->lis_circled;
 	/* LIS can be extended with a swap, in place. */
 	if ((next == start && head > start && ((head < end && !circled) || (head > end && circled))) ||
-		(stack->size >= 2 && next == stack->lis[stack->lis_size - 1] && head > next))
+		(stack->size >= 2 && next == stack->lis[stack->lis_size - 1] && head > next) ||
+		(head == end && next < head && next > start))
 	{
 		do_operations(arrays, "s", 0);
 		update_lis_with_elem(stack, elem);
@@ -85,6 +86,8 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
+			if (this_stack->stack[1] < elem && this_stack->stack[1] > this_stack->start_of_lis_range)
+				operate_the_stack_strategically(arrays, this_stack->stack[1], median);
 			if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)

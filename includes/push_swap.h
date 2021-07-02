@@ -17,8 +17,7 @@ typedef struct array {
 	int		lis[500];
 	int		lis_size;
 	int		rotations;
-	int		lis_candidates[500];
-	int		lis_candidates_size;
+	int		orientation;
 	int		count;
 	int		size;
 	int		max;
@@ -26,6 +25,8 @@ typedef struct array {
 	int		current_range;
 	int		start_of_lis_range;
 	int		end_of_lis_range;
+	int		lis_circled;
+	int		pending_lis;
 	int		sorted;
 }				array;
 
@@ -62,7 +63,7 @@ void 	real_simple_sort(int *array, int size);
 /* algorithm */
 void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
-int		is_sorted(array *stack);
+int		stack_is_sorted(array *stack);
 void	push_garbage_to_opp_stack(array *stack);
 
 /* array of arrays */

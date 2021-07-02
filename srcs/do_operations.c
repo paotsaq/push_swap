@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/01 18:22:18 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/02 04:39:32 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "rrr") == 0)
 		reverse_rotate_both(main_stack, other_stack);
 	print_operations(arrays, buffer, parity);
-	// visualizer(&arrays->arrays[arrays->count - 2], &arrays->arrays[arrays->count - 1]);
+	visualizer(&arrays->arrays[arrays->count - 2], &arrays->arrays[arrays->count - 1]);
 }

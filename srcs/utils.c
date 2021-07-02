@@ -1,12 +1,12 @@
 
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pre_sort.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/01 15:49:46 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/02 04:25:52 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,38 @@ void real_simple_sort(int *array, int size)
 
 int	find_median(array *array)
 {
-	int copy[array->count];
+	int copy[array->size];
 	int i;
 
 	i = -1;
-	while(++i < array->count)
+	while(++i < array->size)
 		copy[i] = array->stack[i];
-	real_simple_sort(copy, array->count);
-	return copy[(int)array->count / 2];
+	real_simple_sort(copy, array->size);
+	return copy[(int)array->size / 2];
+}
+
+int	stack_is_sorted(array *stack)
+{
+	int iter;
+	int orientation;
+
+	iter = -1;
+	orientation = -1;
+	while (++iter < stack->count - 1)
+		if (stack->stack[iter] > stack->stack[iter + 1])
+		{
+			iter = stack->count;
+			while (--iter > 1)
+				if (stack->stack[iter] > stack->stack[iter - 1])
+					return (0);
+			if (iter == 1 && stack->stack[iter] < stack->stack[iter -1])
+			{
+				stack->orientation = 1;
+				return (1);
+			}
+			else
+				return (0);
+		}
+	stack->orientation = 0;
+	return (1);
 }

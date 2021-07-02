@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/01 15:26:11 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/02 04:51:54 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	initializes_array(list_of_arrays *arrays, int size)
 	stack->sorted = 0;
 	stack->current_range = -1;
 	stack->size = size;
+	stack->orientation = 0;
+	stack->pending_lis = 0;
 	arrays->count += 1;
 }
 

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/02 08:35:46 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/03 07:52:22 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,40 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 		do_operations(arrays, "r", 1);
 		other_stack->pending_lis++;
 	}
+	/* if lis_shoved, check if element */
+	else if (lis_shoved && head > start && head < end)
+	{
+		do_operations(arrays, "r", 1);
+		other_stack->pending_lis++;
+	}
 	else if (elem < median)
 		do_operations(arrays, "r", 0);
 	else
 		do_operations(arrays, "p", 0);
+}
+
+/* ⚠️  should assume end_of_list is head of stack
+ * checks whether there are eligible elements for CURRENT stack
+ * after end_of_stack; if so, return 1, to promote shoving of end_of_stack */
+static int look_ahead_of_lis(list_of_arrays *arrays)
+{
+	array *this_stack;
+	array *other_stack;
+	int *current_elem;
+
+	this_stack = &arrays->arrays[arrays->count - 2];
+	other_stack = &arrays->arrays[arrays->count - 1];
+	current_elem = this_stack->stack[0];
+
+	while(*current_elem != this_stack->stack[(this_stack->current_range + 1) % this_stack->lis_size])
+		if (*current_elem > this_stack->start_of_lis_range && *current_elem <  this_stack->end_of_lis_range)
+		{
+			this_stack->lis_shoved = 1;
+			return (1);
+		}
+		else
+			current_elem = (current_elem + 1) % this_stack->count;
+	return (0);
 }
 
 static void push_pending_lis(list_of_arrays *arrays)
@@ -86,6 +116,12 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
+			if (look_ahead_of_lis(arrays) && lis_shoved)
+			{
+				do_operations(arrays, "p", 0);
+				do_operations(arrays, "revr", 1);
+				continue;
+			}
 			if (this_stack->stack[1] < elem && this_stack->stack[1] > this_stack->start_of_lis_range)
 				operate_the_stack_strategically(arrays, this_stack->stack[1], median);
 			if (other_stack->pending_lis > 0)
@@ -95,6 +131,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				while (other_stack->pending_lis-- != 0)
 					push_pending_lis(arrays);
 			}
+			if (lis_shoved
 			do_operations(arrays, "r", 0);
 			update_lis_interval(this_stack, 0);
 		}

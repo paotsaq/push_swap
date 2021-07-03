@@ -26,6 +26,7 @@ typedef struct array {
 	int		start_of_lis_range;
 	int		end_of_lis_range;
 	int		lis_circled;
+	int		lis_shoved;
 	int		pending_lis;
 	int		sorted;
 }				array;

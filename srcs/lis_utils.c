@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/04 04:18:14 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/04 12:04:56 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,13 @@ void	update_lis_interval(array *stack, int initialize)
 		stack->current_range = 0;
 		while (stack->lis[stack->current_range] != stack->stack[iter])
 			stack->current_range++;
-		if (stack->lis[stack->current_range] == stack->stack[0])
-			stack->current_range--;
+		stack->current_range--;
 	}
 	size = stack->lis_size;
 	if (stack->lis_size > 1)
 	{
-		stack->start_of_lis_range = stack->lis[stack->current_range];
-		stack->end_of_lis_range = stack->lis[++stack->current_range];
+		stack->start_of_lis_range = stack->lis[(stack->current_range + stack->lis_size)% stack->lis_size];
+		stack->end_of_lis_range = stack->lis[(++stack->current_range + stack->lis_size)% stack->lis_size];
 		if (stack->current_range > stack->lis_size - 1)
 		{
 			stack->end_of_lis_range = stack->lis[0];

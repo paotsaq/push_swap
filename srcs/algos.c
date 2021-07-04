@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/04 04:32:11 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/04 12:50:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,13 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
-			/* LIS is consecutive! start looking for next LIS */
+			/* LIS is consecutive! start looking for next LIS 
 			if (elem + 1 == this_stack->lis[this_stack->current_range])
 			{
 				do_operations(arrays, "r", 0);
 				update_lis_interval(this_stack, 0);
 				continue;
-			}
+			}*/
 			/* elementary optimization: LIS can be extended with a swap,
 			 * but LOOK_AHEAD would also be triggered.
 			 * Make look ahead ignore this particular case, where swap is more efficient than pushing?
@@ -172,14 +172,14 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		}
 		else
 			operate_the_stack_strategically(arrays, elem, median);
-		/* ⚠️  unreliable! get eligible elements from the other stack. */
+		/* ⚠️  still unreliable! these must be sorted when 
+		 * getting eligible elements from the other stack. */
 		while(any_in_lis_range(arrays, &elem))
 		{
 			get_elem_from_other_stack(arrays, elem);
-			do_operations(arrays, "r", 1);
+			do_operations(arrays, "r", 0);
 		}
 	}
 	printf("new lis w/ size %d\n", this_stack->lis_size);
 	print_lis(this_stack);
 }
-

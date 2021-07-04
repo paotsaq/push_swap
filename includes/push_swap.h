@@ -77,6 +77,7 @@ void	update_lis_with_elem(array *stack, int elem);
 void	print_lis(array *stack);
 int     element_is_in_lis(array *stack, int elem, int next);
 void	update_lis_interval(array *stack, int initialize);
+int		any_in_lis_range(list_of_arrays *arrays, int *store);
 
 /* visualization */
 void	prints_array(int *array, int size);

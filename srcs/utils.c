@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/02 04:25:52 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/03 20:55:47 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void real_simple_sort(int *array, int size)
 
 int	find_median(array *array)
 {
-	int copy[array->size];
+	int copy[array->count];
 	int i;
 
 	i = -1;
-	while(++i < array->size)
+	while(++i < array->count)
 		copy[i] = array->stack[i];
-	real_simple_sort(copy, array->size);
-	return copy[(int)array->size / 2];
+	real_simple_sort(copy, array->count);
+	return copy[(int)array->count / 2];
 }
 
 int	stack_is_sorted(array *stack)

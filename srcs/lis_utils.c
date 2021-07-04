@@ -6,31 +6,38 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/02 04:30:23 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/04 04:18:14 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-/* binary search
-static int	element_is_in_lis_binary(array *stack, int elem, int first, int last)
+/* find elements in the stack B that fit in the LIS */
+int		any_in_lis_range(list_of_arrays *arrays, int *store)
 {
-	int half;
+	int iter;
+	array *this_stack;
+	array *other_stack;
+	int start;
+	int end;
 
-	half = (last - first) / 2;
-	if (first > last)
-		return (0);
-	else if (stack->lis_array[half] < elem)
-		return element_is_in_lis(stack, elem, half + 1, last);
-	else if (stack->lis_array[half] == elem)
-		return (1);
-	else
-		return element_is_in_lis(stack, elem, first, half - 1);
-} */
+	this_stack = &arrays->arrays[arrays->count - 2];
+	other_stack = &arrays->arrays[arrays->count - 1];
+	start = this_stack->start_of_lis_range;
+	end = this_stack->end_of_lis_range;
+	iter = -1;
+	while (++iter < other_stack->count)
+		if (other_stack->stack[iter] > start && other_stack->stack[iter] < end && !this_stack->lis_circled)
+		{
+			*store = other_stack->stack[iter];
+			return (1);
+		}
+	return (0);
+}
 
 /* next signifies a trigger to consider the LIS built after
  * the current one */
-int	element_is_in_lis(array *stack, int elem, int next)
+int		element_is_in_lis(array *stack, int elem, int next)
 {
 	int	iter;
 
@@ -79,6 +86,8 @@ void	update_lis_interval(array *stack, int initialize)
 		stack->current_range = 0;
 		while (stack->lis[stack->current_range] != stack->stack[iter])
 			stack->current_range++;
+		if (stack->lis[stack->current_range] == stack->stack[0])
+			stack->current_range--;
 	}
 	size = stack->lis_size;
 	if (stack->lis_size > 1)
@@ -88,9 +97,12 @@ void	update_lis_interval(array *stack, int initialize)
 		if (stack->current_range > stack->lis_size - 1)
 		{
 			stack->end_of_lis_range = stack->lis[0];
-			stack->lis_circled = 1;
+			if (!initialize)
+				stack->lis_circled = 1;
 			stack->current_range = 0;
 		}
+		else if (stack->lis_circled)
+			stack->lis_circled = 0;
 	}
 }
 

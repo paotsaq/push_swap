@@ -6,11 +6,28 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/03 07:52:22 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/04 04:32:11 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+
+void	get_elem_from_other_stack(list_of_arrays *arrays, int elem)
+{
+	int amount;
+	array *stack;
+
+	stack = &arrays->arrays[arrays->count - 1];
+	amount = 0;
+	while (stack->stack[0] != elem)
+	{
+		amount++;
+		do_operations(arrays, "r", 1);
+	}
+	do_operations(arrays, "p", 1);
+	while (amount-- != 0)
+		do_operations(arrays, "revr", 1);
+}
 
 static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, int median)
 {
@@ -44,16 +61,18 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 		do_operations(arrays, "r", 1);
 		other_stack->pending_lis++;
 	}
-	/* if lis_shoved, check if element */
-	else if (lis_shoved && head > start && head < end)
+	/* if lis_shoved, get the previous lis element back from the other stack
+	else if (stack->lis_shoved && head > start && head < end)
 	{
 		do_operations(arrays, "r", 1);
-		other_stack->pending_lis++;
+		do_operations(arrays, "p", 1);
 	}
-	else if (elem < median)
+	*/
+	else if (elem > median)
 		do_operations(arrays, "r", 0);
 	else
 		do_operations(arrays, "p", 0);
+	/* this is going to be pushed. check if the next elem is also eligible to be pushed and, if so, whether they should be swapped? */
 }
 
 /* ⚠️  should assume end_of_list is head of stack
@@ -63,20 +82,17 @@ static int look_ahead_of_lis(list_of_arrays *arrays)
 {
 	array *this_stack;
 	array *other_stack;
-	int *current_elem;
+	int iter;
 
 	this_stack = &arrays->arrays[arrays->count - 2];
 	other_stack = &arrays->arrays[arrays->count - 1];
-	current_elem = this_stack->stack[0];
-
-	while(*current_elem != this_stack->stack[(this_stack->current_range + 1) % this_stack->lis_size])
-		if (*current_elem > this_stack->start_of_lis_range && *current_elem <  this_stack->end_of_lis_range)
+	iter = -1;
+	while(this_stack->stack[++iter] != this_stack->lis[(this_stack->current_range + 1) % this_stack->lis_size])
+		if (this_stack->stack[iter] > this_stack->start_of_lis_range && this_stack->stack[iter] < this_stack->end_of_lis_range)
 		{
 			this_stack->lis_shoved = 1;
 			return (1);
 		}
-		else
-			current_elem = (current_elem + 1) % this_stack->count;
 	return (0);
 }
 
@@ -116,14 +132,29 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
-			if (look_ahead_of_lis(arrays) && lis_shoved)
+			/* LIS is consecutive! start looking for next LIS */
+			if (elem + 1 == this_stack->lis[this_stack->current_range])
+			{
+				do_operations(arrays, "r", 0);
+				update_lis_interval(this_stack, 0);
+				continue;
+			}
+			/* elementary optimization: LIS can be extended with a swap,
+			 * but LOOK_AHEAD would also be triggered.
+			 * Make look ahead ignore this particular case, where swap is more efficient than pushing?
+			 * LIS RANGE SHOULD BE UPDATED */
+			if (this_stack->stack[1] < elem && this_stack->stack[1] > this_stack->start_of_lis_range)
+			{
+				operate_the_stack_strategically(arrays, this_stack->stack[1], median);
+				update_lis_interval(this_stack, 0);
+				continue;
+			}
+			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
 				continue;
 			}
-			if (this_stack->stack[1] < elem && this_stack->stack[1] > this_stack->start_of_lis_range)
-				operate_the_stack_strategically(arrays, this_stack->stack[1], median);
 			if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)
@@ -131,14 +162,24 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				while (other_stack->pending_lis-- != 0)
 					push_pending_lis(arrays);
 			}
-			if (lis_shoved
+			if (this_stack->lis_shoved)
+			{
+				do_operations(arrays, "r", 1);
+				do_operations(arrays, "p", 1);
+			}
 			do_operations(arrays, "r", 0);
 			update_lis_interval(this_stack, 0);
 		}
 		else
 			operate_the_stack_strategically(arrays, elem, median);
+		/* ⚠️  unreliable! get eligible elements from the other stack. */
+		while(any_in_lis_range(arrays, &elem))
+		{
+			get_elem_from_other_stack(arrays, elem);
+			do_operations(arrays, "r", 1);
+		}
 	}
-	printf("median is %d\n", median);
 	printf("new lis w/ size %d\n", this_stack->lis_size);
 	print_lis(this_stack);
 }
+

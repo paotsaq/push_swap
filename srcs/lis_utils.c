@@ -6,16 +6,18 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/04 12:04:56 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 07:21:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
+#include <limits.h>
 
 /* find elements in the stack B that fit in the LIS */
 int		any_in_lis_range(list_of_arrays *arrays, int *store)
 {
 	int iter;
+	int min;
 	array *this_stack;
 	array *other_stack;
 	int start;
@@ -26,13 +28,21 @@ int		any_in_lis_range(list_of_arrays *arrays, int *store)
 	start = this_stack->start_of_lis_range;
 	end = this_stack->end_of_lis_range;
 	iter = -1;
+	min = INT_MAX;
 	while (++iter < other_stack->count)
-		if (other_stack->stack[iter] > start && other_stack->stack[iter] < end && !this_stack->lis_circled)
+		if ((other_stack->stack[iter] > start && other_stack->stack[iter] < end && !this_stack->lis_circled) ||
+			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled))
 		{
-			*store = other_stack->stack[iter];
-			return (1);
+			if (other_stack->stack[iter] < min)
+			{
+				min = other_stack->stack[iter];
+				*store = min;
+			}
 		}
-	return (0);
+	if (min != INT_MAX)
+		return (1);
+	else
+		return (0);
 }
 
 /* next signifies a trigger to consider the LIS built after

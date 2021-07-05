@@ -64,7 +64,7 @@ void 	real_simple_sort(int *array, int size);
 /* algorithm */
 void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
-int		stack_is_sorted(array *stack);
+int		stack_is_sorted(array *stack, int median);
 void	push_garbage_to_opp_stack(array *stack);
 
 /* array of arrays */

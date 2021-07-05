@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/03 20:55:47 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 07:45:00 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,20 @@ int	find_median(array *array)
 	return copy[(int)array->count / 2];
 }
 
-int	stack_is_sorted(array *stack)
+int	stack_is_sorted(array *stack, int median)
 {
 	int iter;
 	int orientation;
+	int limit;
 
 	iter = -1;
 	orientation = -1;
-	while (++iter < stack->count - 1)
+	/* this won't fly!!! 🚨 */
+	if (median)
+		limit = median - 1;
+	else
+		limit = stack->count - 1;
+	while (++iter < limit)
 		if (stack->stack[iter] > stack->stack[iter + 1])
 		{
 			iter = stack->count;

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 07:46:37 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 17:22:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 	find_lis(this_stack);
 	print_lis(this_stack);
 	head_of_stack = this_stack->lis[0];
-	median = find_median(this_stack);
+	median = find_median_and_sort_array(arrays);
 	direction = 0;
 	total = this_stack->count;
 	while (!(stack_is_sorted(this_stack, 0) && this_stack->count == total))
@@ -188,7 +188,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			do_operations(arrays, "r", 0);
 			update_lis_interval(this_stack, 0);
 		}
-		if (stack_is_sorted(this_stack, median))
+		if (lis_is_found(arrays, this_stack, median))
 			direction = 1;
 	}
 	printf("new lis w/ size %d\n", this_stack->lis_size);

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 07:45:00 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 17:26:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,19 @@ void real_simple_sort(int *array, int size)
 	}
 }
 
-int	find_median(array *array)
+int	find_median_and_sort_array(list_of_arrays *arrays)
 {
-	int copy[array->count];
+	int *copy;
 	int i;
+	array *this_stack;
 
+	this_stack = &arrays->arrays[arrays->count - 2];
+	copy = arrays->sorted;
 	i = -1;
-	while(++i < array->count)
-		copy[i] = array->stack[i];
-	real_simple_sort(copy, array->count);
-	return copy[(int)array->count / 2];
+	while(++i < this_stack->count)
+		copy[i] = this_stack->stack[i];
+	real_simple_sort(copy, this_stack->count);
+	return copy[(int)this_stack->count / 2];
 }
 
 int	stack_is_sorted(array *stack, int median)
@@ -72,5 +75,17 @@ int	stack_is_sorted(array *stack, int median)
 				return (0);
 		}
 	stack->orientation = 0;
+	return (1);
+}
+
+/* function to determine whether the stack has been sorted until a given limit */
+int	lis_is_found(list_of_arrays *arrays, array *stack, int limit)
+{
+	int iter;
+
+	iter = -1;
+	while(stack->lis[++iter] < limit)
+		if (stack->lis[iter] != arrays->sorted[iter])
+			return (0);
 	return (1);
 }

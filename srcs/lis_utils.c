@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 07:21:26 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 16:43:11 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int		any_in_lis_range(list_of_arrays *arrays, int *store)
 	min = INT_MAX;
 	while (++iter < other_stack->count)
 		if ((other_stack->stack[iter] > start && other_stack->stack[iter] < end && !this_stack->lis_circled) ||
-			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled))
+			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled) || 
+			(other_stack->stack[iter] < start && other_stack->stack[iter] < end && end == this_stack->lis[0] && this_stack->lis_circled))
+
 		{
 			if (other_stack->stack[iter] < min)
 			{

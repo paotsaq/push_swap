@@ -34,6 +34,7 @@ typedef struct array {
 typedef struct list_of_arrays {
 	struct array arrays[50];
 	int	count;
+	int sorted[500];
 }				list_of_arrays;
 
 typedef struct chains {
@@ -58,7 +59,7 @@ void	swap(array *stack);
 void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
 void	do_operations(list_of_arrays *arrays, char *buffer, int parity);
-int		find_median(array *array);
+int		find_median_and_sort_array(list_of_arrays *arrays);
 void 	real_simple_sort(int *array, int size);
 
 /* algorithm */
@@ -78,6 +79,7 @@ void	print_lis(array *stack);
 int     element_is_in_lis(array *stack, int elem, int next);
 void	update_lis_interval(array *stack, int initialize);
 int		any_in_lis_range(list_of_arrays *arrays, int *store);
+int		lis_is_found(list_of_arrays *arrays, array *stack, int limit);
 
 /* visualization */
 void	prints_array(int *array, int size);

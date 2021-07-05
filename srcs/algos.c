@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 17:22:25 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/05 17:48:13 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 
 /* ⚠️  should assume end_of_list is head of stack
  * checks whether there are eligible elements for CURRENT stack
- * after end_of_stack; if so, return 1, to promote shoving of end_of_stack
+ * after end_of_stack; if so, return 1, to promote shoving of end_of_stack */
 static int look_ahead_of_lis(list_of_arrays *arrays)
 {
 	array *this_stack;
@@ -97,7 +97,7 @@ static int look_ahead_of_lis(list_of_arrays *arrays)
 		}
 	return (0);
 }
-*/
+
 static void push_pending_lis(list_of_arrays *arrays)
 {
 	int elem_to_lis;
@@ -155,12 +155,11 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				update_lis_interval(this_stack, 0);
 				continue;
 			}
-			/* this is definitely not working for now ⚠️
-			 * if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
+			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
-			} */
+			} 
 			else if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)
@@ -180,7 +179,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			operate_the_stack_strategically(arrays, elem, median, direction);
 		/* ⚠️  still unreliable! these must be sorted when
 		 * getting eligible elements from the other stack. */
-		printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
+//		printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
 		while(any_in_lis_range(arrays, &elem))
 		{
 			get_elem_from_other_stack(arrays, elem);
@@ -191,6 +190,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		if (lis_is_found(arrays, this_stack, median))
 			direction = 1;
 	}
-	printf("new lis w/ size %d\n", this_stack->lis_size);
+//	printf("new lis w/ size %d\n", this_stack->lis_size);
 	print_lis(this_stack);
 }

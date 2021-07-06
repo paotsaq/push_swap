@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/06 14:57:39 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/06 19:34:23 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,22 @@ void	update_lis_interval(array *stack, int initialize)
 			stack->lis_index++;
 		stack->start_of_lis_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
 		stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
-		if (stack->lis_index == -1)
-			stack->lis_index = stack->lis_size - 1;	
+		if (stack->end_of_lis_range > stack->start_of_lis_range)
+		{	
+			stack->lis_circled = 1;
+			if (stack->lis_index == -1)
+				stack->lis_index = stack->lis_size - 1;	
+		}
 	}
 	else if (stack->lis_size > 1)
 	{
 		stack->lis_index = (stack->lis_index - 1 + stack->lis_size) % stack->lis_size;
 		stack->start_of_lis_range = stack->end_of_lis_range;
-		if (stack->start_of_lis_range == stack->lis[0] && stack->lis_circled)
-		{
+		stack->end_of_lis_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
+		if (stack->start_of_lis_range > stack->end_of_lis_range && stack->lis_circled)
 			stack->lis_circled = 0;
-			stack->lis_index = 0;
-		}
-		if (stack->start_of_lis_range == stack->lis[stack->lis_size - 1])
-		{
-			stack->end_of_lis_range = stack->lis[0];
+		else if (stack->start_of_lis_range < stack->end_of_lis_range && !stack->lis_circled)
 			stack->lis_circled = 1;
-		}
-		else
-			stack->end_of_lis_range = stack->lis[stack->lis_index % stack->lis_size];
 	}
 }
 

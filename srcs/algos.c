@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/06 07:06:53 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/06 07:58:37 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		}
 		else
 			operate_the_stack_strategically(arrays, elem, median, direction);
-		/* ⚠️  still unreliable! these must be sorted when
-		 * getting eligible elements from the other stack. */
   		printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
 		while(any_in_lis_range(arrays, &elem))
 		{

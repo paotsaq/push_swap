@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/01 15:25:36 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/06 14:06:24 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int		find_index_by_size(chains *chain, int size)
 	return res;
 }
 
-/*
- * adds the size to the chain, and triggers deprecated sequences
+/* adds the size to the chain, and triggers deprecated sequences
  * new_list should be statically allocated outside of the chain
  * and then added; this avoids redundant copies of the same list in the chain */
 void	extends_list(chains *chain, int elem, int index)

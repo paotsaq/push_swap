@@ -22,11 +22,11 @@ typedef struct array {
 	int		size;
 	int		max;
 	int		min;
-	int		current_range;
 	int		start_of_lis_range;
 	int		end_of_lis_range;
 	int		lis_circled;
 	int		lis_shoved;
+	int		lis_index;
 	int		pending_lis;
 	int		sorted;
 }				array;

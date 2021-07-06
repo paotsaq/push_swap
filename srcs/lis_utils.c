@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 16:43:11 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/06 07:28:17 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		any_in_lis_range(list_of_arrays *arrays, int *store)
 	min = INT_MAX;
 	while (++iter < other_stack->count)
 		if ((other_stack->stack[iter] > start && other_stack->stack[iter] < end && !this_stack->lis_circled) ||
-			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled) || 
+			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled) ||
 			(other_stack->stack[iter] < start && other_stack->stack[iter] < end && end == this_stack->lis[0] && this_stack->lis_circled))
 
 		{
@@ -80,44 +80,41 @@ void	update_lis_with_elem(array *stack, int elem)
 }
 
 /* will keep track of the two elements in the LIS that accept
- * any number in between; this number will be swapped into the range
- * instead of being pushed to the other side
- *
- * eg: 1 6 3 10 has LIS of 1 3 10; but 6 can be swapped with 3,
- * thus increasing the sequence*/
+ * any number in between */
 void	update_lis_interval(array *stack, int initialize)
 {
 	int iter;
-	int size;
 
 	if (initialize)
 	{
 		iter = 0;
+		/* first element of lis is found */
 		while (!element_is_in_lis(stack, stack->stack[iter], 0))
 			iter++;
-		stack->current_range = 0;
-		while (stack->lis[stack->current_range] != stack->stack[iter])
-			stack->current_range++;
-		stack->current_range--;
+		stack->lis_index = 0;
+		while (stack->lis[stack->lis_index] != stack->stack[iter])
+			stack->lis_index++;
+		stack->start_of_lis_range = stack->lis[--stack->lis_index % stack->lis_size];
+		stack->end_of_lis_range = stack->lis[(stack->lis_index + 1) % stack->lis_size];
 	}
-	size = stack->lis_size;
-	if (stack->lis_size > 1)
+	else if (stack->lis_size > 1)
 	{
-		stack->start_of_lis_range = stack->lis[(stack->current_range + stack->lis_size)% stack->lis_size];
-		stack->end_of_lis_range = stack->lis[(++stack->current_range + stack->lis_size)% stack->lis_size];
-		if (stack->current_range > stack->lis_size - 1)
+		stack->start_of_lis_range = stack->lis[++stack->lis_index % stack->lis_size];
+		if (stack->start_of_lis_range == stack->lis[0] && stack->lis_circled)
+		{
+			stack->lis_circled = 0;
+			stack->lis_index = 0;
+		}
+		if (stack->start_of_lis_range == stack->lis[stack->lis_size - 1])
 		{
 			stack->end_of_lis_range = stack->lis[0];
-			if (!initialize)
-				stack->lis_circled = 1;
-			stack->current_range = 0;
+			stack->lis_circled = 1;
 		}
-		else if (stack->lis_circled)
-			stack->lis_circled = 0;
+		else
+			stack->end_of_lis_range = stack->lis[stack->lis_index + 1 % stack->lis_size];
 	}
 }
 
-/* which is an index */
 void	print_lis(array *stack)
 {
 	int iter;

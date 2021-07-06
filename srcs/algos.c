@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 17:48:13 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/06 07:06:53 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 		do_operations(arrays, "p", 1);
 	}
 	*/
+	/* LIS is consecutive, and there are elements in between! shove everything. */
+	if (stack->end_of_lis_range == stack->start_of_lis_range + 1)
+	{
+		do_operations(arrays, "p", 0);
+		if (elem > median && other_stack->count > 1)
+			do_operations(arrays, "r", 1);
+	}
 	else if (less == 0 && elem >= median)
 		do_operations(arrays, "r", 0);
 	else if (less == 1 && elem < median)
@@ -89,7 +96,7 @@ static int look_ahead_of_lis(list_of_arrays *arrays)
 	this_stack = &arrays->arrays[arrays->count - 2];
 	other_stack = &arrays->arrays[arrays->count - 1];
 	iter = -1;
-	while(this_stack->stack[++iter] != this_stack->lis[(this_stack->current_range + 1) % this_stack->lis_size])
+	while(this_stack->stack[++iter] != this_stack->lis[(this_stack->lis_index + 1) % this_stack->lis_size])
 		if (this_stack->stack[iter] > this_stack->start_of_lis_range && this_stack->stack[iter] < this_stack->end_of_lis_range)
 		{
 			this_stack->lis_shoved = 1;
@@ -138,13 +145,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
-			/* LIS is consecutive! start looking for next LIS
-			if (elem + 1 == this_stack->lis[this_stack->current_range])
-			{
-				do_operations(arrays, "r", 0);
-				update_lis_interval(this_stack, 0);
-				continue;
-			}*/
 			/* elementary optimization: LIS can be extended with a swap,
 			 * but LOOK_AHEAD would also be triggered.
 			 * Make look ahead ignore this particular case, where swap is more efficient than pushing?
@@ -153,13 +153,14 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			{
 				operate_the_stack_strategically(arrays, this_stack->stack[1], median, direction);
 				update_lis_interval(this_stack, 0);
+				printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
 				continue;
 			}
 			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
-			} 
+			}
 			else if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)
@@ -179,7 +180,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			operate_the_stack_strategically(arrays, elem, median, direction);
 		/* ⚠️  still unreliable! these must be sorted when
 		 * getting eligible elements from the other stack. */
-//		printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
+  		printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
 		while(any_in_lis_range(arrays, &elem))
 		{
 			get_elem_from_other_stack(arrays, elem);
@@ -190,6 +191,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		if (lis_is_found(arrays, this_stack, median))
 			direction = 1;
 	}
-//	printf("new lis w/ size %d\n", this_stack->lis_size);
+  	printf("new lis w/ size %d\n", this_stack->lis_size);
 	print_lis(this_stack);
 }

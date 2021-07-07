@@ -36,25 +36,27 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 	int head;
 	int next;
 	int start;
+	int prev;
 	int end;
 	int circled;
 
 	stack = &arrays->arrays[arrays->count - 2];
 	other_stack = &arrays->arrays[arrays->count - 1];
+
 	head = stack->stack[0];
 	next = stack->stack[1];
+	prev = stack->lis[(stack->lis_index + 2 + stack->lis_size) % stack->lis_size];
 	start = stack->start_of_lis_range;
 	end = stack->end_of_lis_range;
 	circled = stack->lis_circled;
-	/* LIS can be extended with a swap, in place.
-	if ((next == start && head > start && ((head < end && !circled) || (head > end && circled))) ||
+	/* LIS can be extended with a swap, in place. */
+	if ((next == start && head > start && ((head < prev && !circled) || (head > prev && circled))) ||
 		(stack->size >= 2 && next == stack->lis[stack->lis_size - 1] && head > next) ||
 		(head == end && next < head && next > start))
 	{
 		do_operations(arrays, "s", 0);
 		update_lis_with_elem(stack, elem);
 	}
-	*/
 	/* current head belongs in the next LIS range; there are also other elements in between */
 	/* if (head > start && ((head < end && !circled) || (head > end && circled)))
 	{

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/06 19:23:50 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/07 03:31:21 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 	start = stack->start_of_lis_range;
 	end = stack->end_of_lis_range;
 	circled = stack->lis_circled;
-	/* LIS can be extended with a swap, in place. 
+	/* LIS can be extended with a swap, in place.
 	if ((next == start && head > start && ((head < end && !circled) || (head > end && circled))) ||
 		(stack->size >= 2 && next == stack->lis[stack->lis_size - 1] && head > next) ||
 		(head == end && next < head && next > start))
@@ -54,7 +54,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 		do_operations(arrays, "s", 0);
 		update_lis_with_elem(stack, elem);
 	}
-	*/ 
+	*/
 	/* current head belongs in the next LIS range; there are also other elements in between */
 	/* if (head > start && ((head < end && !circled) || (head > end && circled)))
 	{
@@ -87,7 +87,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 
 /* ⚠️  should assume end_of_list is head of stack
  * checks whether there are eligible elements for CURRENT stack
- * after end_of_stack; if so, return 1, to promote shoving of end_of_stack 
+ * after end_of_stack; if so, return 1, to promote shoving of end_of_stack
 static int look_ahead_of_lis(list_of_arrays *arrays)
 {
 	array *this_stack;
@@ -175,7 +175,8 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				do_operations(arrays, "p", 1);
 			}
 			do_operations(arrays, "revr", 0);
-			update_lis_interval(this_stack, 0);
+			if (this_stack->end_of_lis_range == this_stack->stack[0])
+				update_lis_interval(this_stack, 0);
 		}
 		else
 			operate_the_stack_strategically(arrays, elem, median, direction);
@@ -184,7 +185,6 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		{
 			get_elem_from_other_stack(arrays, elem);
 			update_lis_with_elem(this_stack, elem);
-			do_operations(arrays, "revr", 0);
 			update_lis_interval(this_stack, 0);
 		}
 		/* if (lis_is_found(arrays, this_stack, median))

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/06 19:34:23 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/07 03:52:41 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int		any_in_lis_range(list_of_arrays *arrays, int *store)
 {
 	int iter;
-	int min;
+	int max;
 	array *this_stack;
 	array *other_stack;
 	int start;
@@ -28,20 +28,20 @@ int		any_in_lis_range(list_of_arrays *arrays, int *store)
 	start = this_stack->start_of_lis_range;
 	end = this_stack->end_of_lis_range;
 	iter = -1;
-	min = INT_MAX;
+	max = INT_MIN;
 	while (++iter < other_stack->count)
 		if ((other_stack->stack[iter] < start && other_stack->stack[iter] > end && !this_stack->lis_circled) ||
-			(other_stack->stack[iter] < start && other_stack->stack[iter] < end && end == this_stack->lis[0] && this_stack->lis_circled) ||
-			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && end == this_stack->lis[0] && this_stack->lis_circled))
+			(other_stack->stack[iter] < start && other_stack->stack[iter] < end && start == this_stack->lis[0] && this_stack->lis_circled) ||
+			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && start == this_stack->lis[0] && this_stack->lis_circled))
 
 		{
-			if (other_stack->stack[iter] < min)
+			if (other_stack->stack[iter] > max)
 			{
-				min = other_stack->stack[iter];
-				*store = min;
+				max = other_stack->stack[iter];
+				*store = max;
 			}
 		}
-	if (min != INT_MAX)
+	if (max != INT_MIN)
 		return (1);
 	else
 		return (0);
@@ -77,6 +77,11 @@ void	update_lis_with_elem(array *stack, int elem)
 	stack->lis_size++;
 	if (elem < stack->lis[stack->lis_index])
 		stack->lis_index++;
+	else if (elem > stack->lis[stack->lis_index] && elem <= stack->lis[stack->lis_index + 1])
+	{
+		stack->lis_index += 1;
+		stack->end_of_lis_range = elem;
+	}
 	if (stack->lis_size == stack->count)
 		stack->sorted = 1;
 }
@@ -99,10 +104,10 @@ void	update_lis_interval(array *stack, int initialize)
 		stack->start_of_lis_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
 		stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
 		if (stack->end_of_lis_range > stack->start_of_lis_range)
-		{	
+		{
 			stack->lis_circled = 1;
 			if (stack->lis_index == -1)
-				stack->lis_index = stack->lis_size - 1;	
+				stack->lis_index = stack->lis_size - 1;
 		}
 	}
 	else if (stack->lis_size > 1)

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/26 07:44:49 by apinto            #+#    #+#             */
-/*   Updated: 2021/06/23 04:37:43 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/07 03:10:28 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	visualizer(array *stack_a, array *stack_b)
 	while (i-- >= 1)
 		printf(STACKS, stack_a->stack[stack_a->count - 1 - i], stack_b->stack[stack_b->count - 1 - i]);
 	printf("------\ncount = %d\n", count++);
+	printf("start: %d | end: %d\n", stack_a->start_of_lis_range, stack_a->end_of_lis_range);
 }

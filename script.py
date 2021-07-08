@@ -19,16 +19,23 @@ def copies_array(comm, i, offset):
 with open("op_test", "r") as file:
     comm = file.read().splitlines()
     i = 0
+    iteration = 0
     print(comm)
     while (i < len(comm)):
         if comm[i] in ['ra', 'rb', 'sa', 'sb', 'rra', 'rrb']:
+            print(f"this is iteration {iteration}")
             start_a = i
+            iteration += 1
             print(f'before counting a: i = {i}')
             racount, i = counts_move(i, comm, comm[i])
             start_b = i
             print(f'after counting a: i = {i}')
             rbcount, i = counts_move(i, comm, opp(comm[start_a]))
             print("racount, rbcount = ", racount, rbcount)
+            if racount != rbcount:
+                offset = abs(rbcount - racount)
+                start_a += offset
+            print(f'starts at {start_a}')
             to_swap = min(racount, rbcount)
             while to_swap > 0:
                 comm[start_a] = comm[start_a][:-1] + comm[start_a][0]
@@ -36,4 +43,5 @@ with open("op_test", "r") as file:
                 to_swap -= 1
             copies_array(comm, start_b, to_swap)
             print(comm)
-        i = start_a
+            i = start_a
+        i += 1

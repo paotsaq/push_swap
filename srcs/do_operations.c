@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/08 14:56:06 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/08 20:35:21 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,16 @@ static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "r") == 0)
 		cell[0] = 'r';
 	else if (ft_strcmp(buffer, "revr") == 0)
-		ft_strlcpy(cell, "rr", 3);
+		ft_strlcpy(cell, "rr", 4);
 	if ((arrays->count + parity) % 2 == 0 && buffer[0] == 'p')
-		cell[1] = 'b';
+		ft_strlcat(&cell[1],"b", 4);
 	else if ((arrays->count + parity) % 2 == 1 && buffer[0] == 'p')
-		cell[1] = 'a';
+		ft_strlcat(&cell[1],"a", 4);
 	else if ((arrays->count + parity) % 2 == 0)
-		cell[1] = 'a';
+		ft_strlcat(&cell[1],"a", 4);
 	else
-		cell[1] = 'b';
+		ft_strlcat(&cell[1],"b", 4);
+	printf("%s\n", cell);
 }
 
 void	do_operations(list_of_arrays *arrays, char *buffer, int parity)

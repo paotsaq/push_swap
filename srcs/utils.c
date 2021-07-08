@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/05 17:26:26 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/08 10:11:48 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ int	stack_is_sorted(array *stack, int median)
 int	lis_is_found(list_of_arrays *arrays, array *stack, int limit)
 {
 	int iter;
+	int lis_iter;
 
-	iter = -1;
-	while(stack->lis[++iter] < limit)
-		if (stack->lis[iter] != arrays->sorted[iter])
+	lis_iter = stack->lis_size;
+	iter = arrays->sorted_size;
+	while(stack->lis[--lis_iter] > limit)
+		if (stack->lis[lis_iter] != arrays->sorted[--iter])
 			return (0);
 	return (1);
 }

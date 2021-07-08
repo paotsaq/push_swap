@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/08 09:29:36 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/08 12:29:09 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 
 /* ⚠️  should assume end_of_list is head of stack
  * checks whether there are eligible elements for CURRENT stack
- * after end_of_stack; if so, return 1, to promote shoving of end_of_stack
-static int look_ahead_of_lis(list_of_arrays *arrays)
+ * after end_of_stack; if so, return 1, to promote shoving of end_of_stack */
+static int look_ahead_of_lis(list_of_arrays *arrays) 
 {
 	array *this_stack;
 	array *other_stack;
@@ -104,7 +104,7 @@ static int look_ahead_of_lis(list_of_arrays *arrays)
 			return (1);
 		}
 	return (0);
-}*/
+}
 
 static void push_pending_lis(list_of_arrays *arrays)
 {
@@ -154,22 +154,11 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				update_lis_with_elem(this_stack, elem);
 				update_lis_interval(this_stack, 0);
 			}
-			/* elementary optimization: LIS can be extended with a swap,
-			 * but LOOK_AHEAD would also be triggered.
-			 * Make look ahead ignore this particular case, where swap is more efficient than pushing?
-			 * LIS RANGE SHOULD BE UPDATED */
-			if (this_stack->stack[1] < elem && this_stack->stack[1] > this_stack->start_of_lis_range)
-			{
-				operate_the_stack_strategically(arrays, this_stack->stack[1], median, direction);
-				update_lis_interval(this_stack, 0);
-				printf("range is: %d - %d\n", this_stack->start_of_lis_range, this_stack->end_of_lis_range);
-				continue;
-			}
-			/*if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
+			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
-			} */
+			} 
 			else if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)
@@ -189,6 +178,4 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		if (lis_is_found(arrays, this_stack, median))
 			direction = 1;
 	}
-  	printf("new lis w/ size %d\n", this_stack->lis_size);
-	print_lis(this_stack);
 }

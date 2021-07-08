@@ -36,6 +36,8 @@ typedef struct list_of_arrays {
 	int	count;
 	int sorted[500];
 	int	sorted_size;
+	char comm[10000][4];
+	int comm_index;
 }				list_of_arrays;
 
 typedef struct chains {

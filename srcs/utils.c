@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/08 10:11:48 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/08 13:21:34 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	find_median_and_sort_array(list_of_arrays *arrays)
 	while(++i < this_stack->count)
 		copy[i] = this_stack->stack[i];
 	real_simple_sort(copy, this_stack->count);
+	arrays->sorted_size = i;
 	return copy[(int)this_stack->count / 2];
 }
 
@@ -86,7 +87,7 @@ int	lis_is_found(list_of_arrays *arrays, array *stack, int limit)
 
 	lis_iter = stack->lis_size;
 	iter = arrays->sorted_size;
-	while(stack->lis[--lis_iter] > limit)
+	while(stack->lis[--lis_iter] >= limit)
 		if (stack->lis[lis_iter] != arrays->sorted[--iter])
 			return (0);
 	return (1);

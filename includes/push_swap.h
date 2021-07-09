@@ -27,6 +27,7 @@ typedef struct array {
 	int		lis_circled;
 	int		lis_shoved;
 	int		lis_index;
+	int		lis_circled_index;
 	int		pending_lis;
 	int		sorted;
 }				array;
@@ -80,7 +81,8 @@ void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	print_lis(array *stack);
 int     element_is_in_lis(array *stack, int elem, int next);
-void	update_lis_interval(array *stack, int initialize);
+void	create_lis_interval(array *stack)
+void	update_lis_interval(array *stack);
 int		any_in_lis_range(list_of_arrays *arrays, int *store);
 int		lis_is_found(list_of_arrays *arrays, array *stack, int limit);
 

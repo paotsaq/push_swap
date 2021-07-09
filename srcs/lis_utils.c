@@ -76,49 +76,73 @@ void	update_lis_with_elem(array *stack, int elem)
 	stack->lis[stop] = elem;
 	stack->lis_size++;
 	if (elem < stack->lis[stack->lis_index])
+	{
 		stack->lis_index++;
+		stack->lis_circled_index++;
+	}
 	else if (elem > stack->lis[stack->lis_index] && elem <= stack->lis[stack->lis_index + 1])
 	{
-		stack->lis_index += 1;
+		stack->lis_index++;
 		stack->end_of_lis_range = elem;
 	}
 	if (stack->lis_size == stack->count)
 		stack->sorted = 1;
 }
 
-/* will keep track of the two elements in the LIS that accept
- * any number in between */
-void	update_lis_interval(array *stack, int initialize)
+void	create_lis_interval(array *stack)
 {
 	int iter;
 
+	iter = 0;
+	/* first element of lis is found */
+	while (!element_is_in_lis(stack, stack->stack[iter], 0))
+		iter++;
+	stack->lis_index = 0;
+	while (stack->lis[stack->lis_index] != stack->stack[iter])
+		stack->lis_index++;
+	stack->lis_circled_index = (stack->lis_index + stack->lis_size) % stack->lis_size;
+	stack->start_of_lis_range = stack->lis[stack->lis_circled_index];
+	stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
+	if (stack->end_of_lis_range > stack->start_of_lis_range)
+	{
+		stack->lis_circled = 1;
+		if (stack->lis_index == -1)
+			stack->lis_index = stack->lis_size - 1;
+	}
+}
+
+/* will keep track of the two elements in the LIS that accept
+ * any number in between */
+void	update_lis_interval(array *stack)
+{
+	int iter;
+	int new_range;
+
 	if (initialize)
 	{
-		iter = 0;
-		/* first element of lis is found */
-		while (!element_is_in_lis(stack, stack->stack[iter], 0))
-			iter++;
-		stack->lis_index = 0;
-		while (stack->lis[stack->lis_index] != stack->stack[iter])
-			stack->lis_index++;
-		stack->start_of_lis_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
-		stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
-		if (stack->end_of_lis_range > stack->start_of_lis_range)
-		{
-			stack->lis_circled = 1;
-			if (stack->lis_index == -1)
-				stack->lis_index = stack->lis_size - 1;
-		}
 	}
 	else if (stack->lis_size > 1)
 	{
+		if (stack->lis_circled)
+		{
+			stack->start_of_lis_range = stack->lis[(--stack->lis_circled_index + stack->lis_size) % stack->lis_size];
+			if (stack->start_of_lis_range == stack->end_of_lis_range)
+
+		}
+		stack->lis_circled_index = stack->lis_index;
 		stack->lis_index = (stack->lis_index - 1 + stack->lis_size) % stack->lis_size;
 		stack->start_of_lis_range = stack->end_of_lis_range;
-		stack->end_of_lis_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
-		if (stack->start_of_lis_range > stack->end_of_lis_range && stack->lis_circled)
+		new_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
+		stack->end_of_lis_range = new_range;
+		if (new_range > stack->start_of_lis_range)
+			stack->lis_circled = 1;
+		else if (stack->start_of_lis_range > stack->end_of_lis_range && stack->lis_circled)
 			stack->lis_circled = 0;
 		else if (stack->start_of_lis_range < stack->end_of_lis_range && !stack->lis_circled)
+		{
 			stack->lis_circled = 1;
+			stack->lis_index++;
+		}
 	}
 }
 
@@ -133,7 +157,7 @@ void	print_lis(array *stack)
 	printf("\n%d elements long\n", stack->lis_size);
 }
 
-int		is_sorted(array *stack)
+int	is_sorted(array *stack)
 {
 	int iter;
 

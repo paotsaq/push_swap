@@ -134,5 +134,5 @@ void	find_lis(array *stack)
 		rotate(stack);
 		initializes_chain(&chain, 0);
 	}
-	update_lis_interval(stack, 1);
+	create_lis_interval(stack);
 }

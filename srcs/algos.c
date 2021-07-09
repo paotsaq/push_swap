@@ -147,12 +147,12 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		if (element_is_in_lis(this_stack, elem, 0))
 		{
 			if (this_stack->end_of_lis_range == this_stack->stack[0])
-				update_lis_interval(this_stack, 0);
+				update_lis_interval(this_stack);
 			while(any_in_lis_range(arrays, &elem))
 			{
 				get_elem_from_other_stack(arrays, elem);
 				update_lis_with_elem(this_stack, elem);
-				update_lis_interval(this_stack, 0);
+				update_lis_interval(this_stack);
 			}
 			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{

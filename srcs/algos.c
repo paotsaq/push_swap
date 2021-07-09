@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/08 12:29:09 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/09 07:49:21 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 /* ⚠️  should assume end_of_list is head of stack
  * checks whether there are eligible elements for CURRENT stack
  * after end_of_stack; if so, return 1, to promote shoving of end_of_stack */
-static int look_ahead_of_lis(list_of_arrays *arrays) 
+static int look_ahead_of_lis(list_of_arrays *arrays)
 {
 	array *this_stack;
 	array *other_stack;
@@ -158,7 +158,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
-			} 
+			}
 			else if (other_stack->pending_lis > 0)
 			{
 				if (other_stack->pending_lis > 1)

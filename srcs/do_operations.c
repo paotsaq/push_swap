@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/08 20:35:21 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/09 07:44:55 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
 		ft_strlcat(&cell[1],"a", 4);
 	else
 		ft_strlcat(&cell[1],"b", 4);
-	printf("%s\n", cell);
 }
 
 void	do_operations(list_of_arrays *arrays, char *buffer, int parity)

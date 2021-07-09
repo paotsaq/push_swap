@@ -61,6 +61,7 @@ int		element_is_in_lis(array *stack, int elem, int next)
 	return (0);
 }
 
+/* 🚨 there's stuff to fix here? I'm not quite sure how this works */ 
 void	update_lis_with_elem(array *stack, int elem)
 {
 	int stop;
@@ -76,15 +77,9 @@ void	update_lis_with_elem(array *stack, int elem)
 	stack->lis[stop] = elem;
 	stack->lis_size++;
 	if (elem < stack->lis[stack->lis_index])
-	{
 		stack->lis_index++;
+	if (elem < stack->lis[stack->lis_circled_index])
 		stack->lis_circled_index++;
-	}
-	else if (elem > stack->lis[stack->lis_index] && elem <= stack->lis[stack->lis_index + 1])
-	{
-		stack->lis_index++;
-		stack->end_of_lis_range = elem;
-	}
 	if (stack->lis_size == stack->count)
 		stack->sorted = 1;
 }
@@ -115,29 +110,28 @@ void	create_lis_interval(array *stack)
  * any number in between */
 void	update_lis_interval(array *stack)
 {
-	int iter;
 	int new_range;
 
-	if (initialize)
+	if (stack->lis_circled)
 	{
-	}
-	else if (stack->lis_size > 1)
-	{
-		if (stack->lis_circled)
+		stack->start_of_lis_range = stack->lis[(--stack->lis_circled_index + stack->lis_size) % stack->lis_size];
+		if (stack->start_of_lis_range == stack->end_of_lis_range)
 		{
-			stack->start_of_lis_range = stack->lis[(--stack->lis_circled_index + stack->lis_size) % stack->lis_size];
-			if (stack->start_of_lis_range == stack->end_of_lis_range)
-
-		}
-		stack->lis_circled_index = stack->lis_index;
-		stack->lis_index = (stack->lis_index - 1 + stack->lis_size) % stack->lis_size;
-		stack->start_of_lis_range = stack->end_of_lis_range;
-		new_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
-		stack->end_of_lis_range = new_range;
-		if (new_range > stack->start_of_lis_range)
-			stack->lis_circled = 1;
-		else if (stack->start_of_lis_range > stack->end_of_lis_range && stack->lis_circled)
+			stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
 			stack->lis_circled = 0;
+		}
+	}
+	else
+	{
+		stack->lis_index = (stack->lis_index - 1 + stack->lis_size) % stack->lis_size;
+		stack->start_of_lis_range = stack->lis[(--stack->lis_circled_index + stack->lis_size) % stack->lis_size];
+		if (stack->start_of_lis_range == stack->end_of_lis_range)
+		{
+			new_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
+			stack->end_of_lis_range = new_range;
+			if (new_range > stack->start_of_lis_range)
+				stack->lis_circled = 1;
+		}
 		else if (stack->start_of_lis_range < stack->end_of_lis_range && !stack->lis_circled)
 		{
 			stack->lis_circled = 1;

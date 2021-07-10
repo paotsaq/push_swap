@@ -22,12 +22,17 @@ typedef struct array {
 	int		size;
 	int		max;
 	int		min;
-	int		start_of_lis_range;
-	int		end_of_lis_range;
+	int		lis_center;
+	int		lis_left;
+	int		lis_right;
+	int		right_circled;
+	int		left_circled;
 	int		lis_circled;
 	int		lis_shoved;
 	int		lis_index;
 	int		lis_circled_index;
+	int		start_of_lis_range;
+	int		end_of_lis_range;
 	int		pending_lis;
 	int		sorted;
 }				array;
@@ -85,6 +90,9 @@ void	create_lis_interval(array *stack);
 void	update_lis_interval(array *stack);
 int	any_in_lis_range(list_of_arrays *arrays, int *store);
 int	lis_is_found(list_of_arrays *arrays, array *stack, int limit);
+void	get_lis_center(array *stack, int index);
+int	element_lis_index(array *stack, int elem, int *lis_elem_index);
+void	get_first_lis_center(array *stack);
 
 /* visualization */
 void	prints_array(int *array, int size);

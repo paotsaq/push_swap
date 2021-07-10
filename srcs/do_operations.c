@@ -26,6 +26,7 @@ static	void initialize_stacks(list_of_arrays *arrays, array **main, array **othe
 	}
 }
 
+/* ✅ works as intended */ 
 static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
 {
 	array *main_stack;
@@ -74,5 +75,4 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "rrr") == 0)
 		reverse_rotate_both(main_stack, other_stack);
 	print_operations(arrays, buffer, parity);
-	visualizer(&arrays->arrays[arrays->count - 2], &arrays->arrays[arrays->count - 1]);
 }

@@ -50,7 +50,7 @@ void	copies_new_largest_list(int *old_list, int *new_list, int size)
 			new_list[i] = old_list[i];
 }
 
-int		find_index_by_size(chains *chain, int size)
+int	find_index_by_size(chains *chain, int size)
 {
 	int res;
 
@@ -106,24 +106,18 @@ void	find_lis(array *stack)
 {
 	chains chain;
 	int	rotation;
-	int index;
-	int iter;
-	int elem;
-	int	*source;
-	int	number_of_elems;
+	int 	index;
+	int 	iter;
 
-	source = stack->stack;
-	number_of_elems = stack->count;
 	rotation = -1;
 	initializes_chain(&chain, 1);
-	while (++rotation < number_of_elems)
+	while (++rotation < stack->count)
 	{
 		iter = -1;
-		while (++iter < number_of_elems)
+		while (++iter < stack->count)
 		{
-			elem = source[iter];
-			index = finds_localisation_of_node(&chain, elem);
-			extends_list(&chain, elem, index);
+			index = finds_localisation_of_node(&chain, stack->stack[iter]);
+			extends_list(&chain, stack->stack[iter], index);
 		}
 		if (chain.largest_size > stack->lis_size)
 		{
@@ -134,5 +128,4 @@ void	find_lis(array *stack)
 		rotate(stack);
 		initializes_chain(&chain, 0);
 	}
-	create_lis_interval(stack);
 }

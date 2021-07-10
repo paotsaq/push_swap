@@ -13,8 +13,20 @@
 #include "../includes/push_swap.h"
 #include <limits.h>
 
+int	element_is_in_lis(array *stack, int elem, int next)
+{
+	int	iter;
+
+	next += 1;
+	iter = -1;
+	while (++iter < stack->lis_size)
+		if (stack->lis[iter] == elem)
+			return (1);
+	return (0);
+}
+
 /* find elements in the stack B that fit in the LIS */
-int		any_in_lis_range(list_of_arrays *arrays, int *store)
+int	any_in_lis_range(list_of_arrays *arrays, int *store)
 {
 	int iter;
 	int max;
@@ -47,17 +59,19 @@ int		any_in_lis_range(list_of_arrays *arrays, int *store)
 		return (0);
 }
 
-/* next signifies a trigger to consider the LIS built after
- * the current one */
-int		element_is_in_lis(array *stack, int elem, int next)
+/* looks for the index of a stack element in a LIS
+ * if found, return 1 and put index on lis_elem_index; else, return -1 */
+int	element_lis_index(array *stack, int elem, int *lis_elem_index)
 {
 	int	iter;
 
-	next += 1;
 	iter = -1;
 	while (++iter < stack->lis_size)
 		if (stack->lis[iter] == elem)
+		{
+			*lis_elem_index = iter;
 			return (1);
+		}
 	return (0);
 }
 
@@ -143,6 +157,39 @@ void	update_lis_interval(array *stack)
 			stack->lis_index++;
 		}
 	}
+}
+
+void	get_first_lis_center(array *stack)
+{
+	int iter;
+	int lis_center;
+	
+	iter = -1;
+	while (++iter < stack->count - 1)
+		if (element_lis_index(stack, stack->stack[iter], &lis_center))
+		{
+		       get_lis_center(stack, lis_center);
+		       return;
+		}
+}
+
+void	get_lis_center(array *stack, int index)
+{
+	stack->lis_center = stack->lis[index];
+	if (index == 0)
+	{
+		stack->lis_left = stack->lis[stack->lis[stack->lis_size - 1]];
+		stack->left_circled = 1;
+	}
+	else
+		stack->lis_left = stack->lis[index - 1];
+	if (index == stack->lis_size - 1)
+	{
+		stack->lis_right = stack->lis[0];
+		stack->right_circled = 1;
+	}
+	else
+		stack->lis_right = stack->lis[index + 1];
 }
 
 void	print_lis(array *stack)

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/09 07:49:21 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/10 09:07:48 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 		do_operations(arrays, "revr", 0);
 	else
 		do_operations(arrays, "p", 0);
-	/* this is going to be pushed. check if the next elem is also eligible to be pushed and, if so, whether they should be swapped? */
 }
 
 /* ⚠️  should assume end_of_list is head of stack
@@ -130,18 +129,16 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 	array *this_stack;
 	array *other_stack;
 	int direction;
-	int total;
 
 	initializes_array(arrays, 500);
 	this_stack = &arrays->arrays[arrays->count - 2];
 	other_stack = &arrays->arrays[arrays->count - 1];
 	find_lis(this_stack);
-	print_lis(this_stack);
+	// print_lis(this_stack);
 	head_of_stack = this_stack->lis[0];
 	median = find_median_and_sort_array(arrays);
 	direction = 0;
-	total = this_stack->count;
-	while (!(stack_is_sorted(this_stack, 0) && this_stack->count == total))
+	while (!(this_stack->sorted && this_stack->count == arrays->sorted_size))
 	{
 		elem = this_stack->stack[0];
 		if (element_is_in_lis(this_stack, elem, 0))

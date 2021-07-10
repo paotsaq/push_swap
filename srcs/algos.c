@@ -60,6 +60,10 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 	else 
 		do_operations(arrays, "p", 0);
 }
+void		print_lis_center(array *stack)
+{
+	printf("left: %d; center: %d; right: %d\n", stack->lis_left, stack->lis_center, stack->lis_right);
+}
 
 void		break_into_lis_algorithm(list_of_arrays *arrays)
 {
@@ -80,6 +84,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 	median = find_median_and_sort_array(arrays);
 	direction = 0;
 	get_first_lis_center(this_stack);
+	print_lis_center(this_stack);
 	while (!(this_stack->sorted && this_stack->count == arrays->sorted_size))
 	{
 		visualizer(&arrays->arrays[arrays->count - 2], &arrays->arrays[arrays->count - 1]);
@@ -87,7 +92,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		if (element_lis_index(this_stack, elem, &lis_elem_index))
 		{
 			get_lis_center(this_stack, lis_elem_index);
-			printf("left: %d; center: %d; right: %d\n", this_stack->lis_left, this_stack->lis_right, this_stack->lis_center);
+			print_lis_center(this_stack);
 			/*while(any_in_lis_range(arrays, &elem))
 			{
 				get_elem_from_other_stack(arrays, elem);

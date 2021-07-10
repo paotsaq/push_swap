@@ -6,12 +6,23 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/10 08:55:20 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/10 18:20:42 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 #include <limits.h>
+
+int get_corresponding_lis_position(array *stack, int elem)
+{
+	int iter;
+
+	iter = 0;
+	while (iter < stack->lis_size - 1)
+		if (stack->lis[iter] > elem)
+			iter++;
+	return (iter);
+}
 
 int	element_is_in_lis(array *stack, int elem, int next)
 {

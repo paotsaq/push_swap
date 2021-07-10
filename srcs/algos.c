@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/10 09:07:48 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/10 19:22:25 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	get_elem_from_other_stack(list_of_arrays *arrays, int elem)
 {
+	int left_range;
+	int right_range;
 	int amount;
 	array *stack;
 
+	left_range = right_range = 0;
 	stack = &arrays->arrays[arrays->count - 1];
 	amount = 0;
 	while (stack->stack[0] != elem)

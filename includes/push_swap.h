@@ -57,6 +57,22 @@ typedef struct chains {
 	int	count;
 }				chains;
 
+typedef struct move_info {
+	int index_a;
+	int index_b;
+	int distance_a;
+	int distance_b;
+	int direction_a;
+	int direction_b;
+}			   move_info;
+
+typedef struct best_move {
+	move_info moves[500];	
+	int	      minimum_cost;
+	int		  minimum_cost_index;
+	int		  current_index;
+}				best_moves;
+
 int		main(int argc, char **argv);
 /* stack operations */
 void	rotate(array *stack);
@@ -88,11 +104,12 @@ void	print_lis(array *stack);
 int     element_is_in_lis(array *stack, int elem, int next);
 void	create_lis_interval(array *stack);
 void	update_lis_interval(array *stack);
-int	any_in_lis_range(list_of_arrays *arrays, int *store);
-int	lis_is_found(list_of_arrays *arrays, array *stack, int limit);
+int		any_in_lis_range(list_of_arrays *arrays, int *store);
+int		lis_is_found(list_of_arrays *arrays, array *stack, int limit);
 void	get_lis_center(array *stack, int index);
-int	element_lis_index(array *stack, int elem, int *lis_elem_index);
+int		element_lis_index(array *stack, int elem, int *lis_elem_index);
 void	get_first_lis_center(array *stack);
+int 	get_corresponding_lis_position(array *stack, int elem);
 
 /* visualization */
 void	prints_array(int *array, int size);

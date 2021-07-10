@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/06 14:06:24 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/10 18:17:47 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	copies_new_largest_list(int *old_list, int *new_list, int size)
 			new_list[i] = old_list[i];
 }
 
-int	find_index_by_size(chains *chain, int size)
+int		find_index_by_size(chains *chain, int size)
 {
 	int res;
 

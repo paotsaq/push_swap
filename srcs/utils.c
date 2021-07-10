@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:29:17 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/09 07:44:50 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/10 19:22:22 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	find_median_and_sort_array(list_of_arrays *arrays)
 	return copy[(int)this_stack->count / 2];
 }
 
+/* I think this can be deleted soon 🚨"
 int	stack_is_sorted(array *stack, int median)
 {
 	int iter;
@@ -92,3 +93,38 @@ int	lis_is_found(list_of_arrays *arrays, array *stack, int limit)
 			return (0);
 	return (1);
 }
+
+static void	initialize_best_moves(best_moves *list)
+{
+	list->minimum_cost = 0;
+	list->minimum_cost_index = 0;
+	list->current_index = 0;
+}
+
+int	gets_distances(array *stack_a, array *stack_b)
+{
+	best_moves list;
+	int elem_position;
+	int lis_position;
+
+	stack_a = &arrays->arrays[arrays->count - 2];
+	stack_b = &arrays->arrays[arrays->count - 1];
+	elem_position = -1;
+	initialize_best_moves(&list);
+	while (++elem_position < stack_b->count)
+	{
+		lis_position = get_corresponding_lis_position(stack_a, stack->b[elem_position]);
+		if ((elem_position < (stack_b->count - elem_position) && lis_position < (stack_a->lis_size - lis_position)) || 	
+			elem_position > (stack_b->count - elem_position) && lis_position > (stack_a->lis_size - lis_position))
+		{
+			list->moves[list->current_index]->distance_a;
+			list->moves[list->current_index]->distance_b;
+			list->moves[list->current_index]->direction_a;
+			list->moves[list->current_index]->direction_b;
+							
+
+
+	}
+}
+
+void	fill_distances(

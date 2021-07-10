@@ -71,14 +71,8 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 	*/
 	/* LIS is consecutive, and there are elements in between! shove everything. */
 	else if (stack->start_of_lis_range == stack->end_of_lis_range + 1)
-	{
 		do_operations(arrays, "p", 0);
-		if (elem > median && other_stack->count > 1)
-			do_operations(arrays, "r", 1);
-	}
-	else if (less == 0 && elem < median)
-		do_operations(arrays, "revr", 0);
-	else if (less == 1 && elem >= median)
+	else if ((less == 0 && elem < median) || (less == 1 && elem >= median))
 		do_operations(arrays, "revr", 0);
 	else
 		do_operations(arrays, "p", 0);
@@ -86,7 +80,7 @@ static void	operate_the_stack_strategically(list_of_arrays *arrays, int elem, in
 
 /* ⚠️  should assume end_of_list is head of stack
  * checks whether there are eligible elements for CURRENT stack
- * after end_of_stack; if so, return 1, to promote shoving of end_of_stack */
+ * after end_of_stack; if so, return 1, to promote shoving of end_of_stack 
 static int look_ahead_of_lis(list_of_arrays *arrays)
 {
 	array *this_stack;
@@ -119,7 +113,7 @@ static void push_pending_lis(list_of_arrays *arrays)
 	elem_to_lis = other_stack->stack[0];
 	do_operations(arrays, "p", 1);
 	update_lis_with_elem(this_stack, elem_to_lis);
-}
+}*/
 
 void		break_into_lis_algorithm(list_of_arrays *arrays)
 {
@@ -151,7 +145,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 				update_lis_with_elem(this_stack, elem);
 				update_lis_interval(this_stack);
 			}
-			if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
+			/* if (look_ahead_of_lis(arrays) && this_stack->lis_shoved)
 			{
 				do_operations(arrays, "p", 0);
 				do_operations(arrays, "revr", 1);
@@ -167,7 +161,7 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 			{
 				do_operations(arrays, "r", 1);
 				do_operations(arrays, "p", 1);
-			}
+			} */
 			do_operations(arrays, "revr", 0);
 		}
 		else

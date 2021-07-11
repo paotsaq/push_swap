@@ -6,13 +6,14 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 11:22:35 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 12:46:51 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 #include <limits.h>
 
+/* if first element, return 0; if last element, return lis_size */
 int get_corresponding_lis_position(array *stack, int elem)
 {
 	int iter;

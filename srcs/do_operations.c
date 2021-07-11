@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/10 09:10:42 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 13:13:44 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static	void initialize_stacks(list_of_arrays *arrays, array **main, array **othe
 	}
 }
 
-/* ✅ works as intended */ 
+/* ✅ works as intended */
 static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
 {
 	array *main_stack;
@@ -60,7 +60,6 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 
 	initialize_stacks(arrays, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
-
 		swap(main_stack);
 	else if (ft_strcmp(buffer, "ss") == 0)
 		swap_both(main_stack, other_stack);
@@ -75,4 +74,5 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "rrr") == 0)
 		reverse_rotate_both(main_stack, other_stack);
 	print_operations(arrays, buffer, parity);
+//	visualizer(other_stack, main_stack);
 }

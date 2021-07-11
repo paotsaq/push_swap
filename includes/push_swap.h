@@ -97,6 +97,7 @@ void	break_into_lis_algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		stack_is_sorted(array *stack, int median);
 void	push_garbage_to_opp_stack(array *stack);
+int		get_elem_position_in_stack(array *stack, int elem);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);

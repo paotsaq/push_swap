@@ -74,6 +74,7 @@ typedef struct move_info {
 typedef struct best_move {
 	move_info moves[500];
 	int	      minimum_cost;
+	int	      elem;
 	int		  minimum_cost_index;
 	int		  index;
 }				best_moves;

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 09:31:04 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 13:06:53 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 17:33:27 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,15 @@ static void	gets_distances(best_moves *list, array *stack_a, array *stack_b)
 		if (list->moves[list->index].min < list->minimum_cost)
 		{
 			list->minimum_cost = list->moves[list->index].min;
+			list->elem = stack_b->stack[e_pos];
 			list->minimum_cost_index = e_pos;
 		}
 		list->index++;
 	}
+	if (list->elem==96)
+		return;
+	if (list->moves[list->index].b_elem > 87)
+		return;
 }
 
 static void	make_move(best_moves *list, list_of_arrays *arrays)

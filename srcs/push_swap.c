@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/09 07:29:02 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 16:32:19 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		main(int argc, char **argv)
 	else
 		printf("I should free some stuff\n");
 	iter = -1;
-	while(++iter < arrays.comm_index)
-		printf("%s\n", arrays.comm[iter]);
+	// while(++iter < arrays.comm_index)
+	// 	printf("%s\n", arrays.comm[iter]);
 	return (0);
 }

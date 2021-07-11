@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 06:32:39 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 13:13:01 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 16:31:17 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ void		break_into_lis_algorithm(list_of_arrays *arrays)
 		ft_strlcpy(direction, "revr", 5);
 	while (!(this_stack->stack[0] == this_stack->lis[0]))
 		do_operations(arrays, direction, 0);
+	visualizer(this_stack, other_stack);
 }

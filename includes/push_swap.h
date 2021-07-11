@@ -58,19 +58,23 @@ typedef struct chains {
 }				chains;
 
 typedef struct move_info {
-	int index_a;
-	int index_b;
-	int distance_a;
-	int distance_b;
-	int direction_a;
-	int direction_b;
+	int a_elem;
+	int b_elem;
+	int a_top;
+	int b_top;
+	int a_bot;
+	int b_bot;
+	int min;
+	int same;
+	char dir_a[5];
+	char dir_b[5];
 }			   move_info;
 
 typedef struct best_move {
-	move_info moves[500];	
+	move_info moves[500];
 	int	      minimum_cost;
 	int		  minimum_cost_index;
-	int		  current_index;
+	int		  index;
 }				best_moves;
 
 int		main(int argc, char **argv);

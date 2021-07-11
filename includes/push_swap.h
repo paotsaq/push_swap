@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <limits.h>
 #include "../libft/libft.h"
 
 typedef struct lis {
@@ -105,7 +106,7 @@ void	find_lis(array *stack);
 void	get_lis_candidates(array *stack);
 void	update_lis_with_elem(array *stack, int elem);
 void	print_lis(array *stack);
-int     element_is_in_lis(array *stack, int elem, int next);
+int		element_is_in_lis(array *stack, int elem);
 void	create_lis_interval(array *stack);
 void	update_lis_interval(array *stack);
 int		any_in_lis_range(list_of_arrays *arrays, int *store);
@@ -114,6 +115,7 @@ void	get_lis_center(array *stack, int index);
 int		element_lis_index(array *stack, int elem, int *lis_elem_index);
 void	get_first_lis_center(array *stack);
 int 	get_corresponding_lis_position(array *stack, int elem);
+void best_move_interface(list_of_arrays *arrays);
 
 /* visualization */
 void	prints_array(int *array, int size);

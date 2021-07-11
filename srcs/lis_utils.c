@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/10 18:20:42 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/11 11:22:35 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@ int get_corresponding_lis_position(array *stack, int elem)
 	int iter;
 
 	iter = 0;
-	while (iter < stack->lis_size - 1)
-		if (stack->lis[iter] > elem)
-			iter++;
+	while (iter < stack->lis_size - 1 && stack->lis[iter] < elem)
+		iter++;
 	return (iter);
 }
 
-int	element_is_in_lis(array *stack, int elem, int next)
+int	element_is_in_lis(array *stack, int elem)
 {
 	int	iter;
 
-	next += 1;
 	iter = -1;
 	while (++iter < stack->lis_size)
 		if (stack->lis[iter] == elem)
@@ -114,7 +112,7 @@ void	create_lis_interval(array *stack)
 
 	iter = 0;
 	/* first element of lis is found */
-	while (!element_is_in_lis(stack, stack->stack[iter], 0))
+	while (!element_is_in_lis(stack, stack->stack[iter]))
 		iter++;
 	stack->lis_index = 0;
 	while (stack->lis[stack->lis_index] != stack->stack[iter])
@@ -174,7 +172,7 @@ void	get_first_lis_center(array *stack)
 {
 	int iter;
 	int lis_center;
-	
+
 	iter = -1;
 	while (++iter < stack->count - 1)
 		if (element_lis_index(stack, stack->stack[iter], &lis_center))

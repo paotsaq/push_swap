@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/12 08:25:16 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/12 18:43:40 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	prints_operations(s_stacks *stacks)
 static void	initializes_stacks(s_stacks *stacks)
 {
 	stacks->sorted = 0;
+	stacks->comm_index = 0;
 	stacks->size = 500;
 	stacks->a_count = 0;
 	stacks->b_count = 0;

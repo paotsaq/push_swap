@@ -12,13 +12,12 @@
 
 #include "../includes/push_swap.h"
 
-
-int get_elem_position_in_stack(array *stack, int elem)
+int pos_in_array(int *array, int elem, int limit)
 {
 	int iter;
 
 	iter = 0;
-	while (iter < stack->lis_size - 1 && stack->stack[iter] != elem)
+	while (iter < limit - 1 && array[iter] != elem)
 		iter++;
 	return (iter);
 }

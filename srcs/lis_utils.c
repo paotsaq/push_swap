@@ -14,203 +14,44 @@
 #include <limits.h>
 
 /* if first element, return 0; if last element, return lis_size */
-int get_corresponding_lis_position(array *stack, int elem)
+int 	get_corresponding_lis_position(s_stacks *stacks, int elem)
 {
 	int iter;
 
 	iter = 0;
-	while (iter < stack->lis_size - 1 && stack->lis[iter] < elem)
+	while (iter < stacks->lis_size - 1 && stacks->lis[iter] < elem)
 		iter++;
 	return (iter);
 }
 
-int	element_is_in_lis(array *stack, int elem)
+int	element_is_in_lis(s_stacks *stacks, int elem)
 {
 	int	iter;
 
 	iter = -1;
-	while (++iter < stack->lis_size)
-		if (stack->lis[iter] == elem)
+	while (++iter < stacks->lis_size)
+		if (stacks->lis[iter] == elem)
 			return (1);
 	return (0);
 }
 
-/* find elements in the stack B that fit in the LIS */
-int	any_in_lis_range(list_of_arrays *arrays, int *store)
-{
-	int iter;
-	int max;
-	array *this_stack;
-	array *other_stack;
-	int start;
-	int end;
 
-	this_stack = &arrays->arrays[arrays->count - 2];
-	other_stack = &arrays->arrays[arrays->count - 1];
-	start = this_stack->start_of_lis_range;
-	end = this_stack->end_of_lis_range;
-	iter = -1;
-	max = INT_MIN;
-	while (++iter < other_stack->count)
-		if ((other_stack->stack[iter] < start && other_stack->stack[iter] > end && !this_stack->lis_circled) ||
-			(other_stack->stack[iter] < start && other_stack->stack[iter] < end && start == this_stack->lis[0] && this_stack->lis_circled) ||
-			(other_stack->stack[iter] > start && other_stack->stack[iter] > end && start == this_stack->lis[0] && this_stack->lis_circled))
-
-		{
-			if (other_stack->stack[iter] > max)
-			{
-				max = other_stack->stack[iter];
-				*store = max;
-			}
-		}
-	if (max != INT_MIN)
-		return (1);
-	else
-		return (0);
-}
-
-/* looks for the index of a stack element in a LIS
- * if found, return 1 and put index on lis_elem_index; else, return -1 */
-int	element_lis_index(array *stack, int elem, int *lis_elem_index)
-{
-	int	iter;
-
-	iter = -1;
-	while (++iter < stack->lis_size)
-		if (stack->lis[iter] == elem)
-		{
-			*lis_elem_index = iter;
-			return (1);
-		}
-	return (0);
-}
-
-void	update_lis_with_elem(array *stack, int elem)
+void	update_lis_with_elem(s_stacks *stacks, int elem)
 {
 	int stop;
 	int iter;
 
 	iter = 0;
-	while (stack->lis[iter] < elem && iter < stack->lis_size)
+	while (stacks->lis[iter] < elem && iter < stacks->lis_size)
 		iter++;
 	stop = iter;
-	iter = stack->lis_size + 2;
+	iter = stacks->lis_size + 2;
 	while (--iter != stop)
-		stack->lis[iter] = stack->lis[iter - 1];
-	stack->lis[stop] = elem;
-	stack->lis_size++;
-	if (elem < stack->lis[stack->lis_index])
-		stack->lis_index++;
-	if (elem < stack->lis[stack->lis_circled_index])
-		stack->lis_circled_index++;
-	if (stack->lis_size == stack->count)
-		stack->sorted = 1;
-}
-
-void	create_lis_interval(array *stack)
-{
-	int iter;
-
-	iter = 0;
-	/* first element of lis is found */
-	while (!element_is_in_lis(stack, stack->stack[iter]))
-		iter++;
-	stack->lis_index = 0;
-	while (stack->lis[stack->lis_index] != stack->stack[iter])
-		stack->lis_index++;
-	stack->lis_circled_index = (stack->lis_index + stack->lis_size) % stack->lis_size;
-	stack->start_of_lis_range = stack->lis[stack->lis_circled_index];
-	stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
-	if (stack->end_of_lis_range > stack->start_of_lis_range)
-	{
-		stack->lis_circled = 1;
-		if (stack->lis_index == -1)
-			stack->lis_index = stack->lis_size - 1;
-	}
-}
-
-/* will keep track of the two elements in the LIS that accept
- * any number in between */
-void	update_lis_interval(array *stack)
-{
-	int new_range;
-
-	if (stack->lis_circled)
-	{
-		if (stack->lis[stack->lis_circled_index] == stack->start_of_lis_range)
-			stack->lis_circled_index = (stack->lis_circled_index - 1 + stack->lis_size) % stack->lis_size;
-		stack->start_of_lis_range = stack->lis[(stack->lis_circled_index + stack->lis_size) % stack->lis_size];
-		if (stack->start_of_lis_range == stack->end_of_lis_range)
-		{
-			stack->end_of_lis_range = stack->lis[(--stack->lis_index + stack->lis_size) % stack->lis_size];
-			stack->lis_circled = 0;
-		}
-	}
-	else
-	{
-		if (stack->lis[stack->lis_circled_index] == stack->start_of_lis_range)
-		{
-			stack->lis_index = (stack->lis_index - 1 + stack->lis_size) % stack->lis_size;
-			stack->lis_circled_index = (stack->lis_circled_index - 1 + stack->lis_size) % stack->lis_size;
-		}
-		stack->start_of_lis_range = stack->lis[stack->lis_circled_index];
-		if (stack->start_of_lis_range == stack->end_of_lis_range)
-		{
-			new_range = stack->lis[(stack->lis_index + stack->lis_size) % stack->lis_size];
-			stack->end_of_lis_range = new_range;
-			if (new_range > stack->start_of_lis_range)
-				stack->lis_circled = 1;
-		}
-		else if (stack->start_of_lis_range < stack->end_of_lis_range && !stack->lis_circled)
-		{
-			stack->lis_circled = 1;
-			stack->lis_index++;
-		}
-	}
-}
-
-void	get_first_lis_center(array *stack)
-{
-	int iter;
-	int lis_center;
-
-	iter = -1;
-	while (++iter < stack->count - 1)
-		if (element_lis_index(stack, stack->stack[iter], &lis_center))
-		{
-		       get_lis_center(stack, lis_center);
-		       return;
-		}
-}
-
-void	get_lis_center(array *stack, int index)
-{
-	stack->lis_center = stack->lis[index];
-	if (index == 0)
-	{
-		stack->lis_left = stack->lis[stack->lis[stack->lis_size - 1]];
-		stack->left_circled = 1;
-	}
-	else
-		stack->lis_left = stack->lis[index - 1];
-	if (index == stack->lis_size - 1)
-	{
-		stack->lis_right = stack->lis[0];
-		stack->right_circled = 1;
-	}
-	else
-		stack->lis_right = stack->lis[index + 1];
-}
-
-void	print_lis(array *stack)
-{
-	int iter;
-
-	printf("longest sequence is: \n");
-	iter = -1;
-	while (++iter < stack->lis_size)
-		printf("%d ", stack->lis[iter]);
-	printf("\n%d elements long\n", stack->lis_size);
+		stacks->lis[iter] = stacks->lis[iter - 1];
+	stacks->lis[stop] = elem;
+	stacks->lis_size++;
+	if (stacks->lis_size == stacks->a_count)
+		stacks->sorted = 1;
 }
 
 int	is_sorted(array *stack)

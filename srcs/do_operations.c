@@ -12,29 +12,35 @@
 
 #include "../includes/push_swap.h"
 
-static	void initialize_stacks(list_of_arrays *arrays, array **main, array **other, int parity)
+static void	initialize_stacks(s_stacks *stacks,
+			array **main, array **other, int parity)
 {
+	stacks->array_a.stack = stacks->a;
+	stacks->array_a.count = stacks->a_count;
+	stacks->array_a.size = 500;
+	stacks->array_b.stack = stacks->b;
+	stacks->array_b.count = stacks->b_count;
+	stacks->array_b.size = 500;
 	if (!parity)
 	{
-		*main = &arrays->arrays[arrays->count - 2];
-		*other = &arrays->arrays[arrays->count - 1];
+		*main = &stacks->array_a;
+		*other = &stacks->array_b;
 	}
 	else
 	{
-		*other = &arrays->arrays[arrays->count - 2];
-		*main = &arrays->arrays[arrays->count - 1];
+		*main = &stacks->array_b;
+		*other = &stacks->array_a;
 	}
 }
 
-/* ✅ works as intended */
-static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
+static void	print_operations(s_stacks *stacks, char *buffer, int parity)
 {
-	array *main_stack;
-	array *other_stack;
-	char *cell;
+	array	*main_stack;
+	array	*other_stack;
+	char	*cell;
 
-	cell = arrays->comm[++arrays->comm_index];
-	initialize_stacks(arrays, &main_stack, &other_stack, parity);
+	cell = stacks->comm[++stacks->comm_index];
+	initialize_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		cell[0] = 's';
 	else if (ft_strcmp(buffer, "p") == 0)
@@ -42,23 +48,23 @@ static void	print_operations(list_of_arrays *arrays, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "r") == 0)
 		cell[0] = 'r';
 	else if (ft_strcmp(buffer, "revr") == 0)
-		ft_strlcpy(cell, "rr", 4);
-	if ((arrays->count + parity) % 2 == 0 && buffer[0] == 'p')
-		ft_strlcat(&cell[1],"b", 4);
-	else if ((arrays->count + parity) % 2 == 1 && buffer[0] == 'p')
-		ft_strlcat(&cell[1],"a", 4);
-	else if ((arrays->count + parity) % 2 == 0)
-		ft_strlcat(&cell[1],"a", 4);
+		ft_strlcpy(cell, "rr", 5);
+	if (parity % 2 == 0 && buffer[0] == 'p')
+		ft_strlcat(&cell[1], "b", 5);
+	else if (parity % 2 == 1 && buffer[0] == 'p')
+		ft_strlcat(&cell[1], "a", 5);
+	else if (parity % 2 == 0)
+		ft_strlcat(&cell[1], "a", 5);
 	else
-		ft_strlcat(&cell[1],"b", 4);
+		ft_strlcat(&cell[1], "b", 5);
 }
 
-void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
+void	do_operations(s_stacks *stacks, char *buffer, int parity)
 {
-	array *main_stack;
-	array *other_stack;
+	array	*main_stack;
+	array	*other_stack;
 
-	initialize_stacks(arrays, &main_stack, &other_stack, parity);
+	initialize_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		swap(main_stack);
 	else if (ft_strcmp(buffer, "ss") == 0)
@@ -73,6 +79,5 @@ void	do_operations(list_of_arrays *arrays, char *buffer, int parity)
 		reverse_rotate(main_stack);
 	else if (ft_strcmp(buffer, "rrr") == 0)
 		reverse_rotate_both(main_stack, other_stack);
-	print_operations(arrays, buffer, parity);
-//	visualizer(other_stack, main_stack);
+	print_operations(stacks, buffer, parity);
 }

@@ -13,21 +13,27 @@
 #include "../includes/push_swap.h"
 
 /* must use strncpy! 🚨 */
-static void	prints_operations(stacks_struct *stacks)
+static void	prints_operations(s_stacks *stacks)
 {
 	int	iter;
 
 	iter = -1;
-	while (++iter < stacks.comm_index)
-		write(1, stacks.comm[iter], 5);
+	while (++iter < stacks->comm_index)
+		write(1, stacks->comm[iter], 5);
 }
 
-static void	initializes_stacks(stacks_struct *stacks)
+static void	initializes_stacks(s_stacks *stacks)
 {
 	stacks->sorted = 0;
 	stacks->size = 500;
 	stacks->a_count = 0;
 	stacks->b_count = 0;
+	stacks->array_a.stack = stacks->a;
+	stacks->array_a.count = stacks->a_count;
+	stacks->array_a.size = 500;
+	stacks->array_b.stack = stacks->b;
+	stacks->array_b.count = stacks->b_count;
+	stacks->array_b.size = 500;
 }
 
 static int	is_duplicate(int *stack, int len, char *string)
@@ -43,12 +49,10 @@ static int	is_duplicate(int *stack, int len, char *string)
 	return (0);
 }
 
-static int	parsing_of_input(char **argv, stacks_struct *stacks)
+static int	parsing_of_input(char **argv, s_stacks *stacks)
 {
 	int		i;
-	array	*stack;
 
-	stack = &stacks->a;
 	stacks->a_count = 0;
 	i = -1;
 	while (*++argv)
@@ -62,12 +66,11 @@ static int	parsing_of_input(char **argv, stacks_struct *stacks)
 
 int	main(int argc, char **argv)
 {
-	stacks_struct	stacks;
-	int				iter;
+	s_stacks	stacks;
 
 	if (argc == 2)
 		return (0);
-	initializes_stacks(&stacks, 500);
+	initializes_stacks(&stacks);
 	if (parsing_of_input(argv, &stacks) != -1)
 	/*
 	 * if (stacks.size == 3)

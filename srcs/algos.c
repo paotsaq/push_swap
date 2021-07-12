@@ -12,28 +12,27 @@
 
 #include "../includes/push_swap.h"
 
-void		algorithm(stacks_struct *stacks)
+void		algorithm(s_stacks *stacks)
 {
 	int target;
 	char direction[5];
 
-	initializes_array(arrays, 500);
 	find_lis(stacks);
-	while (!(this_stack->count == this_stack->lis_size))
-		if (element_is_in_lis(this_stack, this_stack->stack[0]))
-			do_operations(arrays, "r", 0);
+	while (!(stacks->a_count == stacks->lis_size))
+		if (element_is_in_lis(stacks, stacks->a[0]))
+			do_operations(stacks, "r", 0);
 		else
-			do_operations(arrays, "p", 0);
-	while (!(this_stack->count == arrays->sorted_size))
+			do_operations(stacks, "p", 0);
+	while (!(stacks->a_count == stacks->size))
 	{
-		best_move_interface(arrays);
-		update_lis_with_elem(this_stack, this_stack->stack[0]);
+		best_move_interface(stacks);
+		update_lis_with_elem(stacks, stacks->a[0]);
 	}
-	target = get_elem_position_in_stack(this_stack, this_stack->lis[0]);
-	if (target < this_stack->count / 2)
+	target = pos_in_array(stacks->a, stacks->lis[0], stacks->lis_size);
+	if (target < stacks->a_count / 2)
 		ft_strlcpy(direction, "r", 5);
 	else
 		ft_strlcpy(direction, "revr", 5);
-	while (!(this_stack->stack[0] == this_stack->lis[0]))
-		do_operations(arrays, direction, 0);
+	while (!(stacks->a[0] == stacks->lis[0]))
+		do_operations(stacks, direction, 0);
 }

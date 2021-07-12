@@ -5,6 +5,12 @@
 #include <limits.h>
 #include "../libft/libft.h"
 
+typedef struct array {
+	int		*stack;
+	int		count;
+	int		size;
+}				array;
+
 typedef struct stacks {
 	int		a[500];
 	int		b[500];
@@ -14,35 +20,12 @@ typedef struct stacks {
 	int		a_count;
 	int		b_count;
 	int		sorted;
-	char	comm[10000][5];
+	char		comm[10000][5];
 	int		comm_index;
-}			  stacks_struct;
+	array		array_a;
+	array		array_b;
+}			  s_stacks;
 
-typedef struct array {
-	int		identity;
-	int		stack[500];
-	int		lis[500];
-	int		lis_size;
-	int		rotations;
-	int		orientation;
-	int		count;
-	int		size;
-	int		max;
-	int		min;
-	int		lis_center;
-	int		lis_left;
-	int		lis_right;
-	int		right_circled;
-	int		left_circled;
-	int		lis_circled;
-	int		lis_shoved;
-	int		lis_index;
-	int		lis_circled_index;
-	int		start_of_lis_range;
-	int		end_of_lis_range;
-	int		pending_lis;
-	int		sorted;
-}				array;
 
 typedef struct list_of_arrays {
 	struct array arrays[50];
@@ -59,8 +42,6 @@ typedef struct chains {
 	int	sizes[500];
 	int	*largest_active;
 	int	largest_size;
-	int	*really_largest_active;
-	int	really_largest_size;
 	int	count;
 }				chains;
 
@@ -95,35 +76,30 @@ void	reverse_both(array *stack_a, array *stack_b);
 void	swap(array *stack);
 void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
-void	do_operations(list_of_arrays *arrays, char *buffer, int parity);
-int		find_median_and_sort_array(list_of_arrays *arrays);
-void 	real_simple_sort(int *array, int size);
+void	do_operations(s_stacks *stacks, char *buffer, int parity);
 
+int pos_in_array(int *array, int elem, int limit);
 /* algorithm */
-void	algorithm(list_of_arrays *arrays);
+void	algorithm(s_stacks *stacks);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		stack_is_sorted(array *stack, int median);
 void	push_garbage_to_opp_stack(array *stack);
-int		get_elem_position_in_stack(array *stack, int elem);
+int	get_elem_position_in_stack(s_stacks *stacks, int elem);
+int 	get_corresponding_lis_position(s_stacks *stacks, int elem);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);
 
 /* lis */
-void	find_lis(array *stack);
-void	get_lis_candidates(array *stack);
-void	update_lis_with_elem(array *stack, int elem);
+void	find_lis(s_stacks *stacks);
+void	update_lis_with_elem(s_stacks *stacks, int elem);
 void	print_lis(array *stack);
-int		element_is_in_lis(array *stack, int elem);
-void	create_lis_interval(array *stack);
-void	update_lis_interval(array *stack);
-int		any_in_lis_range(list_of_arrays *arrays, int *store);
-int		lis_is_found(list_of_arrays *arrays, array *stack, int limit);
-void	get_lis_center(array *stack, int index);
-int		element_lis_index(array *stack, int elem, int *lis_elem_index);
+int	element_is_in_lis(s_stacks *stacks, int elem);
+int	any_in_lis_range(list_of_arrays *arrays, int *store);
+int	lis_is_found(list_of_arrays *arrays, array *stack, int limit);
+int	element_lis_index(array *stack, int elem, int *lis_elem_index);
 void	get_first_lis_center(array *stack);
-int 	get_corresponding_lis_position(array *stack, int elem);
-void best_move_interface(list_of_arrays *arrays);
+void 	best_move_interface(s_stacks *stacks);
 
 /* visualization */
 void	prints_array(int *array, int size);

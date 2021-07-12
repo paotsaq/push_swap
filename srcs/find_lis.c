@@ -14,14 +14,14 @@
 
 /* returns an index that signifies the list
  * in which to insert the new node;
- *		-1 means it is smallest among all candidates,
- *			thus create a new list;
- *		chains->count - 1 means it is largest among all candidates,
- *			thus clone the largest list and append it;
- *		any other number signifies the index of the list to append to. */
-int		finds_localisation_of_node(chains *chain, int elem)
+*		0 means it is smallest among all candidates,
+*			thus create a new list;
+*		chains->count means it is largest among all candidates,
+*			thus clone the largest list and append it;
+*		any other number signifies the index of the list to append to. */
+static int	finds_localisation_of_node(chains *chain, int elem)
 {
-	int iter;
+	int	iter;
 
 	iter = 0;
 	while (iter < chain->count && elem > chain->tails[iter])
@@ -31,7 +31,7 @@ int		finds_localisation_of_node(chains *chain, int elem)
 
 /* updates the size array and handles
  * determining which is the largest sequence */
-void	size_and_largest_sequence(chains *chain, int index, int size)
+static void	size_and_largest_sequence(chains *chain, int index, int size)
 {
 	chain->sizes[index] = size;
 	if (size >= chain->largest_size)
@@ -41,34 +41,26 @@ void	size_and_largest_sequence(chains *chain, int index, int size)
 	}
 }
 
-void	copies_new_largest_list(int *old_list, int *new_list, int size)
+/* static int	find_index_by_size(chains *chain, int size)
 {
-	int i;
-	i = -1;
-	if (old_list != NULL && old_list != new_list)
-		while (++i < size)
-			new_list[i] = old_list[i];
-}
-
-int		find_index_by_size(chains *chain, int size)
-{
-	int res;
+	int	res;
 
 	res = 0;
 	while (chain->sizes[res] != size)
 		res++;
-	return res;
-}
+	return (res);
+} */
+
 
 /* adds the size to the chain, and triggers deprecated sequences
- * new_list should be statically allocated outside of the chain
- * and then added; this avoids redundant copies of the same list in the chain */
-void	extends_list(chains *chain, int elem, int index)
+ * new_list should be statically allocated outside of the chain and then added; 
+ * this avoids redundant copies of the same list in the chain */
+static void	extends_list(chains *chain, int elem, int index)
 {
-	int *new_list;
-	int *list;
-	int size;
-	int copy_from;
+	int	*new_list;
+	int	*list;
+	int	size;
+	int	copy_from;
 
 	if (index == chain->count)
 	{
@@ -81,51 +73,45 @@ void	extends_list(chains *chain, int elem, int index)
 	{
 		new_list = chain->heads[index];
 		size = chain->sizes[index];
-		copy_from = find_index_by_size(chain, size - 1);
+		copy_from = pos_in_array(chain->sizes, size, 500);
+//		copy_from = find_index_by_size(chain, size - 1);
 		list = chain->heads[copy_from];
 	}
 	new_list[size - 1] = elem;
-	copies_new_largest_list(list, new_list, size - 1);
+	ft_memcpy(new_list, list, 4 * (size - 1));
+	// copies_new_largest_list(list, new_list, size - 1);
 	chain->tails[index] = elem;
 	size_and_largest_sequence(chain, index, size);
 }
 
-static void	initializes_chain(chains *chain, int first)
+static void	initializes_chain(chains *chain)
 {
 	chain->largest_size = 0;
 	chain->largest_active = NULL;
 	chain->count = 0;
-	if (first)
-	{
-		chain->really_largest_active = NULL;
-		chain->really_largest_size = 0;
-	}
 }
-
-void	find_lis(array *stack)
+void	find_lis(s_stacks *stacks)
 {
-	chains chain;
-	int	rotation;
-	int 	index;
-	int 	iter;
+	chains	chain;
+	int		rotation;
+	int		iter;
+	int		index;
 
 	rotation = -1;
-	initializes_chain(&chain, 1);
-	while (++rotation < stack->count)
+	while (++rotation < stacks->a_count)
 	{
+		initializes_chain(&chain);
 		iter = -1;
-		while (++iter < stack->count)
+		while (++iter < stacks->a_count)
 		{
-			index = finds_localisation_of_node(&chain, stack->stack[iter]);
-			extends_list(&chain, stack->stack[iter], index);
+			index = finds_localisation_of_node(&chain, stacks->a[iter]);
+			extends_list(&chain, stacks->a[iter], index);
 		}
-		if (chain.largest_size > stack->lis_size)
+		if (chain.largest_size > stacks->lis_size)
 		{
-			ft_memcpy(stack->lis, chain.largest_active, 4 * chain.largest_size);
-			stack->lis_size = chain.largest_size;
-			stack->rotations = rotation;
+			ft_memcpy(stacks->lis, chain.largest_active, 4 * chain.largest_size);
+			stacks->lis_size = chain.largest_size;
 		}
-		rotate(stack);
-		initializes_chain(&chain, 0);
+		rotate(&stacks->array_a);
 	}
 }

@@ -5,12 +5,18 @@
 #include <limits.h>
 #include "../libft/libft.h"
 
-typedef struct lis {
-	int		*lis[500];
-	int		sizes[500];
-	int		rotations[500];
-	int		count;
-}				lis;
+typedef struct stacks {
+	int		a[500];
+	int		b[500];
+	int		size;
+	int		lis[500];
+	int		lis_size;
+	int		a_count;
+	int		b_count;
+	int		sorted;
+	char	comm[10000][5];
+	int		comm_index;
+}			  stacks_struct;
 
 typedef struct array {
 	int		identity;
@@ -94,7 +100,7 @@ int		find_median_and_sort_array(list_of_arrays *arrays);
 void 	real_simple_sort(int *array, int size);
 
 /* algorithm */
-void	break_into_lis_algorithm(list_of_arrays *arrays);
+void	algorithm(list_of_arrays *arrays);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		stack_is_sorted(array *stack, int median);
 void	push_garbage_to_opp_stack(array *stack);

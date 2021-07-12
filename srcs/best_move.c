@@ -6,21 +6,12 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/11 09:31:04 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 17:33:27 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/12 07:47:17 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-int get_elem_position_in_stack(array *stack, int elem)
-{
-	int iter;
-
-	iter = 0;
-	while (iter < stack->lis_size - 1 && stack->stack[iter] != elem)
-		iter++;
-	return (iter);
-}
 
 static void	initialize_best_moves(best_moves *list)
 {
@@ -66,7 +57,7 @@ static void	gets_distances(best_moves *list, array *stack_a, array *stack_b)
 	while (++e_pos < stack_b->count)
 	{
 		l_pos = get_corresponding_lis_position(stack_a, stack_b->stack[e_pos]);
-		if (l_pos == stack_a->lis_size - 1)
+		if (l_pos == stack_a->lis_size - 1 && stack_b->stack[e_pos] > stack_a->lis[stack_a->lis_size - 1])
 			l_pos = 0;
 		list->moves[list->index].a_elem = stack_a->lis[l_pos];
 		list->moves[list->index].b_elem = stack_b->stack[e_pos];
@@ -74,7 +65,7 @@ static void	gets_distances(best_moves *list, array *stack_a, array *stack_b)
 		l_pos = get_elem_position_in_stack(stack_a, stack_a->lis[l_pos]);
 		list->moves[list->index].a_top = l_pos;
 		list->moves[list->index].b_bot = (stack_b->count - e_pos);
-		list->moves[list->index].a_bot = (stack_b->count - l_pos - 1);
+		list->moves[list->index].a_bot = (stack_a->count - l_pos - 1);
 		fill_distances(list);
 		if (list->moves[list->index].min < list->minimum_cost)
 		{
@@ -84,10 +75,6 @@ static void	gets_distances(best_moves *list, array *stack_a, array *stack_b)
 		}
 		list->index++;
 	}
-	if (list->elem==96)
-		return;
-	if (list->moves[list->index].b_elem > 87)
-		return;
 }
 
 static void	make_move(best_moves *list, list_of_arrays *arrays)

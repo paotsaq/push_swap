@@ -6,31 +6,34 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 16:32:19 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/12 08:25:16 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	initializes_array(list_of_arrays *arrays, int size)
+/* must use strncpy! 🚨 */
+static void	prints_operations(stacks_struct *stacks)
 {
-	array *stack;
+	int	iter;
 
-	stack = &arrays->arrays[arrays->count];
-	stack->count = 0;
-	stack->identity = arrays->count;
-	stack->sorted = 0;
-	stack->lis_index = -1;
-	stack->size = size;
-	stack->orientation = 0;
-	stack->pending_lis = 0;
-	arrays->count += 1;
+	iter = -1;
+	while (++iter < stacks.comm_index)
+		write(1, stacks.comm[iter], 5);
+}
+
+static void	initializes_stacks(stacks_struct *stacks)
+{
+	stacks->sorted = 0;
+	stacks->size = 500;
+	stacks->a_count = 0;
+	stacks->b_count = 0;
 }
 
 static int	is_duplicate(int *stack, int len, char *string)
 {
-	int number;
-	int iter;
+	int	number;
+	int	iter;
 
 	number = ft_atoi(string);
 	iter = -1;
@@ -40,48 +43,40 @@ static int	is_duplicate(int *stack, int len, char *string)
 	return (0);
 }
 
-static int	parsing_of_input(char **argv, list_of_arrays *arrays)
+static int	parsing_of_input(char **argv, stacks_struct *stacks)
 {
-	int i;
-	array *stack;
+	int		i;
+	array	*stack;
 
-	stack = &arrays->arrays[0];
-	stack->count = 0;
+	stack = &stacks->a;
+	stacks->a_count = 0;
 	i = -1;
 	while (*++argv)
-		if (ft_content_is_int(*argv) && !is_duplicate(stack->stack, stack->count++, *argv))
-			stack->stack[++i] = atoi(*argv);
-		else
-		{
-			printf("erro muito chato\nnão te esqueças de implementar frees!");
-			return (-1);
-		}
+		if (ft_content_is_int(*argv)
+			&& !is_duplicate(stacks->a, stacks->a_count++, *argv))
+			stacks->a[++i] = atoi(*argv);
+	else
+		return (-1);
 	return (1);
 }
 
-/*static  void	copy_all_back_because_im_lame(list_of_arrays *arrays, int index)
+int	main(int argc, char **argv)
 {
-	while (++index < arrays->comm_index - 1)
-		ft_strlcpy(arrays->comm[index], arrays->comm[index + 1], 4);
-	--arrays->comm_index;
-} */
+	stacks_struct	stacks;
+	int				iter;
 
-int		main(int argc, char **argv)
-{
-	list_of_arrays arrays;
-	int iter;
-
-	if (argc == 1)
+	if (argc == 2)
 		return (0);
-	arrays.count = 0;
-	arrays.comm_index = -1;
-	initializes_array(&arrays, 500);
-	if (parsing_of_input(argv, &arrays) != -1)
-		break_into_lis_algorithm(&arrays);
+	initializes_stacks(&stacks, 500);
+	if (parsing_of_input(argv, &stacks) != -1)
+	/*
+	 * if (stacks.size == 3)
+	 *		use another algorithm;
+	 *	else */
+		algorithm(&stacks);
 	else
-		printf("I should free some stuff\n");
-	iter = -1;
-	// while(++iter < arrays.comm_index)
-	// 	printf("%s\n", arrays.comm[iter]);
+		write(1, "Error\n", 7);
+	// optimizer
+	prints_operations(&stacks);
 	return (0);
 }

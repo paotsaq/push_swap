@@ -82,9 +82,8 @@ void	do_operations(s_stacks *stacks, char *buffer, int parity);
 int pos_in_array(int *array, int elem, int limit);
 /* algorithm */
 void	algorithm(s_stacks *stacks);
-void	sort_by_rotation(array *stack_a, array *stack_b);
-int		stack_is_sorted(array *stack, int median);
-void	push_garbage_to_opp_stack(array *stack);
+void	sort_three(array *stack_a, array *stack_b);
+void	sort_five(array *stack_a, array *stack_b);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);
@@ -93,10 +92,10 @@ void	initializes_array(list_of_arrays *arrays, int size);
 void	find_lis(s_stacks *stacks);
 void	update_lis_with_elem(s_stacks *stacks, int elem);
 void	print_lis(array *stack);
-int	element_is_in_lis(s_stacks *stacks, int elem);
-int	any_in_lis_range(list_of_arrays *arrays, int *store);
-int	lis_is_found(list_of_arrays *arrays, array *stack, int limit);
-int	element_lis_index(array *stack, int elem, int *lis_elem_index);
+int		element_is_in_lis(s_stacks *stacks, int elem);
+int		any_in_lis_range(list_of_arrays *arrays, int *store);
+int		lis_is_found(list_of_arrays *arrays, array *stack, int limit);
+int		element_lis_index(array *stack, int elem, int *lis_elem_index);
 void	get_first_lis_center(array *stack);
 void 	best_move_interface(s_stacks *stacks);
 

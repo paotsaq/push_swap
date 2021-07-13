@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 07:50:28 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 08:41:03 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	initialize_stacks(s_stacks *stacks,
 	}
 }
 
-static void	print_operations(s_stacks *stacks, char *buffer, int parity)
+static void	store_operations(s_stacks *stacks, char *buffer, int parity)
 {
 	array	*main_stack;
 	array	*other_stack;
@@ -74,5 +74,5 @@ void	do_operations(s_stacks *stacks, char *buffer, int parity)
 		reverse_rotate(main_stack);
 	else if (ft_strcmp(buffer, "rrr") == 0)
 		reverse_rotate_both(main_stack, other_stack);
-	print_operations(stacks, buffer, parity);
+	store_operations(stacks, buffer, parity);
 }

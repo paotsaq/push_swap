@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 01:57:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 06:44:30 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 11:38:21 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,4 @@ void	update_lis_with_elem(s_stacks *stacks, int elem)
 	stacks->lis_size++;
 	if (stacks->lis_size == stacks->a_count)
 		stacks->sorted = 1;
-}
-
-int	is_sorted(array *stack)
-{
-	int iter;
-
-	iter = -1;
-	while(++iter < (*stack->count) - 2)
-		if (stack->stack[iter] > stack->stack[iter + 1])
-			return (0);
-	return (1);
 }

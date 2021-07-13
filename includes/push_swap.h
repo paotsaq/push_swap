@@ -9,6 +9,7 @@ typedef struct array {
 	int		*stack;
 	int		*count;
 	int		*size;
+	int		median;
 }				array;
 
 typedef struct stacks {
@@ -26,7 +27,6 @@ typedef struct stacks {
 	array		array_a;
 	array		array_b;
 }			  s_stacks;
-
 
 typedef struct list_of_arrays {
 	struct array arrays[50];
@@ -79,11 +79,12 @@ void	swap_both(array *stack_a, array *stack_b);
 void	push(array *gives, array *receives);
 void	do_operations(s_stacks *stacks, char *buffer, int parity);
 
+int	is_sorted(array *stack);
 int pos_in_array(int *array, int elem, int limit);
 /* algorithm */
 void	algorithm(s_stacks *stacks);
-void	sort_three(array *stack_a, array *stack_b);
-void	sort_five(array *stack_a, array *stack_b);
+void	sort_three(s_stacks *stacks);
+void	sort_five(s_stacks *stacks);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);

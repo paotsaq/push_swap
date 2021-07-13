@@ -6,104 +6,124 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 08:45:44 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 08:26:49 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 12:24:03 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void real_simple_sort(int *array, int size)
+/* determines whether to fetch top or bottom of stack
+ * (rra or ra) for reducing of instructions
+ * ra: shift up all elements
+ * rra: shift down all elements
+ * 1 is ra; 0 is rra */
+static int determines_rotation(array *stack, int median)
 {
+	int first_above_top;	
+	int i;	
+
+	first_above_top = -1;
+	i = -1;
+	while (++i <= (int)(*stack->size / 2))
+		if (stack->stack[i] < median)
+		{
+			first_above_top = i;
+			break;
+		}
+	i = 0;
+	while (i <= first_above_top)
+		if (stack->stack[*stack->count - 1 - i++] < median)
+			break;
+	if (first_above_top == -1 || i < first_above_top)
+		return (0);
+	else
+		return (1);
+}
+
+static void find_median(array *stack)
+{
+	int copy[5];
 	int i;
 	int tmp;
 
 	i = -1;
-	while (++i < size - 1)
+	while(++i < *stack->count)
+		copy[i] = stack->stack[i];
+	i = -1;
+	while (++i < *stack->count - 1)
 	{
-		if (array[i] > array[i + 1])
+		if (copy[i] > copy[i + 1])
 		{
-			tmp = array[i];
-			array[i] = array[i + 1];
-			array[i + 1] = tmp;
+			tmp = copy[i];
+			copy[i] = copy[i + 1];
+			copy[i + 1] = tmp;
 			i = -1;
 		}
 	}
+	stack->median = copy[(int)*stack->count / 2];
 }
 
-static int	find_median_and_sort_array(list_of_arrays *arrays)
+static void	swap_both_interface(s_stacks *stacks)
 {
-	int *copy;
-	int i;
-	array *this_stack;
-
-	this_stack = &arrays->arrays[arrays->count - 2];
-	copy = arrays->sorted;
-	i = -1;
-	while(++i < *this_stack->count)
-		copy[i] = this_stack->stack[i];
-	real_simple_sort(copy, *this_stack->count);
-	arrays->sorted_size = i;
-	return copy[(int)this_stack->count / 2];
-}
-
-static void	swap_both_interface(array *stack, array *other_stack)
-{
-	if (other_stack->stack[0] > other_stack->stack[1])
-		do_operations(stack, other_stack, "sa");
+	if (stacks->b[0] > stacks->b[1])
+		do_operations(stacks, "s", 0);
 	else
-		do_operations(stack, other_stack, "ss");
+		do_operations(stacks, "ss", 0);
 }
 
 /* sorts a three-element stack
  * while looking for opportunities to swap both */
-void	sort_three(array *stack_a, array *stack_b)
+void	sort_three(s_stacks *stacks)
 {
-	if (stack_a->stack_a[0] < stack_a->stack_a[1])
+	if (stacks->a[0] < stacks->a[1])
 	{
-		if (stack_a->stack_a[0] < stack_a->stack_a[2])
+		if (stacks->a[0] < stacks->a[2])
 		{
-			swap_both_interface(stack_a, stack_b);
-			do_operations(stack_a, stack_b, "ra");
+			swap_both_interface(stacks);
+			do_operations(stacks, "r", 0);
 		}
 		else
-			do_operations(stack_a, stack_b, "rra");
+			do_operations(stacks, "revr", 0);
 	}
 	else
 	{
-		if (stack_a->stack_a[0] < stack_a->stack_a[2])
-			swap_both_interface(stack_a, stack_b);
-		else if (stack_a->stack_a[1] < stack_a->stack_a[2])
-			do_operations(stack_a, stack_b, "ra");
+		if (stacks->a[0] < stacks->a[2])
+			swap_both_interface(stacks);
+		else if (stacks->a[1] < stacks->a[2])
+			do_operations(stacks, "r", 0);
 		else
 		{
-			swap_both_interface(stack_a, stack_b);
-			do_operations(stack_a, stack_b, "rra");
+			swap_both_interface(stacks);
+			do_operations(stacks, "revr", 0);
 		}
 	}
 }
 
-void	sorts_five(s_stacks *stacks)
+void	sort_five(s_stacks *stacks)
 {
-	int median;
 	int numbers_to_pass;
 
-	numbers_to_pass = -1;
-	median = find_median(stacks->a);
-	if (!is_sorted(stack_a) && stacks->a_count > 0)
+	numbers_to_pass = 0;
+	find_median(&stacks->array_a);
+	if (!is_sorted(&stacks->array_a) && stacks->a_count > 0)
 	{
-		while (++numbers_to_pass < (int)stacks->sorted_size / 2)
-			if (stack_a->stack[0] < median)
-				do_operations(stack_a, stack_b, "pa");
+		while (numbers_to_pass < (int)stacks->sorted_size / 2)
+			if (stacks->a[0] < stacks->array_a.median)
+			{
+				do_operations(stacks, "p", 0);
+				numbers_to_pass++;
+			}
 			else
 			{
-				if (determines_rotation(stack_a, median) == 1)
-					do_operations(stack_a, stack_b, "ra");
+				if (determines_rotation(&stacks->array_a, 
+					stacks->array_a.median) == 1)
+					do_operations(stacks, "r", 0);
 				else
-					do_operations(stack_a, stack_b, "rra");
+					do_operations(stacks, "revr", 0);
 			}
-		if (!is_sorted(stack_a))
-			sort_three(stack_a, stack_b);
-		while (stack_b->count != 0)
-			do_operations(stack_a, stack_b, "pb");
+		if (!is_sorted(&stacks->array_a))
+			sort_three(stacks);
+		while (*stacks->array_b.count != 0)
+			do_operations(stacks, "p", 1);
 	}
 }

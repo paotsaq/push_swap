@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 11:43:21 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 16:15:03 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	main(int argc, char **argv)
 	initializes_stacks(&stacks);
 	if (parsing_of_input(argv, &stacks) != -1)
 	{
+		if (is_sorted(&stacks.array_a))
+			return (0);
 		if (stacks.sorted_size == 3)
 	 		sort_three(&stacks);
 	 	else if (stacks.sorted_size == 5)

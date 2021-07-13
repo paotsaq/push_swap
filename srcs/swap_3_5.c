@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 08:45:44 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 12:24:03 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 16:11:29 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
  * ra: shift up all elements
  * rra: shift down all elements
  * 1 is ra; 0 is rra */
-static int determines_rotation(array *stack, int median)
+/*static int determines_rotation(array *stack, int median)
 {
-	int first_above_top;	
-	int i;	
+	int first_above_top;
+	int i;
 
 	first_above_top = -1;
 	i = -1;
@@ -38,7 +38,7 @@ static int determines_rotation(array *stack, int median)
 		return (0);
 	else
 		return (1);
-}
+} */
 
 static void find_median(array *stack)
 {
@@ -68,7 +68,10 @@ static void	swap_both_interface(s_stacks *stacks)
 	if (stacks->b[0] > stacks->b[1])
 		do_operations(stacks, "s", 0);
 	else
-		do_operations(stacks, "ss", 0);
+	{
+		do_operations(stacks, "s", 0);
+		do_operations(stacks, "s", 1);
+	}
 }
 
 /* sorts a three-element stack
@@ -114,15 +117,11 @@ void	sort_five(s_stacks *stacks)
 				numbers_to_pass++;
 			}
 			else
-			{
-				if (determines_rotation(&stacks->array_a, 
-					stacks->array_a.median) == 1)
-					do_operations(stacks, "r", 0);
-				else
-					do_operations(stacks, "revr", 0);
-			}
+				do_operations(stacks, "r", 0);
 		if (!is_sorted(&stacks->array_a))
 			sort_three(stacks);
+		if (is_sorted(&stacks->array_b))
+				do_operations(stacks, "s", 1);
 		while (*stacks->array_b.count != 0)
 			do_operations(stacks, "p", 1);
 	}

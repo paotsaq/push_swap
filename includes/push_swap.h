@@ -13,17 +13,17 @@ typedef struct array {
 }				array;
 
 typedef struct stacks {
-	int		a[500];
-	int		b[500];
-	int		size;
-	int		lis[500];
-	int		lis_size;
-	int		a_count;
-	int		b_count;
-	int		sorted;
-	int		sorted_size;
-	char		comm[10000][5];
-	int		comm_index;
+	int			a[500];
+	int			b[500];
+	int			size;
+	int			lis[500];
+	int			lis_size;
+	int			a_count;
+	int			b_count;
+	int			sorted;
+	int			sorted_size;
+	char		comm[8000][5];
+	int			comm_index;
 	array		array_a;
 	array		array_b;
 }			  s_stacks;

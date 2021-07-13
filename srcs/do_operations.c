@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/11 13:13:44 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 06:40:26 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 static void	initialize_stacks(s_stacks *stacks,
 			array **main, array **other, int parity)
 {
-	stacks->array_a.stack = stacks->a;
-	stacks->array_a.count = stacks->a_count;
-	stacks->array_a.size = 500;
-	stacks->array_b.stack = stacks->b;
-	stacks->array_b.count = stacks->b_count;
-	stacks->array_b.size = 500;
 	if (!parity)
 	{
 		*main = &stacks->array_a;

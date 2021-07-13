@@ -22,7 +22,7 @@ static	void place_at_top(array *stack, int elem)
  * stack->count provides the information for the placement */
 static	void place_at_bottom(array *stack, int elem)
 {
-	stack->stack[stack->count - 1] = elem;
+	stack->stack[*stack->count - 1] = elem;
 }
 
 /* shifs down all elements of a stack by one
@@ -32,12 +32,12 @@ static	void down_top(array *stack, int rotate, int *last, int *changed)
 {
 	int i;
 
-	if (stack->count > 0)
+	if (*stack->count > 0)
 	{
-		i = stack->count + 1;
-		if (stack->count + 1 > stack->size || rotate)
+		i = *stack->count + 1;
+		if (*stack->count + 1 > *stack->size || rotate)
 		{
-			*last = stack->stack[stack->count - 1];
+			*last = stack->stack[*stack->count - 1];
 			*changed = 1;
 		}
 		while (--i != 0)
@@ -54,13 +54,13 @@ static 	int remove_and_up_top(array *stack)
 	int i;
 	int top;
 
-	if (stack->count > 0)
+	if (*stack->count > 0)
 	{
 		top = stack->stack[0];
 		i = -1;
-		while (++i < stack->count - 1)
+		while (++i < *stack->count - 1)
 			stack->stack[i] = stack->stack[i + 1];
-		stack->stack[stack->count - 1] = 0;
+		stack->stack[*stack->count - 1] = 0;
 		return (top);
 	}
 	return (-1);
@@ -70,7 +70,7 @@ static 	int remove_and_up_top(array *stack)
  * fills last spot with previous top element */
 void	rotate(array *stack)
 {
-	if (stack->count > 1)
+	if (*stack->count > 1)
 		place_at_bottom(stack, remove_and_up_top(stack));
 }
 
@@ -88,7 +88,7 @@ void	reverse_rotate(array *stack)
 
 	tmp = 0;
 	changed = 0;
-	if (stack->count > 1)
+	if (*stack->count > 1)
 	{
 		down_top(stack, 1, &tmp, &changed);
 		if (changed)
@@ -113,7 +113,7 @@ void	swap(array *stack)
 {
 	int tmp;
 
-	if (stack->count > 1)
+	if (*stack->count > 1)
 	{
 		tmp = stack->stack[0];
 		stack->stack[0] = stack->stack[1];
@@ -131,11 +131,11 @@ void	swap_both(array *stack_a, array *stack_b)
  * puts it on top of receives*/
 void	push(array *gives, array *receives)
 {
-	if (gives->count > 0)
+	if (*gives->count > 0)
 	{
 		down_top(receives, 0, NULL, NULL);
 		place_at_top(receives, remove_and_up_top(gives));
-		gives->count--;
-		receives->count++;
+		(*gives->count)--;
+		(*receives->count)++;
 	}
 }

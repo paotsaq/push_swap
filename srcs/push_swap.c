@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/12 18:43:40 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 07:43:45 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,25 @@ static void	prints_operations(s_stacks *stacks)
 
 	iter = -1;
 	while (++iter < stacks->comm_index)
-		write(1, stacks->comm[iter], 5);
+	{
+		write(1, stacks->comm[iter], ft_strlen(stacks->comm[iter]));
+		write(1, "\n", 2);
+	}
 }
 
 static void	initializes_stacks(s_stacks *stacks)
 {
 	stacks->sorted = 0;
-	stacks->comm_index = 0;
+	stacks->comm_index = -1;
 	stacks->size = 500;
 	stacks->a_count = 0;
 	stacks->b_count = 0;
 	stacks->array_a.stack = stacks->a;
-	stacks->array_a.count = stacks->a_count;
-	stacks->array_a.size = 500;
+	stacks->array_a.count = &stacks->a_count;
+	stacks->array_a.size = &stacks->size;
 	stacks->array_b.stack = stacks->b;
-	stacks->array_b.count = stacks->b_count;
-	stacks->array_b.size = 500;
+	stacks->array_b.count = &stacks->b_count;
+	stacks->array_b.size = &stacks->size;
 }
 
 static int	is_duplicate(int *stack, int len, char *string)
@@ -62,6 +65,7 @@ static int	parsing_of_input(char **argv, s_stacks *stacks)
 			stacks->a[++i] = atoi(*argv);
 	else
 		return (-1);
+	stacks->sorted_size = i + 1;
 	return (1);
 }
 

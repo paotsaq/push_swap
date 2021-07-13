@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/10 18:17:47 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 07:38:47 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	size_and_largest_sequence(chains *chain, int index, int size)
 	}
 }
 
-/* static int	find_index_by_size(chains *chain, int size)
+static int	find_index_by_size(chains *chain, int size)
 {
 	int	res;
 
@@ -49,11 +49,11 @@ static void	size_and_largest_sequence(chains *chain, int index, int size)
 	while (chain->sizes[res] != size)
 		res++;
 	return (res);
-} */
+}
 
 
 /* adds the size to the chain, and triggers deprecated sequences
- * new_list should be statically allocated outside of the chain and then added; 
+ * new_list should be statically allocated outside of the chain and then added;
  * this avoids redundant copies of the same list in the chain */
 static void	extends_list(chains *chain, int elem, int index)
 {
@@ -73,8 +73,7 @@ static void	extends_list(chains *chain, int elem, int index)
 	{
 		new_list = chain->heads[index];
 		size = chain->sizes[index];
-		copy_from = pos_in_array(chain->sizes, size, 500);
-//		copy_from = find_index_by_size(chain, size - 1);
+		copy_from = find_index_by_size(chain, size - 1);
 		list = chain->heads[copy_from];
 	}
 	new_list[size - 1] = elem;

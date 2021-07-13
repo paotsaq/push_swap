@@ -7,8 +7,8 @@
 
 typedef struct array {
 	int		*stack;
-	int		count;
-	int		size;
+	int		*count;
+	int		*size;
 }				array;
 
 typedef struct stacks {
@@ -20,6 +20,7 @@ typedef struct stacks {
 	int		a_count;
 	int		b_count;
 	int		sorted;
+	int		sorted_size;
 	char		comm[10000][5];
 	int		comm_index;
 	array		array_a;
@@ -84,8 +85,6 @@ void	algorithm(s_stacks *stacks);
 void	sort_by_rotation(array *stack_a, array *stack_b);
 int		stack_is_sorted(array *stack, int median);
 void	push_garbage_to_opp_stack(array *stack);
-int	get_elem_position_in_stack(s_stacks *stacks, int elem);
-int 	get_corresponding_lis_position(s_stacks *stacks, int elem);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);

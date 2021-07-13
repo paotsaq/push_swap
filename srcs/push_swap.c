@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 07:43:45 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 07:59:58 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	prints_operations(s_stacks *stacks)
 	while (++iter < stacks->comm_index)
 	{
 		write(1, stacks->comm[iter], ft_strlen(stacks->comm[iter]));
-		write(1, "\n", 2);
+		write(1, "\n", 1);
 	}
 }
 
@@ -77,11 +77,14 @@ int	main(int argc, char **argv)
 		return (0);
 	initializes_stacks(&stacks);
 	if (parsing_of_input(argv, &stacks) != -1)
-	/*
-	 * if (stacks.size == 3)
-	 *		use another algorithm;
-	 *	else */
-		algorithm(&stacks);
+	{
+		if (stacks.size == 3)
+	 		sort_three(stacks->array_a, stacks->array_b);
+	 	else if (stacks.size == 5)
+	 		sort_five(stacks->array_a, stacks->array_b);
+		else
+			algorithm(&stacks);
+	}
 	else
 		write(1, "Error\n", 7);
 	// optimizer

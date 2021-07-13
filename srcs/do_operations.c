@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 06:40:26 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/13 07:50:28 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	print_operations(s_stacks *stacks, char *buffer, int parity)
 	char	*cell;
 
 	cell = stacks->comm[++stacks->comm_index];
+	ft_bzero(cell, 5);
 	initialize_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		cell[0] = 's';
@@ -44,13 +45,13 @@ static void	print_operations(s_stacks *stacks, char *buffer, int parity)
 	else if (ft_strcmp(buffer, "revr") == 0)
 		ft_strlcpy(cell, "rr", 5);
 	if (parity % 2 == 0 && buffer[0] == 'p')
-		ft_strlcat(&cell[1], "b", 5);
+		ft_strlcat(&cell[0], "b", 5);
 	else if (parity % 2 == 1 && buffer[0] == 'p')
-		ft_strlcat(&cell[1], "a", 5);
+		ft_strlcat(&cell[0], "a", 5);
 	else if (parity % 2 == 0)
-		ft_strlcat(&cell[1], "a", 5);
+		ft_strlcat(&cell[0], "a", 5);
 	else
-		ft_strlcat(&cell[1], "b", 5);
+		ft_strlcat(&cell[0], "b", 5);
 }
 
 void	do_operations(s_stacks *stacks, char *buffer, int parity)

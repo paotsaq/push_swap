@@ -6,13 +6,12 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/14 07:28:35 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 16:51:36 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-/* must use strncpy! 🚨 */
 static void	prints_operations(s_stacks *stacks)
 {
 	int	iter;
@@ -20,8 +19,11 @@ static void	prints_operations(s_stacks *stacks)
 	iter = -1;
 	while (++iter < stacks->comm_index + 1)
 	{
-		write(1, stacks->comm[iter], ft_strlen(stacks->comm[iter]));
-		write(1, "\n", 1);
+		if (stacks->comm[iter][0] != 'N')
+		{
+			write(1, stacks->comm[iter], ft_strlen(stacks->comm[iter]));
+			write(1, "\n", 1);
+		}
 	}
 }
 
@@ -89,7 +91,8 @@ int	main(int argc, char **argv)
 	}
 	else
 		write(1, "Error\n", 7);
-	sequence_optimizer(&stacks);
+	if (stacks.sorted_size > 5)
+		sequence_optimizer(&stacks);
 	prints_operations(&stacks);
 	return (0);
 }

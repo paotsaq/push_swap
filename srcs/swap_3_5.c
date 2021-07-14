@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 08:45:44 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 16:11:29 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 16:48:48 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,6 @@ static void find_median(array *stack)
 	stack->median = copy[(int)*stack->count / 2];
 }
 
-static void	swap_both_interface(s_stacks *stacks)
-{
-	if (stacks->b[0] > stacks->b[1])
-		do_operations(stacks, "s", 0);
-	else
-	{
-		do_operations(stacks, "s", 0);
-		do_operations(stacks, "s", 1);
-	}
-}
-
 /* sorts a three-element stack
  * while looking for opportunities to swap both */
 void	sort_three(s_stacks *stacks)
@@ -82,7 +71,7 @@ void	sort_three(s_stacks *stacks)
 	{
 		if (stacks->a[0] < stacks->a[2])
 		{
-			swap_both_interface(stacks);
+			do_operations(stacks, "s", 0);
 			do_operations(stacks, "r", 0);
 		}
 		else
@@ -91,12 +80,12 @@ void	sort_three(s_stacks *stacks)
 	else
 	{
 		if (stacks->a[0] < stacks->a[2])
-			swap_both_interface(stacks);
+			do_operations(stacks, "s", 0);
 		else if (stacks->a[1] < stacks->a[2])
 			do_operations(stacks, "r", 0);
 		else
 		{
-			swap_both_interface(stacks);
+			do_operations(stacks, "s", 0);
 			do_operations(stacks, "revr", 0);
 		}
 	}

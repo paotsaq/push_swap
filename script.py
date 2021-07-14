@@ -45,4 +45,5 @@ with open("op_test", "r") as file:
 			print(comm)
 			i = start_a
 		i += 1
+	print(comm)
 	print(len(comm))

@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 16:15:03 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 07:28:35 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	main(int argc, char **argv)
 	}
 	else
 		write(1, "Error\n", 7);
-	// optimizer
+	prints_operations(&stacks);
+	sequence_optimizer(&stacks);
 	prints_operations(&stacks);
 	return (0);
 }

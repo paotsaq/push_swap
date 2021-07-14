@@ -85,6 +85,7 @@ int pos_in_array(int *array, int elem, int limit);
 void	algorithm(s_stacks *stacks);
 void	sort_three(s_stacks *stacks);
 void	sort_five(s_stacks *stacks);
+void	sequence_optimizer(s_stacks *stacks);
 
 /* array of arrays */
 void	initializes_array(list_of_arrays *arrays, int size);

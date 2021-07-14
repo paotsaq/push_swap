@@ -47,7 +47,6 @@ static	char *opp(char *comm)
 		res[ft_strlen(comm) - 1] = 'b';
 	else
 		res[ft_strlen(comm) - 1] = 'a';
-	printf("result of opp is %s\n for input %s\n", res, comm);
 	return (res);
 }
 
@@ -58,7 +57,7 @@ void	sequence_optimizer(s_stacks *stacks)
 	int start_b;
 	int ra_count;
 	int rb_count;
-	int offset;
+	int excess;
 	int to_swap;
 
 	iter = -1;
@@ -70,22 +69,19 @@ void	sequence_optimizer(s_stacks *stacks)
 			ra_count = counts_move(stacks, &iter, stacks->comm[iter]);
 			start_b = iter;
 			rb_count = counts_move(stacks, &iter, opp(stacks->comm[start_a]));
-			printf("start_a: %d\nstart_b: %d\nra_count: %d\nrb_count: %d\n",
-					start_a, start_b, ra_count, rb_count);
 			if (rb_count > 0)
 			{
-				offset = ft_abs(ra_count - rb_count);
-				start_a += offset;
+				excess = ft_abs(ra_count - rb_count);
+				start_a += excess;
 				to_swap = ft_min(2, ra_count, rb_count);
 				while (to_swap-- > 0)
 				{
 					stacks->comm[start_a][ft_strlen(stacks->comm[start_a]) - 1] = stacks->comm[start_a][0];
 					start_a += 1;
 				}
-				copies_array(stacks, start_b, 0);
+				copies_array(stacks, start_a, ft_min(2, ra_count, rb_count));
 			}
 			iter = start_a;
 		}
-		iter++;
 	}
 }

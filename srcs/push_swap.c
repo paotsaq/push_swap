@@ -89,7 +89,6 @@ int	main(int argc, char **argv)
 	}
 	else
 		write(1, "Error\n", 7);
-	prints_operations(&stacks);
 	sequence_optimizer(&stacks);
 	prints_operations(&stacks);
 	return (0);

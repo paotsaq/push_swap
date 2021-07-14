@@ -6,14 +6,14 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 08:41:03 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 18:18:11 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	initialize_stacks(s_stacks *stacks,
-			array **main, array **other, int parity)
+static void	initialize_stacks(t_stacks *stacks,
+			t_array **main, t_array **other, int parity)
 {
 	if (!parity)
 	{
@@ -27,10 +27,10 @@ static void	initialize_stacks(s_stacks *stacks,
 	}
 }
 
-static void	store_operations(s_stacks *stacks, char *buffer, int parity)
+static void	store_operations(t_stacks *stacks, char *buffer, int parity)
 {
-	array	*main_stack;
-	array	*other_stack;
+	t_array	*main_stack;
+	t_array	*other_stack;
 	char	*cell;
 
 	cell = stacks->comm[++stacks->comm_index];
@@ -54,25 +54,19 @@ static void	store_operations(s_stacks *stacks, char *buffer, int parity)
 		ft_strlcat(&cell[0], "b", 5);
 }
 
-void	do_operations(s_stacks *stacks, char *buffer, int parity)
+void	do_operations(t_stacks *stacks, char *buffer, int parity)
 {
-	array	*main_stack;
-	array	*other_stack;
+	t_array	*main_stack;
+	t_array	*other_stack;
 
 	initialize_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		swap(main_stack);
-	else if (ft_strcmp(buffer, "ss") == 0)
-		swap_both(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "p") == 0)
 		push(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "r") == 0)
 		rotate(main_stack);
-	else if (ft_strcmp(buffer, "rr") == 0)
-		rotate_both(main_stack, other_stack);
 	else if (ft_strcmp(buffer, "revr") == 0)
 		reverse_rotate(main_stack);
-	else if (ft_strcmp(buffer, "rrr") == 0)
-		reverse_rotate_both(main_stack, other_stack);
 	store_operations(stacks, buffer, parity);
 }

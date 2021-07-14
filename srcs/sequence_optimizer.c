@@ -6,34 +6,28 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 08:01:54 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/14 16:08:23 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 18:12:33 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-#include <string.h>
 
-
-static int	next_different_command_index(s_stacks *stacks, int iter, char *move)
+static int	next_different_command_index(t_stacks *stacks, int iter, char *move)
 {
-	/* change this iter < 8000 */
-	while(iter < 8000
-		   	&& (ft_strcmp(stacks->comm[iter], move) == 0
-		   	|| ft_strcmp(stacks->comm[iter], "None") == 0))
+	while (iter < stacks->comm_index
+		&& (ft_strcmp(stacks->comm[iter], move) == 0
+			|| ft_strcmp(stacks->comm[iter], "None") == 0))
 		iter++;
 	return (iter);
 }
 
-/* beware this leak! */
-static	char *opposite_cmd(char *comm)
+static void	opposite_cmd(t_stacks *stacks, char *comm)
 {
-	char *res = malloc(5);
-	strcpy(res, comm);
+	ft_strlcpy(stacks->opp_move, comm, 5);
 	if (comm[ft_strlen(comm) - 1] == 'a')
-		res[ft_strlen(comm) - 1] = 'b';
+		stacks->opp_move[ft_strlen(comm) - 1] = 'b';
 	else
-		res[ft_strlen(comm) - 1] = 'a';
-	return (res);
+		stacks->opp_move[ft_strlen(comm) - 1] = 'a';
 }
 
 static int	command_can_be_optimized(char *comm)
@@ -46,11 +40,11 @@ static void	double_stack_command(char *comm)
 	comm[ft_strlen(comm) - 1] = 'r';
 }
 
-void	sequence_optimizer(s_stacks *stacks)
+void	sequence_optimizer(t_stacks *stacks)
 {
-	int iter;
-	int next_cmd_index;
-	char *move;
+	int		iter;
+	int		next_cmd_index;
+	char	*move;
 
 	iter = -1;
 	while (++iter < stacks->comm_index)
@@ -59,10 +53,11 @@ void	sequence_optimizer(s_stacks *stacks)
 		{
 			move = stacks->comm[iter];
 			next_cmd_index = next_different_command_index(stacks, iter, move);
-			if (ft_strcmp(stacks->comm[next_cmd_index], opposite_cmd(move)) == 0)
+			opposite_cmd(stacks, move);
+			if (ft_strcmp(stacks->comm[next_cmd_index], stacks->opp_move) == 0)
 			{
 				double_stack_command(stacks->comm[iter]);
-				strlcpy(stacks->comm[next_cmd_index], "None", 5);
+				ft_strlcpy(stacks->comm[next_cmd_index], "None", 5);
 			}
 		}
 	}

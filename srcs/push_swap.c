@@ -6,13 +6,13 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/14 16:51:36 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 18:12:07 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	prints_operations(s_stacks *stacks)
+static void	prints_operations(t_stacks *stacks)
 {
 	int	iter;
 
@@ -27,12 +27,13 @@ static void	prints_operations(s_stacks *stacks)
 	}
 }
 
-static void	initializes_stacks(s_stacks *stacks)
+static void	initializet_stacks(t_stacks *stacks)
 {
 	stacks->sorted = 0;
 	stacks->comm_index = -1;
 	stacks->size = 500;
 	stacks->a_count = 0;
+	stacks->sorted_size = 0;
 	stacks->b_count = 0;
 	stacks->array_a.stack = stacks->a;
 	stacks->array_a.count = &stacks->a_count;
@@ -55,7 +56,7 @@ static int	is_duplicate(int *stack, int len, char *string)
 	return (0);
 }
 
-static int	parsing_of_input(char **argv, s_stacks *stacks)
+static int	parsing_of_input(char **argv, t_stacks *stacks)
 {
 	int		i;
 
@@ -73,19 +74,19 @@ static int	parsing_of_input(char **argv, s_stacks *stacks)
 
 int	main(int argc, char **argv)
 {
-	s_stacks	stacks;
+	t_stacks	stacks;
 
 	if (argc == 2)
 		return (0);
-	initializes_stacks(&stacks);
+	initializet_stacks(&stacks);
 	if (parsing_of_input(argv, &stacks) != -1)
 	{
 		if (is_sorted(&stacks.array_a))
 			return (0);
 		if (stacks.sorted_size == 3)
-	 		sort_three(&stacks);
-	 	else if (stacks.sorted_size == 5)
-	 		sort_five(&stacks);
+			sort_three(&stacks);
+		else if (stacks.sorted_size == 5)
+			sort_five(&stacks);
 		else
 			algorithm(&stacks);
 	}

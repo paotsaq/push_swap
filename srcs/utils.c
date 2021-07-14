@@ -11,9 +11,9 @@
 
 #include "../includes/push_swap.h"
 
-int pos_in_array(int *array, int elem, int limit)
+int	pos_in_array(int *array, int elem, int limit)
 {
-	int iter;
+	int	iter;
 
 	iter = 0;
 	while (iter < limit - 1 && array[iter] != elem)
@@ -21,9 +21,9 @@ int pos_in_array(int *array, int elem, int limit)
 	return (iter);
 }
 
-int	is_sorted(array *stack)
+int	is_sorted(t_array *stack)
 {
-	int iter;
+	int	iter;
 
 	iter = -1;
 	if (*stack->count < 2)
@@ -32,4 +32,24 @@ int	is_sorted(array *stack)
 		if (stack->stack[iter] > stack->stack[iter + 1])
 			return (0);
 	return (1);
+}
+
+int	find_index_by_size(t_chains *chain, int size)
+{
+	int	res;
+
+	res = 0;
+	while (chain->sizes[res] != size)
+		res++;
+	return (res);
+}
+
+int	get_elem_position_in_stack(t_stacks *stacks, int elem)
+{
+	int	iter;
+
+	iter = 0;
+	while (iter < stacks->lis_size - 1 && stacks->a[iter] != elem)
+		iter++;
+	return (iter);
 }

@@ -6,48 +6,20 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 08:45:44 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/14 16:48:48 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 19:00:10 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-/* determines whether to fetch top or bottom of stack
- * (rra or ra) for reducing of instructions
- * ra: shift up all elements
- * rra: shift down all elements
- * 1 is ra; 0 is rra */
-/*static int determines_rotation(array *stack, int median)
+static void	find_median(t_array *stack)
 {
-	int first_above_top;
-	int i;
-
-	first_above_top = -1;
-	i = -1;
-	while (++i <= (int)(*stack->size / 2))
-		if (stack->stack[i] < median)
-		{
-			first_above_top = i;
-			break;
-		}
-	i = 0;
-	while (i <= first_above_top)
-		if (stack->stack[*stack->count - 1 - i++] < median)
-			break;
-	if (first_above_top == -1 || i < first_above_top)
-		return (0);
-	else
-		return (1);
-} */
-
-static void find_median(array *stack)
-{
-	int copy[5];
-	int i;
-	int tmp;
+	int	copy[5];
+	int	i;
+	int	tmp;
 
 	i = -1;
-	while(++i < *stack->count)
+	while (++i < *stack->count)
 		copy[i] = stack->stack[i];
 	i = -1;
 	while (++i < *stack->count - 1)
@@ -65,7 +37,7 @@ static void find_median(array *stack)
 
 /* sorts a three-element stack
  * while looking for opportunities to swap both */
-void	sort_three(s_stacks *stacks)
+void	sort_three(t_stacks *stacks)
 {
 	if (stacks->a[0] < stacks->a[1])
 	{
@@ -91,15 +63,16 @@ void	sort_three(s_stacks *stacks)
 	}
 }
 
-void	sort_five(s_stacks *stacks)
+void	sort_five(t_stacks *stacks)
 {
-	int numbers_to_pass;
+	int	numbers_to_pass;
 
 	numbers_to_pass = 0;
 	find_median(&stacks->array_a);
 	if (!is_sorted(&stacks->array_a) && stacks->a_count > 0)
 	{
 		while (numbers_to_pass < (int)stacks->sorted_size / 2)
+		{
 			if (stacks->a[0] < stacks->array_a.median)
 			{
 				do_operations(stacks, "p", 0);
@@ -107,10 +80,11 @@ void	sort_five(s_stacks *stacks)
 			}
 			else
 				do_operations(stacks, "r", 0);
+		}
 		if (!is_sorted(&stacks->array_a))
 			sort_three(stacks);
 		if (is_sorted(&stacks->array_b))
-				do_operations(stacks, "s", 1);
+			do_operations(stacks, "s", 1);
 		while (*stacks->array_b.count != 0)
 			do_operations(stacks, "p", 1);
 	}

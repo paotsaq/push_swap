@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:19:27 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/13 07:38:47 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/14 18:11:18 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *		chains->count means it is largest among all candidates,
 *			thus clone the largest list and append it;
 *		any other number signifies the index of the list to append to. */
-static int	finds_localisation_of_node(chains *chain, int elem)
+static int	finds_localisation_of_node(t_chains *chain, int elem)
 {
 	int	iter;
 
@@ -31,7 +31,7 @@ static int	finds_localisation_of_node(chains *chain, int elem)
 
 /* updates the size array and handles
  * determining which is the largest sequence */
-static void	size_and_largest_sequence(chains *chain, int index, int size)
+static void	size_and_largest_sequence(t_chains *chain, int index, int size)
 {
 	chain->sizes[index] = size;
 	if (size >= chain->largest_size)
@@ -41,21 +41,10 @@ static void	size_and_largest_sequence(chains *chain, int index, int size)
 	}
 }
 
-static int	find_index_by_size(chains *chain, int size)
-{
-	int	res;
-
-	res = 0;
-	while (chain->sizes[res] != size)
-		res++;
-	return (res);
-}
-
-
 /* adds the size to the chain, and triggers deprecated sequences
  * new_list should be statically allocated outside of the chain and then added;
  * this avoids redundant copies of the same list in the chain */
-static void	extends_list(chains *chain, int elem, int index)
+static void	extends_list(t_chains *chain, int elem, int index)
 {
 	int	*new_list;
 	int	*list;
@@ -78,23 +67,23 @@ static void	extends_list(chains *chain, int elem, int index)
 	}
 	new_list[size - 1] = elem;
 	ft_memcpy(new_list, list, 4 * (size - 1));
-	// copies_new_largest_list(list, new_list, size - 1);
 	chain->tails[index] = elem;
 	size_and_largest_sequence(chain, index, size);
 }
 
-static void	initializes_chain(chains *chain)
+static void	initializes_chain(t_chains *chain)
 {
 	chain->largest_size = 0;
 	chain->largest_active = NULL;
 	chain->count = 0;
 }
-void	find_lis(s_stacks *stacks)
+
+void	find_lis(t_stacks *stacks)
 {
-	chains	chain;
-	int		rotation;
-	int		iter;
-	int		index;
+	t_chains	chain;
+	int			rotation;
+	int			iter;
+	int			index;
 
 	rotation = -1;
 	while (++rotation < stacks->a_count)
@@ -108,7 +97,8 @@ void	find_lis(s_stacks *stacks)
 		}
 		if (chain.largest_size > stacks->lis_size)
 		{
-			ft_memcpy(stacks->lis, chain.largest_active, 4 * chain.largest_size);
+			ft_memcpy(stacks->lis,
+				chain.largest_active, 4 * chain.largest_size);
 			stacks->lis_size = chain.largest_size;
 		}
 		rotate(&stacks->array_a);

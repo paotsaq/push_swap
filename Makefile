@@ -15,6 +15,7 @@ SRCS		= srcs/parsing.c \
 			  srcs/best_move.c \
 
 CHECKER_SRC = checker_src/checker.c
+
 AR			= ar -rcsv
 NAME		= push_swap
 OBJS		= ${SRCS:.c=.o}
@@ -29,7 +30,7 @@ $(NAME): libft.a
 	gcc $(CFLAGS) -I $(HDRS) -L. -l ft $(SRCS) $(PS_MAIN) -o push_swap
 
 checker: libft.a
-	gcc $(CFLAGS) -I $(HDRS) -L. -l ft $(CHECKER_SRCS) $(SRCS) -o checker
+	gcc $(CFLAGS) -I $(HDRS) -L. -l ft $(CHECKER_SRC) $(SRCS) -o checker
 
 clean:
 	rm ./push_swap
@@ -48,5 +49,4 @@ fclean:
 
 re: clean all
 
-re_checker: clean all
-	rm checker
+re_checker: clean_checker checker

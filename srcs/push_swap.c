@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 12:32:53 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/15 03:56:51 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/15 08:33:06 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	prints_operations(t_stacks *stacks)
 void	push_swap(t_stacks *stacks)
 {
 	if (is_sorted(&stacks->array_a))
-		return;
+		return ;
 	if (stacks->sorted_size == 3)
 		sort_three(stacks);
 	else if (stacks->sorted_size == 5)
@@ -41,4 +41,3 @@ void	push_swap(t_stacks *stacks)
 		sequence_optimizer(stacks);
 	prints_operations(stacks);
 }
-

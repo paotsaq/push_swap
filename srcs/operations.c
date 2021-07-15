@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 03:31:06 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/15 03:32:15 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/15 08:32:47 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	rotate(t_array *stack)
  * fills first spot with previous last element */
 void	reverse_rotate(t_array *stack)
 {
-	int tmp;
-	int changed;
+	int	tmp;
+	int	changed;
 
 	tmp = 0;
 	changed = 0;
@@ -40,7 +40,7 @@ void	reverse_rotate(t_array *stack)
 /* swap the first two elements at the top of a stack */
 void	swap(t_array *stack)
 {
-	int tmp;
+	int	tmp;
 
 	if (*stack->count > 1)
 	{

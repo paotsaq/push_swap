@@ -6,13 +6,13 @@
 /*   By: apinto <apinto@student.42lisboa.c>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 09:29:59 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/14 18:18:11 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/15 03:28:09 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-static void	initialize_stacks(t_stacks *stacks,
+static void	initialize_both_stacks(t_stacks *stacks,
 			t_array **main, t_array **other, int parity)
 {
 	if (!parity)
@@ -35,7 +35,7 @@ static void	store_operations(t_stacks *stacks, char *buffer, int parity)
 
 	cell = stacks->comm[++stacks->comm_index];
 	ft_bzero(cell, 5);
-	initialize_stacks(stacks, &main_stack, &other_stack, parity);
+	initialize_both_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		cell[0] = 's';
 	else if (ft_strcmp(buffer, "p") == 0)
@@ -59,7 +59,7 @@ void	do_operations(t_stacks *stacks, char *buffer, int parity)
 	t_array	*main_stack;
 	t_array	*other_stack;
 
-	initialize_stacks(stacks, &main_stack, &other_stack, parity);
+	initialize_both_stacks(stacks, &main_stack, &other_stack, parity);
 	if (ft_strcmp(buffer, "s") == 0)
 		swap(main_stack);
 	else if (ft_strcmp(buffer, "p") == 0)

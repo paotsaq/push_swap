@@ -11,6 +11,22 @@
 
 #include "../includes/push_swap.h"
 
+void	initialize_stacks(t_stacks *stacks)
+{
+	stacks->sorted = 0;
+	stacks->comm_index = -1;
+	stacks->size = 500;
+	stacks->a_count = 0;
+	stacks->sorted_size = 0;
+	stacks->b_count = 0;
+	stacks->array_a.stack = stacks->a;
+	stacks->array_a.count = &stacks->a_count;
+	stacks->array_a.size = &stacks->size;
+	stacks->array_b.stack = stacks->b;
+	stacks->array_b.count = &stacks->b_count;
+	stacks->array_b.size = &stacks->size;
+}
+
 int	pos_in_array(int *array, int elem, int limit)
 {
 	int	iter;

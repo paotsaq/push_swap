@@ -62,7 +62,11 @@ typedef struct best_move {
 	int					index;
 }				t_best_moves;
 
-int		main(int argc, char **argv);
+void	push_swap(t_stacks *stacks);
+
+/* parsing & validation */
+int		is_duplicate(int *stack, int len, char *string);
+int		parsing_of_input(char **argv, t_stacks *stacks);
 
 /* stack operations */
 void	rotate(t_array *stack);
@@ -70,7 +74,6 @@ void	reverse_rotate(t_array *stack);
 void	swap(t_array *stack);
 void	push(t_array *gives, t_array *receives);
 void	do_operations(t_stacks *stacks, char *buffer, int parity);
-int		is_sorted(t_array *stack);
 
 /* algorithm */
 void	algorithm(t_stacks *stacks);
@@ -97,4 +100,8 @@ void	best_move_interface(t_stacks *stacks);
 /* utils */
 int		pos_in_array(int *t_array, int elem, int limit);
 int		get_elem_position_in_stack(t_stacks *stacks, int elem);
+int		is_sorted(t_array *stack);
+void	prints_operations(t_stacks *stacks);
+void	initialize_stacks(t_stacks *stacks);
+
 #endif

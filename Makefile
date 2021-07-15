@@ -14,7 +14,8 @@ SRCS		= srcs/parsing.c \
 			  srcs/algorithm.c \
 			  srcs/best_move.c \
 
-CHECKER_SRC = checker_src/checker.c
+CHECKER_SRC = checker_src/checker.c \
+			  checker_src/parsing.c \
 
 AR			= ar -rcsv
 NAME		= push_swap

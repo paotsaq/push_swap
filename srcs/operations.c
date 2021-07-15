@@ -6,7 +6,7 @@
 /*   By: apinto <apinto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/15 03:31:06 by apinto            #+#    #+#             */
-/*   Updated: 2021/07/15 08:32:47 by apinto           ###   ########.fr       */
+/*   Updated: 2021/07/15 14:48:28 by apinto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	push(t_array *gives, t_array *receives)
 	{
 		down_top(receives, 0, NULL, NULL);
 		place_at_top(receives, remove_and_up_top(gives));
-		(*gives->count)--;
-		(*receives->count)++;
+		*gives->count -= 1;
+		*receives->count += 1;
 	}
 }

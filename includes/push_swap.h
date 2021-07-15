@@ -67,6 +67,7 @@ void	push_swap(t_stacks *stacks);
 /* parsing & validation */
 int		is_duplicate(int *stack, int len, char *string);
 int		parsing_of_input(char **argv, t_stacks *stacks);
+int		parsing_of_checker_input(char *str, t_stacks *stacks);
 
 /* stack operations */
 void	rotate(t_array *stack);
